@@ -1,0 +1,306 @@
+body span {
+    @include desktopScreens {
+        font-size: 0.85rem;
+    }
+}
+
+.product-carousel {
+    max-width: 100%;
+    height: 400px;
+    margin: 0 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+
+    @include desktopScreens {
+        margin: 0 6%;
+    }
+
+    & h2 {
+        width: 100%;
+        height: 10%;
+        display: flex;
+        align-items: center;
+        font-family: getFont(subheadingFont);
+    }
+
+    &__slider {
+        max-width: 100%;
+        height: 80%;
+        display: flex;
+        position: relative;
+        transition: getTransition(transform);
+        touch-action: none;
+
+        &__slide {
+            min-width: 145px;
+            height: 100%;
+            margin-right: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            position: relative;
+
+            @include tabletScreens {
+                min-width: 175px;
+            }
+
+            @include desktopScreens {
+                min-width: 190px;
+            }
+
+            & .promo {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 30%;
+                height: 10%;
+                background-color: getColor(closeColor);
+                border-top-left-radius: 5px;
+                border-bottom-right-radius: 5px;
+
+                & > span {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #fff;
+                    font-weight: 600;
+                    letter-spacing: 0.5px;
+                    font-size: 0.8rem;
+
+                    @include desktopScreens {
+                        font-size: 0.7rem;
+                    }
+                }
+            }
+
+            & .add-fav {
+                position: absolute;
+                top: 2%;
+                right: 7%;
+                cursor: pointer;
+
+                & > i {
+                    font-size: 1.1em;
+                    font-weight: 1000;
+                    color: getColor(closeColor);
+                }
+            }
+
+            & > a {
+                width: 100%;
+                height: 100%;
+                text-decoration: none;
+                color: getColor(textColor);
+
+                & .image {
+                    width: 100%;
+                    height: 40%;
+                    padding: 2% 0;
+
+                    & > img {
+                        width: 100%;
+                        height: 100%;
+                        padding: 2% 0;
+                        object-fit: contain;
+                    }
+                }
+
+                & .title {
+                    width: 100%;
+                    height: 20%;
+                    display: flex;
+                    align-items: center;
+
+                    & > span {
+                        line-height: 150%;
+                        text-align: center;
+                        padding: 0 5%;
+                        font-size: 0.8rem;
+                        font-weight: 700;
+
+                        @include tabletScreens {
+                            font-size: 0.85rem;
+                        }
+                    }
+                }
+
+                & .rating {
+                    width: 100%;
+                    height: 12%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    & > i {
+                        margin: 0 2%;
+                        color: getColor(ratingColor);
+                    }
+                }
+
+                & .price {
+                    width: 100%;
+                    height: 16%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-around;
+
+                    & > span {
+                        display: flex;
+                        margin: 2% 0;
+
+                        & > sup {
+                            font-size: 0.6em;
+                        }
+
+                        &.old {
+                            font-size: 0.8em;
+                            text-decoration: line-through;
+                            color: getColor(neutralColor);
+                        }
+
+                        &.new {
+                            color: getColor(closeColor);
+                            font-size: 1em;
+                        }
+                    }
+                }
+            }
+
+            & > button {
+                width: 100%;
+                height: 12%;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                position: relative;
+                border: none;
+                outline: none;
+                background-color: getColor(primaryColor);
+                border-bottom-right-radius: 5px;
+                border-bottom-left-radius: 5px;
+                transition: getTransition(bgColor);
+                cursor: pointer;
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 17%;
+                    height: 100%;
+                    background-color: getColor(darkenPrimaryColor);
+                    border-bottom-right-radius: 90%;
+                    border-bottom-left-radius: 5px;
+                }
+
+                &:hover {
+                    background-color: getColor(darkenPrimaryColor);
+                }
+
+                &:hover::before {
+                    background-color: getColor(primaryColor);
+                }
+
+                & > i {
+                    width: 15%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #fff;
+                    z-index: 5;
+                }
+
+                & > span {
+                    width: 85%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    & > i {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 15%;
+        width: 7%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        color: #fff;
+        background-color: rgba(18, 137, 167, 0.5);
+        cursor: pointer;
+        transition: getTransition(bgColor), getTransition(visibility), getTransition(opacity);
+
+        &:hover {
+            background-color: getColor(darkenPrimaryColor);
+        }
+
+        @include tabletScreens {
+            width: 5%;
+        }
+
+        @include desktopScreens {
+            width: 3%;
+        }
+
+        &.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        &.fa-chevron-left {
+            left: 0;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        &.fa-chevron-right {
+            right: 0;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+    }
+
+    &__bullets {
+        width: 50%;
+        height: 10%;
+        display: none;
+        align-items: center;
+        justify-content: center;
+
+        @include desktopScreens {
+            display: flex;
+        }
+
+        & > div {
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+            background-color: getColor(primaryColor);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: getTransition(transform);
+
+            &:hover {
+                transform: scale(1.1);
+            }
+
+            &.active {
+                background-color: getColor(darkenPrimaryColor);
+            }
+        }
+    }
+}

@@ -1,0 +1,23 @@
+p {
+  min-height: 2rem;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+
+  &.error {
+    position: absolute;
+    transform: translateX(-1rem);
+    visibility: hidden;
+    opacity: 0;
+    transition: getMap($transitions, transform),
+      getMap($transitions, visibility), getMap($transitions, opacity);
+    color: getMap($colors, danger-color);
+  }
+
+  &.active {
+    position: static;
+    transform: translateX(0);
+    visibility: visible;
+    opacity: 1;
+  }
+}

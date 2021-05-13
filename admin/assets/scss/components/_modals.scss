@@ -1,0 +1,129 @@
+.modal {
+  width: 100%;
+  min-height: 100%;
+  position: fixed;
+  top: -100%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 9;
+  background-color: rgba(getMap($colors, text-color), 0.3);
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: getMap($transitions, top), getMap($transitions, transform),
+    getMap($transitions, visibility), getMap($transitions, opacity);
+
+  &.active {
+    top: 0;
+    transform: scale(1);
+    visibility: visible;
+    opacity: 1;
+    backdrop-filter: blur(2px);
+  }
+
+  &.delete {
+    display: flex;
+    align-items: center;
+  }
+
+  &__close {
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    justify-content: flex-end;
+
+    & > i {
+      padding: 0 0.5rem;
+      margin: 0.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: visible;
+      opacity: 1;
+      cursor: pointer;
+
+      &:hover {
+        color: getMap($colors, danger-color);
+      }
+    }
+  }
+
+  &__content {
+    width: 100%;
+    margin: 2rem 0;
+  }
+
+  &__confirmation {
+    width: 50%;
+    margin: 0 auto;
+    height: 20rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(getMap($colors, primary-color), 0.5);
+    border-radius: $border-radius;
+
+    & > p {
+      margin: 1rem 0;
+      color: #fff;
+    }
+
+    &__actions {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      & > button {
+        margin: 0 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius;
+        cursor: pointer;
+        transition: getMap($transitions, bg-color), getMap($transitions, color);
+
+        &:first-child:hover {
+          background-color: getMap($colors, success-color);
+          color: #fff;
+        }
+
+        &:nth-child(2):hover {
+          background-color: getMap($colors, danger-color);
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  &__footer {
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: getMap($colors, secondary-color);
+
+    & > button {
+      width: 20%;
+      height: 75%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      margin: 0 1rem;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: getMap($transitions, bg-color), getMap($transitions, color);
+
+      &.save:hover {
+        background-color: getMap($colors, success-color);
+        color: #fff;
+      }
+
+      &.close:hover {
+        background-color: getMap($colors, danger-color);
+        color: #fff;
+      }
+    }
+  }
+}

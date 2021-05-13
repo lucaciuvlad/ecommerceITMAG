@@ -1,0 +1,32 @@
+$border-radius: 0.3rem;
+$font-family: "Roboto", sans-serif;
+$font-size: 0.85rem;
+
+$colors: (
+  primary-color: #1289a7,
+  secondary-color: #6f1e51,
+  text-color: #2d3436,
+  text-color-light: lighten(#2d3436, 15%),
+  danger-color: #ea2027,
+  success-color: #1abc9c,
+);
+
+$transitions: (
+  width: width 0.15s ease-in,
+  height: height 0.15s ease-in,
+  top: top 0.15s ease-in,
+  transform: transform 0.15s ease-in,
+  visibility: visibility 0.15s ease-in,
+  opacity: opacity 0.15s ease-in,
+  color: color 0.15s ease-in,
+  bg-color: background-color 0.15s ease-in,
+  bd-filter: background-filter 0.15s ease-in,
+  border-radius: border-radius 0.15s ease-in,
+  border-color: border-color 0.15s ease-in,
+);
+
+$breakpoints: (
+  medium: 768px,
+  large: 992px,
+  desktop: 1200px,
+);

@@ -1,0 +1,24 @@
+i {
+  color: getMap($colors, text-color-light);
+  transition: getMap($transitions, color);
+
+  &.fa-times,
+  &.fa-eye-slash,
+  &.fa-eye {
+    opacity: 0;
+    visibility: hidden;
+    transition: getMap($transitions, visibility), getMap($transitions, opacity),
+      getMap($transitions, color);
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &.fa-times:hover,
+  &.fa-eye-slash:hover,
+  &.fa-eye:hover {
+    color: getMap($colors, primary-color);
+  }
+}

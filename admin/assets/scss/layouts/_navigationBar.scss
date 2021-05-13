@@ -1,0 +1,372 @@
+.navigationBar {
+  width: 100%;
+  height: 3rem;
+  position: fixed;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  background-color: #fff;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(getMap($colors, text-color), 0.3);
+    box-shadow: 0 0 2px getMap($colors, text-color-light);
+  }
+
+  @include mq(large) {
+    padding-left: 12.5rem;
+  }
+
+  & > .hamburger {
+    width: 2.3rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(getMap($colors, text-color), 0.3);
+    cursor: pointer;
+
+    @include mq(large) {
+      display: none;
+    }
+
+    &:hover {
+      color: getMap($colors, primary-color);
+    }
+
+    &.active {
+      color: getMap($colors, primary-color);
+    }
+  }
+
+  &__store {
+    width: 7rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-right: 1px solid rgba(getMap($colors, text-color), 0.3);
+
+    & > a {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.8rem;
+
+      & > i {
+        font-size: 0.8rem;
+        margin-left: 0.3rem;
+      }
+
+      &:hover > p,
+      &:hover > i {
+        color: getMap($colors, primary-color);
+      }
+
+      &:hover + .tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
+    & .tooltip {
+      left: 90%;
+      width: 100%;
+
+      & > i {
+        left: -0.3rem;
+      }
+    }
+  }
+
+  &__search {
+    width: calc(100% - 2.3rem - 7rem - 2.3rem);
+    height: 100%;
+    position: relative;
+    border-right: 1px solid rgba(getMap($colors, text-color), 0.3);
+
+    @include mq(large) {
+      width: calc(100% - 7rem - 15rem);
+    }
+
+    &__field {
+      width: 100%;
+      height: 100%;
+      display: flex;
+
+      & > i {
+        width: 10%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.fa-search {
+          &.active {
+            color: getMap($colors, primary-color);
+          }
+        }
+
+        &.fa-close {
+          cursor: pointer;
+          visibility: hidden;
+          opacity: 0;
+
+          &:hover {
+            color: getMap($colors, primary-color);
+          }
+
+          &.active {
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+      }
+
+      & > input {
+        width: 80%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+      }
+    }
+
+    &__suggestions {
+      position: absolute;
+      top: 100%;
+      left: -9.3rem;
+      width: 100vw;
+      z-index: 9;
+      background: #fff;
+      box-shadow: -2px 3px 2px rgba(getMap($colors, text-color-light), 0.5),
+        2px 3px 2px rgba(getMap($colors, text-color-light), 0.5);
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-1rem);
+      transition: getMap($transitions, transform),
+        getMap($transitions, visibility), getMap($transitions, opacity);
+
+      @include mq(large) {
+        width: calc(100% + 7rem);
+        left: -7rem;
+      }
+
+      @include mq(desktop) {
+        width: 100%;
+        left: 0;
+      }
+
+      &.active {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      &__header {
+        width: 100%;
+        height: 2.5rem;
+        padding: 0 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(getMap($colors, text-color-light), 0.5);
+
+        & p {
+          color: getMap($colors, text-color);
+        }
+
+        & > a {
+          display: flex;
+          align-items: center;
+
+          &:hover > p,
+          &:hover > i {
+            color: getMap($colors, primary-color);
+          }
+
+          & > i {
+            margin-right: 0.3rem;
+            color: getMap($colors, text-color);
+          }
+        }
+      }
+
+      &__results {
+        width: 100%;
+        padding: 0 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        & > ul {
+          width: 100%;
+
+          & > li {
+            width: 100%;
+            margin-top: 0.5rem;
+            border-bottom: 1px solid rgba(getMap($colors, text-color), 0.3);
+            transform: translateX(-1rem);
+            transition: getMap($transitions, transform);
+
+            &.active {
+              transform: translateX(0);
+            }
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            & > p {
+              height: 2rem;
+              display: flex;
+              align-items: center;
+            }
+
+            & > a {
+              width: 100%;
+              height: 4rem;
+              display: flex;
+              padding: 0.2rem 0;
+              transition: getMap($transitions, transform);
+
+              &:hover {
+                transform: translateX(0.3rem);
+              }
+
+              & > img {
+                height: 100%;
+                width: 5rem;
+                object-fit: contain;
+              }
+
+              & > div {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+
+                & > p {
+                  color: getMap($colors, text-color);
+                }
+
+                &:hover > p {
+                  color: getMap($colors, primary-color);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__user {
+    width: 2.3rem;
+    height: 100%;
+    position: relative;
+
+    @include mq(large) {
+      width: 15rem;
+      display: flex;
+    }
+
+    &__tab {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &:hover > i,
+      &:hover > p {
+        color: getMap($colors, primary-color);
+      }
+
+      & > i,
+      & > p {
+        &.active {
+          color: getMap($colors, primary-color);
+        }
+      }
+
+      & > p {
+        display: none;
+
+        @include mq(large) {
+          display: block;
+          position: relative;
+          font-size: 0.8rem;
+          margin-left: 0.5rem;
+
+          &::after {
+            content: "\f0d7";
+            font-family: "FontAwesome";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding-left: 0.2rem;
+          }
+        }
+      }
+    }
+
+    &__panel {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 10rem;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-1rem);
+      box-shadow: -2px 3px 2px rgba(getMap($colors, text-color-light), 0.5);
+      transition: getMap($transitions, transform),
+        getMap($transitions, visibility), getMap($transitions, opacity);
+
+      &.active {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+      }
+
+      & > p {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(getMap($colors, text-color), 0.3);
+        color: getMap($colors, text-color-light);
+
+        @include mq(large) {
+          display: none;
+        }
+      }
+
+      & > a {
+        width: 100%;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        padding: 0 0.5rem;
+        font-size: 0.85rem;
+        color: getMap($colors, text-color-light);
+
+        &:hover {
+          color: getMap($colors, primary-color);
+        }
+      }
+    }
+  }
+}

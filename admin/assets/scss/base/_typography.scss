@@ -1,0 +1,32 @@
+body {
+  font-size: 1rem;
+}
+
+a,
+p,
+h1,
+h2,
+h3,
+input,
+label,
+textarea,
+span,
+li,
+th,
+td {
+  font-family: $font-family;
+  font-size: $font-size;
+  letter-spacing: 0.5px;
+}
+
+h1 {
+  font-size: 1rem;
+}
+
+h2 {
+  font-size: 0.9rem;
+}
+
+h3 {
+  font-size: 0.75rem;
+}

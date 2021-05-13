@@ -1,0 +1,52 @@
+.newProduct,
+.products,
+.productImages,
+.categories,
+.dashboard {
+  width: 100%;
+  min-height: calc(100vh - 3rem);
+  margin-top: 3rem;
+  transform: scale(0.8);
+  opacity: 0;
+  transition: getMap($transitions, transform), getMap($transitions, opacity);
+
+  @include mq(large) {
+    margin-left: 12.5rem;
+    width: calc(100% - 12.5rem);
+  }
+
+  &.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  & > h1 {
+    padding: 1rem;
+    margin: 0.5rem 0;
+    font-size: 1.5rem;
+    color: getMap($colors, text-color-light);
+  }
+
+  & > p {
+    margin: 0 1rem;
+  }
+
+  .addBtn {
+    margin: 0.5rem 1rem;
+    padding: 0.5rem 0;
+    background-color: getMap($colors, primary-color);
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: getMap($transitions, bg-color);
+
+    &:hover {
+      background-color: getMap($colors, secondary-color);
+    }
+
+    & > i,
+    & > span {
+      color: #fff;
+      margin: 0 0.3rem;
+    }
+  }
+}

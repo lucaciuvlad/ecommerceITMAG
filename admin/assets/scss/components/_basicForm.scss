@@ -1,0 +1,520 @@
+.basicForm {
+  width: 98%;
+  margin: 0 auto;
+  background-color: #fff;
+
+  @include mq(desktop) {
+    background-color: transparent;
+  }
+
+  & label,
+  & p,
+  & span,
+  & input,
+  & textarea {
+    font-size: 0.8rem;
+  }
+
+  &__section {
+    width: 100%;
+
+    @include mq(desktop) {
+      margin: 0.5rem 0;
+      display: grid;
+      grid-template-columns: 0.3fr 1fr;
+      grid-template-areas: "header generalSettings" "header prInfo" "header prOrganization" "header images";
+      background-color: #fff;
+    }
+
+    & > header {
+      width: 100%;
+      background-color: rgba(getMap($colors, text-color-light), 0.2);
+
+      @include mq(desktop) {
+        grid-area: header;
+      }
+
+      & > h2 {
+        color: getMap($colors, text-color-light);
+        height: 3rem;
+        display: flex;
+        align-items: center;
+      }
+
+      & > h3 {
+        color: getMap($colors, text-color-light);
+        display: none;
+
+        @include mq(desktop) {
+          display: block;
+          padding-right: 0.5rem;
+          color: getMap($colors, text-color-light);
+        }
+      }
+    }
+
+    &.generalSettings {
+      @include mq(desktop) {
+        grid-area: generalSettings;
+      }
+    }
+
+    &.productInfo {
+      @include mq(desktop) {
+        grid-area: prInfo;
+      }
+    }
+
+    &.productOrganization {
+      @include mq(desktop) {
+        grid-area: prOrganization;
+      }
+    }
+  }
+
+  & label {
+    width: 100%;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &.error {
+      color: getMap($colors, danger-color);
+    }
+  }
+
+  & p {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+
+    &.info {
+      color: getMap($colors, text-color-light);
+    }
+  }
+
+  &__field {
+    width: 95%;
+    margin: 0.5rem auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 9;
+
+    &__group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__wrapper {
+      width: 95%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "fullPrice netPrice" "priceInfo priceInfo";
+      margin: 0 auto;
+
+      @include mq(medium) {
+        grid-template-columns: 0.4fr 1fr;
+      }
+
+      & .column {
+        display: flex;
+        flex-direction: column;
+        margin-right: 1rem;
+
+        &:first-child {
+          grid-area: fullPrice;
+        }
+
+        &:nth-child(2) {
+          grid-area: netPrice;
+        }
+
+        & > div {
+          height: 2rem;
+          padding: 0 0.2rem;
+          display: flex;
+          align-items: center;
+
+          &.step {
+            margin-bottom: 0.5rem;
+            border: 1px solid getMap($colors, text-color-light);
+            border-radius: $border-radius;
+            transition: getMap($colors, border-color);
+
+            &.active {
+              border-color: getMap($colors, primary-color);
+            }
+
+            & > i {
+              width: 15%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              transition: getMap($transitions, color);
+
+              &:hover {
+                color: getMap($colors, primary-color);
+              }
+
+              &.fa-minus {
+                border-right: 1px solid getMap($colors, text-color-light);
+              }
+
+              &.fa-plus {
+                border-left: 1px solid getMap($colors, text-color-light);
+              }
+            }
+
+            & > input {
+              width: 85%;
+              height: 100%;
+              text-align: center;
+            }
+          }
+
+          & > span {
+            &:first-child {
+              width: 7rem;
+              height: 100%;
+              margin-right: 0.5rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background-color: rgba(getMap($colors, text-color-light), 0.5);
+              border-radius: $border-radius;
+            }
+          }
+        }
+      }
+
+      & > p.info {
+        grid-area: priceInfo;
+      }
+    }
+
+    &__toggle {
+      width: 2rem;
+      height: 1rem;
+      position: relative;
+      background-color: rgba(getMap($colors, text-color-light), 0.5);
+      border-radius: 45%;
+      cursor: pointer;
+      transition: getMap($transitions, bg-color);
+
+      &.active {
+        background-color: rgba(getMap($colors, primary-color), 0.5);
+      }
+
+      & > div {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        width: 1rem;
+        height: 1rem;
+        background-color: getMap($colors, primary-color);
+        border-radius: 50%;
+        transition: left 0.15s ease-in;
+
+        &.active {
+          left: 1rem;
+        }
+      }
+    }
+
+    // File Uploading
+    &__images {
+      display: flex;
+      flex-wrap: wrap;
+
+      &__image {
+        margin: 0.5rem 0.2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        border: 1px solid rgba(getMap($colors, primary-color), 0.5);
+        border-radius: $border-radius;
+
+        & > i {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+          cursor: pointer;
+          transition: getMap($transitions, color);
+
+          &:hover {
+            color: getMap($colors, danger-color);
+          }
+        }
+
+        & > img {
+          width: 7rem;
+          height: 7rem;
+          margin: 0.5rem 0;
+          display: flex;
+          object-fit: contain;
+        }
+
+        & > span {
+          padding: 0.5rem;
+        }
+      }
+    }
+
+    &__file {
+      width: 75%;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      border: 1px solid getMap($colors, text-color-light);
+      border-radius: $border-radius;
+
+      @include mq(desktop) {
+        width: 50%;
+      }
+
+      & > label {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+
+        & > i {
+          padding-left: 1rem;
+        }
+
+        & > p {
+          height: 2rem;
+          display: flex;
+          align-items: center;
+          background-color: getMap($colors, primary-color);
+          border-top-right-radius: $border-radius;
+          border-bottom-right-radius: $border-radius;
+          transition: getMap($transitions, bg-color);
+
+          &:hover {
+            background-color: getMap($colors, text-color-light);
+          }
+
+          & > i,
+          & > span {
+            padding: 0 0.5rem;
+            color: #fff;
+            text-align: left;
+          }
+        }
+      }
+
+      & > input[type="file"] {
+        display: none;
+      }
+    }
+
+    &__addBtn,
+    &__removeBtn {
+      padding: 0.5rem 0;
+      margin-top: 1.5rem;
+      cursor: pointer;
+
+      &:hover > span,
+      &:hover > i {
+        color: getMap($colors, primary-color);
+      }
+
+      & > i {
+        margin-right: 0.3rem;
+      }
+    }
+
+    &__removeBtn {
+      align-self: flex-end;
+
+      &:hover > span,
+      &:hover > i {
+        color: getMap($colors, danger-color);
+      }
+    }
+
+    & input {
+      width: 100%;
+      height: 2rem;
+      padding: 0 0.5rem;
+      display: flex;
+      align-items: center;
+      border: 1px solid getMap($colors, text-color-light);
+      border-radius: $border-radius;
+      transition: getMap($transitions, border-color);
+
+      @include mq(medium) {
+        width: 75%;
+      }
+
+      &:focus {
+        border-color: getMap($colors, primary-color);
+      }
+    }
+
+    & textarea {
+      width: 100%;
+      min-height: 10rem;
+      padding: 0.5rem;
+      border: 1px solid getMap($colors, text-color-light);
+      border-radius: $border-radius;
+      resize: vertical;
+      transition: getMap($transitions, border-color);
+
+      @include mq(medium) {
+        width: 75%;
+      }
+
+      &:focus {
+        border-color: getMap($colors, primary-color);
+      }
+    }
+  }
+
+  &__dropdownField {
+    width: 95%;
+    margin: 0.2rem auto 0.5rem auto;
+    position: relative;
+
+    &__input {
+      width: 100%;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      border: 1px solid getMap($colors, text-color-light);
+      border-radius: $border-radius;
+      transition: getMap($transitions, border-radius),
+        getMap($transitions, border-color);
+
+      @include mq(medium) {
+        width: 50%;
+      }
+
+      &.activeOptions {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-color: getMap($colors, primary-color);
+      }
+
+      & > span {
+        width: 95%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 0.5rem;
+        cursor: pointer;
+      }
+
+      & > i {
+        width: 5%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: getMap($transitions, color);
+
+        &:hover {
+          color: getMap($colors, text-color);
+        }
+      }
+    }
+
+    &__options {
+      position: absolute;
+      top: 100%;
+      width: 100%;
+      border: 1px solid getMap($colors, primary-color);
+      border-top: 0;
+      border-bottom-left-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+      z-index: 999;
+      background-color: #fff;
+      transform: translateY(-100%);
+      visibility: hidden;
+      opacity: 0;
+      transition: getMap($transitions, transform),
+        getMap($transitions, visibility), getMap($transitions, opacity);
+
+      @include mq(medium) {
+        width: 50%;
+      }
+
+      &.active {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+      }
+
+      & > p {
+        height: 1.5rem;
+        margin: 0.5rem;
+        padding: 0 0.5rem;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: getMap($transitions, bg-color), getMap($transitions, color);
+
+        &.active {
+          background-color: getMap($colors, primary-color);
+          color: #fff;
+        }
+
+        &:hover {
+          background-color: getMap($colors, primary-color);
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  &__footer {
+    width: 100%;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    background-color: getMap($colors, primary-color);
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+
+    & > button {
+      height: 75%;
+      width: 7rem;
+      margin-right: 2rem;
+      border-radius: $border-radius;
+      background-color: getMap($colors, text-color);
+      color: #fff;
+      cursor: pointer;
+      transition: getMap($transitions, bg-color), getMap($transitions, color);
+
+      &:hover {
+        background-color: #fff;
+        color: getMap($colors, text-color);
+      }
+    }
+
+    & > a {
+      color: #fff;
+
+      &:hover {
+        color: getMap($colors, text-color);
+      }
+    }
+  }
+}

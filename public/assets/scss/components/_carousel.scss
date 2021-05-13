@@ -1,0 +1,93 @@
+.carousel {
+  width: 100%;
+  height: 30rem;
+  margin: 1rem 0;
+  position: relative;
+  overflow: hidden;
+
+  &__slider {
+    width: 100%;
+    height: 93%;
+    display: flex;
+    transition: transform 0.2s ease-in;
+
+    &__slide {
+      min-width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+
+  &__arrowBtns {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    & > button {
+      position: absolute;
+      font-size: 2rem;
+      padding: 0.5rem;
+      cursor: pointer;
+      background-color: transparent;
+      visibility: hidden;
+      opacity: 0;
+      transition: getMap($transitions, visibility),
+        getMap($transitions, opacity);
+
+      &.active {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      &.leftBtn {
+        left: 0.5rem;
+      }
+
+      &.rightBtn {
+        right: 0.5rem;
+      }
+
+      &:hover > i {
+        color: getMap($colors, secondary-color);
+      }
+
+      & > i {
+        color: getMap($colors, primary-color);
+      }
+    }
+  }
+
+  &__bulletBtns {
+    width: 100%;
+    height: 7%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > button {
+      width: 0.7rem;
+      height: 0.7rem;
+      margin: 0 0.3rem;
+      background-color: getMap($colors, primary-color);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: getMap($transitions, bg-color);
+
+      &:hover {
+        background-color: getMap($colors, secondary-color);
+      }
+
+      &.active {
+        background-color: getMap($colors, secondary-color);
+      }
+    }
+  }
+}

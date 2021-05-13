@@ -1,0 +1,322 @@
+body {
+  height: 1000vh;
+}
+
+.product {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.4fr 0.6fr;
+  grid-template-areas:
+    "breadcrumbs breadcrumbs"
+    "name name"
+    "carousel carousel"
+    "rating actions"
+    "price actions"
+    "state actions"
+    "specs specs";
+
+  @include mq(medium) {
+    grid-template-columns: 0.6fr 0.4fr;
+    grid-template-areas:
+      "breadcrumbs breadcrumbs"
+      "name name"
+      "carousel rating"
+      "carousel price"
+      "carousel state"
+      "carousel actions"
+      "carousel actions";
+    align-items: center;
+  }
+
+  @include mq(large) {
+    grid-template-columns: 0.5fr 0.2fr 0.3fr;
+    grid-template-areas:
+      "breadcrumbs breadcrumbs breadcrumbs"
+      "name name name"
+      "carousel rating actions"
+      "carousel price actions"
+      "carousel state actions";
+  }
+
+  &__breadcrumbs {
+    grid-area: breadcrumbs;
+    width: 100%;
+    height: 2rem;
+    padding: 0 0.5vw;
+    display: flex;
+    align-items: center;
+    background-color: rgba(getMap($colors, text-color-light), 0.3);
+    list-style-type: none;
+
+    @include mq(medium) {
+      background-color: transparent;
+    }
+
+    & > li {
+      position: relative;
+      padding: 0 0.5rem;
+
+      &::after {
+        content: "\f105";
+        font-family: FontAwesome;
+        font-size: 2rem;
+        position: absolute;
+        top: 50%;
+        right: -0.5rem;
+        transform: translateY(-50%);
+        color: getMap($colors, text-color);
+      }
+
+      @include mq(medium) {
+        &::after {
+          content: "/";
+          right: -0.3rem;
+        }
+      }
+
+      &:last-child::after {
+        display: none;
+      }
+
+      & > a:hover {
+        color: getMap($colors, primary-color);
+      }
+    }
+  }
+
+  &__name {
+    grid-area: name;
+    width: 100%;
+    padding: 0 0.5vw;
+
+    & > h1 {
+      padding: 0.5rem;
+      font-size: 1.1rem;
+      letter-spacing: 0.15rem;
+
+      @include mq(medium) {
+        font-size: 1.5rem;
+      }
+
+      @include mq(large) {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  & .carousel {
+    grid-area: carousel;
+  }
+
+  &__rating {
+    grid-area: rating;
+    width: 100%;
+    height: 2rem;
+    padding: 0 3vw;
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+
+    @include mq(medium) {
+      justify-content: center;
+    }
+
+    & > a > i {
+      color: getMap($colors, rating-color);
+      font-size: 1rem;
+    }
+  }
+
+  &__price {
+    grid-area: price;
+    width: 100%;
+    padding: 0 3vw;
+    display: flex;
+    flex-direction: column;
+
+    @include mq(medium) {
+      align-items: center;
+    }
+
+    & > p {
+      display: flex;
+      margin: 0.3rem 0;
+      font-weight: 1000;
+
+      & sup {
+        font-size: 0.6rem;
+        letter-spacing: 0.1rem;
+      }
+
+      &.oldPrice {
+        & > span {
+          letter-spacing: 0.1rem;
+          font-size: 0.85rem;
+        }
+
+        & .old {
+          text-decoration: line-through;
+          color: getMap($colors, text-color);
+        }
+
+        & .promo {
+          margin-left: 0.5rem;
+          color: getMap($colors, text-color-light);
+        }
+      }
+
+      &.actualPrice {
+        & > span {
+          font-size: 1.15rem;
+        }
+        color: getMap($colors, danger-color);
+      }
+    }
+  }
+
+  &__state {
+    grid-area: state;
+    width: 100%;
+    padding: 0 3vw;
+    margin: 0.5rem 0;
+
+    @include mq(medium) {
+      display: flex;
+      justify-content: center;
+    }
+
+    & > p {
+      height: 2rem;
+      display: flex;
+      align-items: center;
+
+      & > span {
+        padding: 0 0.5rem;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: $border-radius;
+        color: #fff;
+
+        &.goodState {
+          background-color: getMap($colors, success-color);
+        }
+
+        &.badState {
+          background-color: getMap($colors, warning-color);
+        }
+      }
+    }
+  }
+
+  &__actions {
+    grid-area: actions;
+    width: 100%;
+    padding: 0 0.5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__cartBtn,
+    &__favoriteBtn {
+      width: 100%;
+      margin: 0.5rem 0;
+
+      & > button {
+        width: 95%;
+        height: 2.5rem;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+        background-color: getMap($colors, primary-color);
+        border-radius: $border-radius;
+        transition: getMap($transitions, bg-color);
+
+        &:hover {
+          background-color: getMap($colors, secondary-color);
+        }
+
+        &::before {
+          font-family: FontAwesome;
+          font-size: 1.3rem;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: 0.5rem;
+          z-index: 9;
+        }
+
+        &.cart::before {
+          content: "\f07a";
+          color: #fff;
+        }
+
+        &.favorite::before {
+          content: "\f08a";
+          color: getMap($colors, danger-color);
+          font-weight: 1000;
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          width: 2.5rem;
+          height: 100%;
+          background-color: getMap($colors, secondary-color);
+          border-bottom-right-radius: 65%;
+          border-top-left-radius: $border-radius;
+          border-bottom-left-radius: $border-radius;
+        }
+
+        &:hover::after {
+          background-color: getMap($colors, primary-color);
+        }
+
+        & > span {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+.productFixedNavigation {
+  display: none;
+
+  @include mq(large) {
+    display: flex;
+    width: 100%;
+    height: 3rem;
+    position: fixed;
+    bottom: 0;
+    background-color: getMap($colors, primary-color);
+
+    & > ul {
+      width: 100%;
+      height: 100%;
+      padding: 0 1vw;
+      display: flex;
+      align-items: center;
+
+      & > li {
+        padding: 0.5rem;
+        margin: 0 0.5rem;
+        transition: getMap($transitions, bg-color);
+        border-radius: $border-radius;
+
+        &:hover {
+          background-color: getMap($colors, secondary-color);
+        }
+
+        & > a {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
