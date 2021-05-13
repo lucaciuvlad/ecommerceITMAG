@@ -5,7 +5,7 @@ if (!isset($_SESSION["adminName"])) {
     header("location: login.php");
 }
 
-require_once("classes/categories.class.php");
+require_once("classes/brands.class.php");
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ require_once("classes/categories.class.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/main.css">
-    <title> Administrare produse </title>
+    <title> Administrare producatori </title>
 
     <?php
     require_once("includes/fonts.inc.php");
@@ -32,40 +32,36 @@ require_once("classes/categories.class.php");
     ?>
 
     <?php
-    $categoriesHandler = new Categories();
-    $categories = $categoriesHandler->selectCategories();
+    $brandsHandler = new Brands();
+    $brands = $brandsHandler->selectBrands();
     ?>
 
-    <main class="categories">
-        <h1> Toate categoriile </h1>
+    <main class="brands">
+        <h1> Toti producatorii </h1>
 
         <?php
-        if ($categories->num_rows == 0) :
+        if ($brands->num_rows == 0) :
         ?>
 
-        <p class="error <?php echo "active"; ?>"> Momentan nu exista nicio categorie in baza de date. </p>
+        <p class="error <?php echo "active"; ?>"> Momentan nu exista niciun producator in baza de date. </p>
         <?php else : ?>
 
-        <!-- Category View -->
+        <!-- Brands View -->
         <table class="table">
             <thead>
                 <tr>
-                    <th> Nume categorie </th>
-                    <th> Iconita categorie </th>
+                    <th> Nume producator </th>
                     <th> Data adaugarii </th>
                     <th> Optiuni </th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                    foreach ($categories as $category) :
+                    foreach ($brands as $brand) :
                     ?>
                 <tr>
-                    <td> <?php echo $category["category_name"]; ?> </td>
-                    <td>
-                        <i class="fa <?php echo $category["category_icon"] ?>"></i>
-                    </td>
-                    <td> <?php echo $category["category_created_at"] ?> </td>
+                    <td> <?php echo $brand["brand_name"]; ?> </td>
+                    <td> <?php echo $brand["brand_created_at"] ?> </td>
 
                     <td class="dropdown">
                         <div class="dropdown__tab">
@@ -76,14 +72,13 @@ require_once("classes/categories.class.php");
                             <ul>
                                 <li>
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    <span class="categoryUpdateBtn"
-                                        data-category-id="<?php echo $category["categoryID"]; ?>">
+                                    <span class="brandUpdateBtn" data-brand-id="<?php echo $brand["brandID"]; ?>">
                                         Editeaza </span>
                                 </li>
                                 <li>
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                    <span class="categoryDeleteBtn"
-                                        data-category-id="<?php echo $category["categoryID"]; ?>"> Sterge </span>
+                                    <span class="brandDeleteBtn" data-brand-id="<?php echo $brand["brandID"]; ?>">
+                                        Sterge </span>
                                 </li>
                             </ul>
                         </div>
@@ -96,7 +91,7 @@ require_once("classes/categories.class.php");
 
         <?php
         $indexId = 0;
-        foreach ($categories as $category) :
+        foreach ($brands as $brand) :
             $indexId++;
         ?>
 
@@ -106,30 +101,12 @@ require_once("classes/categories.class.php");
             </div>
 
             <div class="modal__content">
-                <form class="form categoryUpdate">
+                <form class="form brandUpdate">
                     <div class="form__group">
-                        <div class="form__header">
-                            <h2> Setari generale </h2>
-                            <h3> Introdu setarile si informatiile de baza ale categoriei. </h3>
-                        </div>
-
-                        <div class="form__field updateCategoryName">
-                            <label for="updateCategoryName<?php echo $indexId; ?>"> Nume categorie </label>
-                            <input type="text" name="updateCategoryName" id="updateCategoryName<?php echo $indexId; ?>"
-                                value=" <?php echo $category["category_name"]; ?>" />
-
-                            <p class="error"></p>
-                        </div>
-
-                        <div class="form__field updateCategoryIcon">
-                            <label for="updateCategoryIcon<?php echo $indexId; ?>"> Iconita categorie
-                                <div class="tooltip">
-                                    <i class="fa fa-caret-left" aria-hidden="true"></i>
-                                    <p> ex: fa-search </p>
-                                </div>
-                            </label>
-                            <input type="text" name="updateCategoryIcon" id="updateCategoryIcon<?php echo $indexId; ?>"
-                                value=" <?php echo $category["category_icon"]; ?>" />
+                        <div class="form__field updateBrandName">
+                            <label for="updateBrandName<?php echo $indexId; ?>"> Nume producator </label>
+                            <input type="text" name="updateBrandName" id="updateBrandName<?php echo $indexId; ?>"
+                                value=" <?php echo $brand["brand_name"]; ?>" />
 
                             <p class="error"></p>
                         </div>
@@ -149,7 +126,7 @@ require_once("classes/categories.class.php");
 
             <div class="modal__content">
                 <div class="modal__confirmation">
-                    <p> Esti sigur ca vrei sa stergi categoria? </p>
+                    <p> Esti sigur ca vrei sa stergi producatorul? </p>
                     <div class="modal__confirmation__actions">
                         <button type="button" id="confirm"> Da </button>
                         <button type="button" id="reject"> Nu </button>
@@ -165,25 +142,11 @@ require_once("classes/categories.class.php");
             </div>
 
             <div class="modal__content">
-                <form class="form categoryInsert">
+                <form class="form brandInsert">
                     <div class="form__group">
-                        <div class="form__field categoryName">
-                            <label for="categoryName"> Nume categorie </label>
-                            <input type="text" name="categoryName" id="categoryName" />
-                            <p class="error"></p>
-                        </div>
-                    </div>
-
-                    <div class="form__group">
-                        <div class="form__field categoryIcon">
-                            <label for="categoryIcon"> Iconita categorie
-                                <div class="tooltip">
-                                    <i class="fa fa-caret-left" aria-hidden="true"></i>
-                                    <p> ex: fa-search </p>
-                                </div>
-                            </label>
-                            <input type="text" name="categoryIcon" id="categoryIcon" />
-
+                        <div class="form__field brandName">
+                            <label for="brandName"> Nume producator </label>
+                            <input type="text" name="brandName" id="brandName" />
                             <p class="error"></p>
                         </div>
                     </div>
@@ -197,12 +160,12 @@ require_once("classes/categories.class.php");
 
         <button class="addBtn">
             <i class="fa fa-plus" aria-hidden="true"></i>
-            <span> Adauga o noua categorie </span>
+            <span> Adauga un nou producator </span>
         </button>
     </main>
 
     <script src="./assets/js/navigationBar.js" type="module"></script>
-    <script src="./assets/js/categories.js" type="module"></script>
+    <script src="./assets/js/brands.js" type="module"></script>
 </body>
 
 </html>

@@ -1,7 +1,8 @@
+.dashboard,
 .products,
 .productImages,
 .categories,
-.dashboard {
+.brands {
   width: 100%;
   min-height: calc(100vh - 3rem);
   margin-top: 3rem;
@@ -45,7 +46,7 @@
     & > i,
     & > span {
       color: #fff;
-      margin: 0 0.3rem;
+      padding: 0 0.3rem;
     }
   }
 }
@@ -124,7 +125,8 @@
 }
 
 .products,
-.categories {
+.categories,
+.brands {
   .form {
     width: 95%;
     margin: 0 auto;
@@ -344,7 +346,8 @@
 }
 
 .productImages,
-.categories {
+.categories,
+.brands {
   .modal {
     &__footer {
       position: absolute;
@@ -379,7 +382,8 @@
   }
 }
 
-.categories {
+.categories,
+.brands {
   .form {
     @include mq(large) {
       width: 35%;

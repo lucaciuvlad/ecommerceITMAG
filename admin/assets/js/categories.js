@@ -1,7 +1,6 @@
 import {
   addCssClass,
   removeCssClass,
-  toggleCssClass,
   serverRequest,
   showNotification,
   delayShowingMainContainer,
@@ -18,8 +17,8 @@ import { isEmpty, showError, hideError } from "./validations.js";
     if (item.classList.contains("cat")) addCssClass(item, "standOut");
   });
 
-  const productsContainer = document.querySelector(".categories");
-  delayShowingMainContainer(productsContainer);
+  const categoriesContainer = document.querySelector(".categories");
+  delayShowingMainContainer(categoriesContainer);
 })();
 
 // CATEGORY VIEW
@@ -95,8 +94,6 @@ const insertCategory = () => {
       removeCssClass(loader, "active");
 
       const response = JSON.parse(request.response);
-
-      console.log(response);
 
       if (response.isInserted) {
         showNotification(
@@ -343,7 +340,7 @@ updateCategoryFunctionalities();
 
 // DELETE CATEGORY
 // Table Delete Btns
-const deleteProductBtns = document.querySelectorAll(".categoryDeleteBtn");
+const deleteCategoryBtns = document.querySelectorAll(".categoryDeleteBtn");
 
 // Deletion Confirmation Modal
 let modalConfirmation = null;
@@ -359,7 +356,7 @@ if (document.querySelector(".modal.delete")) {
 }
 
 const deleteCategoryFunctionalities = () => {
-  deleteProductBtns.forEach((deleteCategoryButton) => {
+  deleteCategoryBtns.forEach((deleteCategoryButton) => {
     deleteCategoryButton.addEventListener("click", () => {
       // Show Modal Deletion Confirmation
       addCssClass(modalConfirmation, "active");

@@ -1298,10 +1298,11 @@ a:hover {
   transform: translateX(0);
 }
 
+.dashboard,
 .products,
 .productImages,
 .categories,
-.dashboard {
+.brands {
   width: 100%;
   min-height: calc(100vh - 3rem);
   margin-top: 3rem;
@@ -1310,40 +1311,45 @@ a:hover {
   transition: transform 0.15s ease-in, opacity 0.15s ease-in;
 }
 @media only screen and (min-width: 992px) {
-  .products,
+  .dashboard,
+.products,
 .productImages,
 .categories,
-.dashboard {
+.brands {
     margin-left: 12.5rem;
     width: calc(100% - 12.5rem);
   }
 }
+.dashboard.active,
 .products.active,
 .productImages.active,
 .categories.active,
-.dashboard.active {
+.brands.active {
   opacity: 1;
   transform: scale(1);
 }
+.dashboard > h1,
 .products > h1,
 .productImages > h1,
 .categories > h1,
-.dashboard > h1 {
+.brands > h1 {
   padding: 1rem;
   margin: 0.5rem 0;
   font-size: 1.5rem;
   color: #505c60;
 }
+.dashboard > p,
 .products > p,
 .productImages > p,
 .categories > p,
-.dashboard > p {
+.brands > p {
   margin: 0 1rem;
 }
+.dashboard .addBtn,
 .products .addBtn,
 .productImages .addBtn,
 .categories .addBtn,
-.dashboard .addBtn {
+.brands .addBtn {
   margin: 0.5rem 1rem;
   padding: 0.5rem 0;
   background-color: #1289a7;
@@ -1351,21 +1357,24 @@ a:hover {
   cursor: pointer;
   transition: background-color 0.15s ease-in;
 }
+.dashboard .addBtn:hover,
 .products .addBtn:hover,
 .productImages .addBtn:hover,
 .categories .addBtn:hover,
-.dashboard .addBtn:hover {
+.brands .addBtn:hover {
   background-color: #6f1e51;
 }
-.products .addBtn > i, .products .addBtn > span,
+.dashboard .addBtn > i, .dashboard .addBtn > span,
+.products .addBtn > i,
+.products .addBtn > span,
 .productImages .addBtn > i,
 .productImages .addBtn > span,
 .categories .addBtn > i,
 .categories .addBtn > span,
-.dashboard .addBtn > i,
-.dashboard .addBtn > span {
+.brands .addBtn > i,
+.brands .addBtn > span {
   color: #fff;
-  margin: 0 0.3rem;
+  padding: 0 0.3rem;
 }
 
 .dashboard__header {
@@ -1433,33 +1442,39 @@ a:hover {
 }
 
 .products .form,
-.categories .form {
+.categories .form,
+.brands .form {
   width: 95%;
   margin: 0 auto;
 }
 @media only screen and (min-width: 992px) {
   .products .form,
-.categories .form {
+.categories .form,
+.brands .form {
     width: 65%;
   }
 }
 .products .form label.netPriceLabel,
-.categories .form label.netPriceLabel {
+.categories .form label.netPriceLabel,
+.brands .form label.netPriceLabel {
   cursor: initial;
 }
 .products .form label.netPriceLabel:hover,
-.categories .form label.netPriceLabel:hover {
+.categories .form label.netPriceLabel:hover,
+.brands .form label.netPriceLabel:hover {
   color: #2d3436;
 }
 .products .form__group,
-.categories .form__group {
+.categories .form__group,
+.brands .form__group {
   padding: 0.5rem;
   margin: 0.5rem 0;
   background-color: #fff;
   border-radius: 0.3rem;
 }
 .products .form__group > button,
-.categories .form__group > button {
+.categories .form__group > button,
+.brands .form__group > button {
   width: 20%;
   height: 75%;
   display: flex;
@@ -1472,34 +1487,40 @@ a:hover {
   transition: background-color 0.15s ease-in, color 0.15s ease-in;
 }
 .products .form__group > button.save:hover,
-.categories .form__group > button.save:hover {
+.categories .form__group > button.save:hover,
+.brands .form__group > button.save:hover {
   background-color: #1abc9c;
   color: #fff;
 }
 .products .form__group > button.close:hover,
-.categories .form__group > button.close:hover {
+.categories .form__group > button.close:hover,
+.brands .form__group > button.close:hover {
   background-color: #ea2027;
   color: #fff;
 }
 .products .form__field,
-.categories .form__field {
+.categories .form__field,
+.brands .form__field {
   width: 95%;
   margin: 0 auto;
 }
 .products .form__field__wrapper,
-.categories .form__field__wrapper {
+.categories .form__field__wrapper,
+.brands .form__field__wrapper {
   width: 95%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
 .products .form__field__wrapper__column,
-.categories .form__field__wrapper__column {
+.categories .form__field__wrapper__column,
+.brands .form__field__wrapper__column {
   display: flex;
   flex-direction: column;
 }
 .products .form__field__wrapper__column .tool,
-.categories .form__field__wrapper__column .tool {
+.categories .form__field__wrapper__column .tool,
+.brands .form__field__wrapper__column .tool {
   height: 2rem;
   margin: 0.5rem 0;
   display: flex;
@@ -1509,15 +1530,18 @@ a:hover {
   transition: border-color 0.15s ease-in;
 }
 .products .form__field__wrapper__column .tool.active,
-.categories .form__field__wrapper__column .tool.active {
+.categories .form__field__wrapper__column .tool.active,
+.brands .form__field__wrapper__column .tool.active {
   border-color: #1289a7;
 }
 .products .form__field__wrapper__column .tool.error,
-.categories .form__field__wrapper__column .tool.error {
+.categories .form__field__wrapper__column .tool.error,
+.brands .form__field__wrapper__column .tool.error {
   border-color: #ea2027;
 }
 .products .form__field__wrapper__column .tool > i,
-.categories .form__field__wrapper__column .tool > i {
+.categories .form__field__wrapper__column .tool > i,
+.brands .form__field__wrapper__column .tool > i {
   height: 100%;
   padding: 0 0.5rem;
   display: flex;
@@ -1525,48 +1549,59 @@ a:hover {
   cursor: pointer;
 }
 .products .form__field__wrapper__column .tool > i.fa-minus,
-.categories .form__field__wrapper__column .tool > i.fa-minus {
+.categories .form__field__wrapper__column .tool > i.fa-minus,
+.brands .form__field__wrapper__column .tool > i.fa-minus {
   border-right: 1px solid #2d3436;
   transition: border-right-color 0.15s ease-in, color 0.15s ease-in;
 }
 .products .form__field__wrapper__column .tool > i.fa-minus:hover,
-.categories .form__field__wrapper__column .tool > i.fa-minus:hover {
+.categories .form__field__wrapper__column .tool > i.fa-minus:hover,
+.brands .form__field__wrapper__column .tool > i.fa-minus:hover {
   color: #1289a7;
 }
 .products .form__field__wrapper__column .tool > i.fa-minus.active,
-.categories .form__field__wrapper__column .tool > i.fa-minus.active {
+.categories .form__field__wrapper__column .tool > i.fa-minus.active,
+.brands .form__field__wrapper__column .tool > i.fa-minus.active {
   border-right-color: #1289a7;
 }
 .products .form__field__wrapper__column .tool > i.fa-minus.error,
-.categories .form__field__wrapper__column .tool > i.fa-minus.error {
+.categories .form__field__wrapper__column .tool > i.fa-minus.error,
+.brands .form__field__wrapper__column .tool > i.fa-minus.error {
   border-right-color: #ea2027;
 }
 .products .form__field__wrapper__column .tool > i.fa-plus,
-.categories .form__field__wrapper__column .tool > i.fa-plus {
+.categories .form__field__wrapper__column .tool > i.fa-plus,
+.brands .form__field__wrapper__column .tool > i.fa-plus {
   border-left: 1px solid #2d3436;
   transition: border-left-color 0.15s ease-in, color 0.15s ease-in;
 }
 .products .form__field__wrapper__column .tool > i.fa-plus:hover,
-.categories .form__field__wrapper__column .tool > i.fa-plus:hover {
+.categories .form__field__wrapper__column .tool > i.fa-plus:hover,
+.brands .form__field__wrapper__column .tool > i.fa-plus:hover {
   color: #1289a7;
 }
 .products .form__field__wrapper__column .tool > i.fa-plus.active,
-.categories .form__field__wrapper__column .tool > i.fa-plus.active {
+.categories .form__field__wrapper__column .tool > i.fa-plus.active,
+.brands .form__field__wrapper__column .tool > i.fa-plus.active {
   border-left-color: #1289a7;
 }
 .products .form__field__wrapper__column .tool > i.fa-plus.error,
-.categories .form__field__wrapper__column .tool > i.fa-plus.error {
+.categories .form__field__wrapper__column .tool > i.fa-plus.error,
+.brands .form__field__wrapper__column .tool > i.fa-plus.error {
   border-left-color: #ea2027;
 }
 .products .form__field__wrapper__column .tool > input,
-.categories .form__field__wrapper__column .tool > input {
+.categories .form__field__wrapper__column .tool > input,
+.brands .form__field__wrapper__column .tool > input {
   height: 100%;
   border: none;
   text-align: center;
 }
 .products .form__field__wrapper__column.netPrice > p, .products .form__field__wrapper__column.updateNetPrice > p,
 .categories .form__field__wrapper__column.netPrice > p,
-.categories .form__field__wrapper__column.updateNetPrice > p {
+.categories .form__field__wrapper__column.updateNetPrice > p,
+.brands .form__field__wrapper__column.netPrice > p,
+.brands .form__field__wrapper__column.updateNetPrice > p {
   height: 2rem;
   margin: 0.5rem 0;
   padding: 0.5rem;
@@ -1577,7 +1612,8 @@ a:hover {
   color: #505c60;
 }
 .products .form__field .oldPrice,
-.categories .form__field .oldPrice {
+.categories .form__field .oldPrice,
+.brands .form__field .oldPrice {
   width: 100%;
   margin: 1rem 0 0.5rem 0;
   display: flex;
@@ -1591,7 +1627,8 @@ a:hover {
   transition: visibility 0.15s ease-in, transform 0.15s ease-in, opacity 0.15s ease-in;
 }
 .products .form__field .oldPrice.active,
-.categories .form__field .oldPrice.active {
+.categories .form__field .oldPrice.active,
+.brands .form__field .oldPrice.active {
   position: static;
   transform: translateY(0);
   visibility: visible;
@@ -1599,7 +1636,8 @@ a:hover {
   z-index: 9;
 }
 .products .form__field .oldPrice__wrapper,
-.categories .form__field .oldPrice__wrapper {
+.categories .form__field .oldPrice__wrapper,
+.brands .form__field .oldPrice__wrapper {
   width: 45%;
   height: 2rem;
   display: flex;
@@ -1610,26 +1648,31 @@ a:hover {
 }
 @media only screen and (min-width: 992px) {
   .products .form__field .oldPrice__wrapper,
-.categories .form__field .oldPrice__wrapper {
+.categories .form__field .oldPrice__wrapper,
+.brands .form__field .oldPrice__wrapper {
     width: 35%;
   }
 }
 .products .form__field .oldPrice__wrapper.active,
-.categories .form__field .oldPrice__wrapper.active {
+.categories .form__field .oldPrice__wrapper.active,
+.brands .form__field .oldPrice__wrapper.active {
   border-color: #1289a7;
 }
 .products .form__field .oldPrice__wrapper.error,
-.categories .form__field .oldPrice__wrapper.error {
+.categories .form__field .oldPrice__wrapper.error,
+.brands .form__field .oldPrice__wrapper.error {
   border-color: #ea2027;
 }
 .products .form__field .oldPrice__wrapper > input,
-.categories .form__field .oldPrice__wrapper > input {
+.categories .form__field .oldPrice__wrapper > input,
+.brands .form__field .oldPrice__wrapper > input {
   border: none;
   height: 100%;
   text-align: center;
 }
 .products .form__field .oldPrice__wrapper > span,
-.categories .form__field .oldPrice__wrapper > span {
+.categories .form__field .oldPrice__wrapper > span,
+.brands .form__field .oldPrice__wrapper > span {
   height: 100%;
   display: flex;
   align-items: center;
@@ -1638,16 +1681,19 @@ a:hover {
   transition: border-left-color 0.15s ease-in;
 }
 .products .form__field .oldPrice__wrapper > span.active,
-.categories .form__field .oldPrice__wrapper > span.active {
+.categories .form__field .oldPrice__wrapper > span.active,
+.brands .form__field .oldPrice__wrapper > span.active {
   border-left-color: #1289a7;
 }
 .products .form__field .oldPrice__wrapper > span.error,
-.categories .form__field .oldPrice__wrapper > span.error {
+.categories .form__field .oldPrice__wrapper > span.error,
+.brands .form__field .oldPrice__wrapper > span.error {
   border-left-color: #ea2027;
 }
 
 .productImages .modal__footer,
-.categories .modal__footer {
+.categories .modal__footer,
+.brands .modal__footer {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -1676,26 +1722,32 @@ a:hover {
 }
 
 @media only screen and (min-width: 992px) {
-  .categories .form {
+  .categories .form,
+.brands .form {
     width: 35%;
   }
 }
-.categories .form__field {
+.categories .form__field,
+.brands .form__field {
   position: relative;
 }
-.categories .form__field > label {
+.categories .form__field > label,
+.brands .form__field > label {
   position: relative;
 }
-.categories .form__field > label:hover .tooltip {
+.categories .form__field > label:hover .tooltip,
+.brands .form__field > label:hover .tooltip {
   visibility: visible;
   opacity: 1;
 }
-.categories .form__field > label .tooltip {
+.categories .form__field > label .tooltip,
+.brands .form__field > label .tooltip {
   top: 50%;
   left: 7.5rem;
   transform: translateY(-50%);
 }
-.categories .form__field > label .tooltip > i {
+.categories .form__field > label .tooltip > i,
+.brands .form__field > label .tooltip > i {
   color: rgba(45, 52, 54, 0.9);
   left: -0.3rem;
 }
