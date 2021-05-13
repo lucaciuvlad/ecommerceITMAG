@@ -46,23 +46,6 @@ require_once("classes/categories.class.php");
         <p class="error <?php echo "active"; ?>"> Momentan nu exista nicio categorie in baza de date. </p>
         <?php else : ?>
 
-        <!-- Delete Modal Confirmation -->
-        <div class="modal delete">
-            <div class="modal__close">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-
-            <div class="modal__content">
-                <div class="modal__confirmation">
-                    <p> Esti sigur ca vrei sa stergi categoria? </p>
-                    <div class="modal__confirmation__actions">
-                        <button type="button" id="confirm"> Da </button>
-                        <button type="button" id="reject"> Nu </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Category View -->
         <table class="table">
             <thead>
@@ -117,7 +100,6 @@ require_once("classes/categories.class.php");
             $indexId++;
         ?>
 
-        <!-- Update Modal Form -->
         <div class="modal update">
             <div class="modal__close">
                 <i class="fa fa-times" aria-hidden="true"></i>
@@ -140,7 +122,12 @@ require_once("classes/categories.class.php");
                         </div>
 
                         <div class="form__field updateCategoryIcon">
-                            <label for="updateCategoryIcon<?php echo $indexId; ?>"> Nume categorie </label>
+                            <label for="updateCategoryIcon<?php echo $indexId; ?>"> Iconita categorie
+                                <div class="tooltip">
+                                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                    <p> ex: fa-search </p>
+                                </div>
+                            </label>
                             <input type="text" name="updateCategoryIcon" id="updateCategoryIcon<?php echo $indexId; ?>"
                                 value=" <?php echo $category["category_icon"]; ?>" />
 
@@ -154,9 +141,24 @@ require_once("classes/categories.class.php");
                 <button type="button" class="close"> Anuleaza </button>
             </div>
         </div>
+
+        <div class="modal delete">
+            <div class="modal__close">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+
+            <div class="modal__content">
+                <div class="modal__confirmation">
+                    <p> Esti sigur ca vrei sa stergi categoria? </p>
+                    <div class="modal__confirmation__actions">
+                        <button type="button" id="confirm"> Da </button>
+                        <button type="button" id="reject"> Nu </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php endforeach; ?>
 
-        <!-- Product Insert -->
         <div class="modal insert">
             <div class="modal__close">
                 <i class="fa fa-times" aria-hidden="true"></i>
@@ -164,28 +166,22 @@ require_once("classes/categories.class.php");
 
             <div class="modal__content">
                 <form class="form categoryInsert">
-                    <div class="form__group generalSettings">
-                        <div class="form__header">
-                            <h2> Setari generale </h2>
-                            <h3> Introdu setarile si informatiile de baza ale categoriei. </h3>
-                        </div>
-
+                    <div class="form__group">
                         <div class="form__field categoryName">
                             <label for="categoryName"> Nume categorie </label>
                             <input type="text" name="categoryName" id="categoryName" />
-
                             <p class="error"></p>
                         </div>
                     </div>
 
-                    <div class="form__group generalSettings">
-                        <div class="form__header">
-                            <h2> Setari generale </h2>
-                            <h3> Introdu setarile si informatiile de baza ale categoriei. </h3>
-                        </div>
-
+                    <div class="form__group">
                         <div class="form__field categoryIcon">
-                            <label for="categoryIcon"> Iconita categorie </label>
+                            <label for="categoryIcon"> Iconita categorie
+                                <div class="tooltip">
+                                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                    <p> ex: fa-search </p>
+                                </div>
+                            </label>
                             <input type="text" name="categoryIcon" id="categoryIcon" />
 
                             <p class="error"></p>

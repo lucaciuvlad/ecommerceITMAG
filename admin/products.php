@@ -132,7 +132,6 @@ require_once("classes/categories.class.php");
             $indexId++;
         ?>
 
-        <!-- Update Modal Form -->
         <div class="modal update">
             <div class="modal__close">
                 <i class="fa fa-times" aria-hidden="true"></i>
@@ -140,7 +139,7 @@ require_once("classes/categories.class.php");
 
             <div class="modal__content">
                 <form class="form productUpdate">
-                    <div class="form__group generalSettings">
+                    <div class="form__group">
                         <div class="form__header">
                             <h2> Setari generale </h2>
                             <h3> Introdu setarile si informatiile de baza ale produsului. </h3>
@@ -155,7 +154,7 @@ require_once("classes/categories.class.php");
                         </div>
                     </div>
 
-                    <div class="form__group updateProductPriceInfo">
+                    <div class="form__group">
                         <div class="form__header">
                             <h2> Informatii pret </h2>
                             <h3> Introdu setarile si informatiile de pret pentru produs. </h3>
@@ -228,7 +227,7 @@ require_once("classes/categories.class.php");
                         <?php endif; ?>
                     </div>
 
-                    <div class="form__group updateProductCatalog">
+                    <div class="form__group">
                         <div class="form__header">
                             <h2> Organizare catalog </h2>
                         </div>
@@ -302,9 +301,24 @@ require_once("classes/categories.class.php");
                 <button type="button" class="close"> Anuleaza </button>
             </div>
         </div>
+
+        <div class="modal delete">
+            <div class="modal__close">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+
+            <div class="modal__content">
+                <div class="modal__confirmation">
+                    <p> Esti sigur ca vrei sa stergi categoria? </p>
+                    <div class="modal__confirmation__actions">
+                        <button type="button" id="confirm"> Da </button>
+                        <button type="button" id="reject"> Nu </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php endforeach; ?>
 
-        <!-- Product Insert -->
         <div class="modal insert">
             <div class="modal__close">
                 <i class="fa fa-times" aria-hidden="true"></i>
@@ -312,7 +326,7 @@ require_once("classes/categories.class.php");
 
             <div class="modal__content">
                 <form class="form productInsert">
-                    <div class="form__group generalSettings">
+                    <div class="form__group">
                         <div class="form__header">
                             <h2> Setari generale </h2>
                             <h3> Introdu setarile si informatiile de baza ale produsului. </h3>
@@ -326,7 +340,7 @@ require_once("classes/categories.class.php");
                         </div>
                     </div>
 
-                    <div class="form__group productPriceInfo">
+                    <div class="form__group">
                         <div class="form__header">
                             <h2> Informatii pret </h2>
                             <h3> Introdu setarile si informatiile de pret pentru produs. </h3>

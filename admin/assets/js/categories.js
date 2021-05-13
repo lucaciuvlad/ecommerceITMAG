@@ -96,6 +96,8 @@ const insertCategory = () => {
 
       const response = JSON.parse(request.response);
 
+      console.log(response);
+
       if (response.isInserted) {
         showNotification(
           "Categoria a fost adaugat cu succes!",
@@ -124,7 +126,6 @@ const insertCategory = () => {
   request.send(formData);
 };
 
-// Insert Product Functionality Triggers
 const insertCategoryFunctionalities = () => {
   // Show Insert Modal Form
   addCategoryBtn.addEventListener("click", () => {
@@ -188,9 +189,7 @@ if (document.querySelectorAll(".categoryUpdate")) {
   updateForms = Array.from(document.querySelectorAll(".categoryUpdate"));
 }
 
-// Update Category Functionality Triggers
 const updateCategoryFunctionalities = () => {
-  // Functionalities For Each Update Modal Form
   updateCategoryBtns.forEach((updateCategoryBtn, index) => {
     updateCategoryBtn.addEventListener("click", () => {
       // Show Update Modal Form
@@ -255,7 +254,7 @@ const updateCategoryFunctionalities = () => {
         const formData = new FormData(updateForms[index]);
         formData.append(
           "updateCategoryId",
-          updateProductBtn.dataset.categoryId
+          updateCategoryBtn.dataset.categoryId
         );
 
         const loader = document.querySelector(".loader");
@@ -319,14 +318,14 @@ const updateCategoryFunctionalities = () => {
         }
 
         // Category Icon Validation
-        if (isEmpty(updateIconNameInput)) {
+        if (isEmpty(updateCategoryIconInput)) {
           showError(
-            updateIconNameArr,
-            updateIconNameErrMsg,
+            updateCategoryIconArr,
+            updateCategoryIconErrMsg,
             "Campul este obligatoriu!"
           );
         } else {
-          hideError(updateIconNameArr, updateIconNameErrMsg);
+          hideError(updateCategoryIconArr, updateCategoryIconErrMsg);
         }
 
         // Update Category
@@ -340,7 +339,7 @@ const updateCategoryFunctionalities = () => {
     });
   });
 };
-updateProductFunctionalities();
+updateCategoryFunctionalities();
 
 // DELETE CATEGORY
 // Table Delete Btns
@@ -359,7 +358,6 @@ if (document.querySelector(".modal.delete")) {
   closeModal = modalConfirmation.querySelector(".modal__close");
 }
 
-// Delete Category Functionalities Trigger
 const deleteCategoryFunctionalities = () => {
   deleteProductBtns.forEach((deleteCategoryButton) => {
     deleteCategoryButton.addEventListener("click", () => {
@@ -407,7 +405,7 @@ const deleteCategoryFunctionalities = () => {
             if (response.isDeleted) {
               showNotification(
                 "Categoria a fost stearsa cu succes!",
-                "products.php",
+                "categories.php",
                 1500,
                 null
               );

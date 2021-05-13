@@ -44,9 +44,10 @@ if (isset($_GET["productID"])) {
 
 <body>
     <?php
-    require_once("includes/navigationBar.inc.php");
-    require_once("includes/sideMenu.inc.php");
-    require_once("includes/notification.inc.php");
+    require_once("./includes/navigationBar.inc.php");
+    require_once("./includes/sideMenu.inc.php");
+    require_once("./includes/loader.inc.php");
+    require_once("./includes/notification.inc.php");
     ?>
 
     <main class="productImages">
@@ -54,25 +55,7 @@ if (isset($_GET["productID"])) {
 
         <?php if ($productImages->num_rows == 0) : ?>
         <p class="error <?php echo 'active'; ?>"> Momentan nu exista nicio imagine asociata produsului </p>
-
         <?php else : ?>
-
-        <!-- Delete Modal Confirmation -->
-        <div class="modal delete">
-            <div class="modal__close">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-
-            <div class="modal__content">
-                <div class="modal__confirmation">
-                    <p> Esti sigur ca vrei sa stergi imaginea produsului? </p>
-                    <div class="modal__confirmation__actions">
-                        <button type="button" id="confirm"> Da </button>
-                        <button type="button" id="reject"> Nu </button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <table class="table">
             <thead>
@@ -82,6 +65,7 @@ if (isset($_GET["productID"])) {
 
             <tbody>
                 <?php foreach ($productImages as $productImage) : ?>
+
                 <tr>
                     <td class="image">
                         <img src="assets/imgs/<?php echo $productImage["product_image"]; ?>" />
@@ -108,13 +92,7 @@ if (isset($_GET["productID"])) {
                         </div>
                         <div class="dropdown__actions">
                             <ul>
-                                <li>
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    <span data-product-image-id="<?php echo $productImage["productImageID"]; ?>"
-                                        class="productImageUpdateBtn">
-                                        Editeaza
-                                    </span>
-                                </li>
+
                                 <li>
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                     <span data-product-image-id="<?php echo $productImage["productImageID"]; ?>"
@@ -126,10 +104,33 @@ if (isset($_GET["productID"])) {
                         </div>
                     </td>
                 </tr>
+
                 <?php endforeach; ?>
             </tbody>
         </table>
         <?php endif; ?>
+
+        <?php
+        foreach ($productImages as $productImage) :
+        ?>
+
+        <div class="modal delete">
+            <div class="modal__close">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+
+            <div class="modal__content">
+                <div class="modal__confirmation">
+                    <p> Esti sigur ca vrei sa stergi imaginea produsului? </p>
+                    <div class="modal__confirmation__actions">
+                        <button type="button" id="confirm"> Da </button>
+                        <button type="button" id="reject"> Nu </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php endforeach; ?>
 
         <div class="modal insert">
             <div class="modal__close">

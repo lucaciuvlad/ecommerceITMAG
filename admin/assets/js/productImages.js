@@ -23,8 +23,67 @@ import { visibleOperations, opItems } from "./navigationBar.js";
   delayShowingMainContainer(productImagesContainer);
 })();
 
-// BACKEND REQUESTS
-// Upload Product Images
+// PRODUCT IMAGES VIEW
+// Image Peek Modal
+const tableProductImages = document.querySelectorAll(".image > img");
+const peekImageModals = document.querySelectorAll(".modal.peek");
+const peekModalCloseIcons = document.querySelectorAll(
+  ".modal.peek .modal__close"
+);
+
+// Table Data Options
+const optionsToggles = document.querySelectorAll(".dropdown__tab");
+const actionDropdowns = document.querySelectorAll(".dropdown__actions");
+
+const productImageFunctionalities = () => {
+  // Toggle Table Data Dropdowns
+  optionsToggles.forEach((optionToggle, index) => {
+    optionToggle.addEventListener("click", () => {
+      if (!actionDropdowns[index].classList.contains("active")) {
+        addCssClass(actionDropdowns[index], "active");
+      } else {
+        removeCssClass(actionDropdowns[index], "active");
+      }
+    });
+  });
+
+  // Show Peek Product Image Modal
+  tableProductImages.forEach((ProductImage, Index) => {
+    ProductImage.addEventListener("click", () => {
+      addCssClass(peekImageModals[Index], "active");
+    });
+
+    // Hide Peek Product Image Modal
+    peekModalCloseIcons[Index].addEventListener("click", () => {
+      removeCssClass(peekImageModals[Index], "active");
+    });
+  });
+};
+productImageFunctionalities();
+
+// INSERT PRODUCT IMAGES
+// Add Image Btn
+const productImageAddBtn = document.querySelector(".addBtn");
+const productId = productImageAddBtn.dataset.productId;
+
+// Insert Images Form Modal
+const insertFormModal = document.querySelector(".modal.insert");
+const insertFormModalCloseIcon = insertFormModal.querySelector(
+  ".modal__close .fa-times"
+);
+const insertFormSaveBtn = insertFormModal.querySelector(".save");
+const insertFormCloseBtn = insertFormModal.querySelector(".close");
+
+// Insert Images Field
+const productImgsField = insertFormModal.querySelector(".productImgFiles");
+const productImgsLabels = productImgsField.querySelectorAll("label");
+const productUploadedImgsBox = productImgsField.querySelector(
+  ".form__field__file__images"
+);
+const productImgsInput = productImgsField.querySelector("input#file");
+const productImgsErrMsg = productImgsField.querySelector("p.error");
+
+// Upload Product Images Request
 const uploadProductImages = () => {
   const images = productImgsInput.files;
   const imageInfos = [];
@@ -102,7 +161,7 @@ const insertProductImages = () => {
         if (response.isInserted) {
           showNotification(
             "Imaginile au fost adaugate cu succes!",
-            "products.php",
+            `productImages.php?productID=${productId}`,
             1500,
             null
           );
@@ -114,66 +173,6 @@ const insertProductImages = () => {
     request.send(formData);
   });
 };
-
-// PRODUCT IMAGES VIEW
-// Image Peek Modal
-const tableProductImages = document.querySelectorAll(".image > img");
-const peekImageModals = document.querySelectorAll(".modal.peek");
-const peekModalCloseIcons = document.querySelectorAll(
-  ".modal.peek .modal__close"
-);
-
-// Table Data Options
-const optionsToggles = document.querySelectorAll(".dropdown__tab");
-const actionDropdowns = document.querySelectorAll(".dropdown__actions");
-
-const productImageFunctionalities = () => {
-  // Toggle Table Data Dropdowns
-  optionsToggles.forEach((optionToggle, index) => {
-    optionToggle.addEventListener("click", () => {
-      if (!actionDropdowns[index].classList.contains("active")) {
-        addCssClass(actionDropdowns[index], "active");
-      } else {
-        removeCssClass(actionDropdowns[index], "active");
-      }
-    });
-  });
-
-  // Show Peek Product Image Modal
-  tableProductImages.forEach((ProductImage, Index) => {
-    ProductImage.addEventListener("click", () => {
-      addCssClass(peekImageModals[Index], "active");
-    });
-
-    // Hide Peek Product Image Modal
-    peekModalCloseIcons[Index].addEventListener("click", () => {
-      removeCssClass(peekImageModals[Index], "active");
-    });
-  });
-};
-productImageFunctionalities();
-
-// INSERT PRODUCT IMAGES
-// Add Image Btn
-const productImageAddBtn = document.querySelector(".addBtn");
-const productId = productImageAddBtn.dataset.productId;
-
-// Insert Images Form Modal
-const insertFormModal = document.querySelector(".modal.insert");
-const insertFormModalCloseIcon = insertFormModal.querySelector(
-  ".modal__close .fa-times"
-);
-const insertFormSaveBtn = insertFormModal.querySelector(".save");
-const insertFormCloseBtn = insertFormModal.querySelector(".close");
-
-// Insert Images Field
-const productImgsField = insertFormModal.querySelector(".productImgFiles");
-const productImgsLabels = productImgsField.querySelectorAll("label");
-const productUploadedImgsBox = productImgsField.querySelector(
-  ".form__field__file__images"
-);
-const productImgsInput = productImgsField.querySelector("input#file");
-const productImgsErrMsg = productImgsField.querySelector("p.error");
 
 const insertProductImageFunctionalities = () => {
   // Show Add New Product Image Modal
@@ -301,10 +300,12 @@ const deleteProductImageFunctionalities = () => {
 
             const response = JSON.parse(request.response);
 
+            console.log(productId);
+
             if (response.isDeleted) {
               showNotification(
-                "Produsul a fost sters cu succes!",
-                "products.php",
+                "Imaginea produsului a fost stearsa cu succes!",
+                `productImages.php?productID=${productId}`,
                 1500,
                 null
               );
@@ -312,7 +313,7 @@ const deleteProductImageFunctionalities = () => {
           }
         };
 
-        request.open("POST", "classes/products.class.php");
+        request.open("POST", "classes/productImages.class.php");
         request.send(formData);
       });
     });

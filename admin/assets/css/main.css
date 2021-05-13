@@ -380,6 +380,7 @@ a:hover {
 }
 .table tr td .tooltip > i {
   left: -0.3rem;
+  color: rgba(45, 52, 54, 0.9);
 }
 .table tr td.dropdown {
   position: relative;
@@ -466,6 +467,7 @@ a:hover {
 .tooltip > i {
   position: absolute;
   z-index: -1;
+  font-size: 1rem;
 }
 .tooltip > p {
   font-size: 0.8rem;
@@ -569,7 +571,7 @@ a:hover {
   margin: 2rem 0;
 }
 .modal__confirmation {
-  width: 50%;
+  width: 75%;
   margin: 0 auto;
   height: 20rem;
   display: flex;
@@ -578,6 +580,11 @@ a:hover {
   justify-content: center;
   background-color: rgba(18, 137, 167, 0.5);
   border-radius: 0.3rem;
+}
+@media only screen and (min-width: 992px) {
+  .modal__confirmation {
+    width: 50%;
+  }
 }
 .modal__confirmation > p {
   margin: 1rem 0;
@@ -926,6 +933,7 @@ a:hover {
 }
 .navigationBar__store .tooltip > i {
   left: -0.3rem;
+  color: rgba(45, 52, 54, 0.9);
 }
 .navigationBar__search {
   width: calc(100% - 2.3rem - 7rem - 2.3rem);
@@ -1290,7 +1298,6 @@ a:hover {
   transform: translateX(0);
 }
 
-.newProduct,
 .products,
 .productImages,
 .categories,
@@ -1303,8 +1310,7 @@ a:hover {
   transition: transform 0.15s ease-in, opacity 0.15s ease-in;
 }
 @media only screen and (min-width: 992px) {
-  .newProduct,
-.products,
+  .products,
 .productImages,
 .categories,
 .dashboard {
@@ -1312,7 +1318,6 @@ a:hover {
     width: calc(100% - 12.5rem);
   }
 }
-.newProduct.active,
 .products.active,
 .productImages.active,
 .categories.active,
@@ -1320,7 +1325,6 @@ a:hover {
   opacity: 1;
   transform: scale(1);
 }
-.newProduct > h1,
 .products > h1,
 .productImages > h1,
 .categories > h1,
@@ -1330,14 +1334,12 @@ a:hover {
   font-size: 1.5rem;
   color: #505c60;
 }
-.newProduct > p,
 .products > p,
 .productImages > p,
 .categories > p,
 .dashboard > p {
   margin: 0 1rem;
 }
-.newProduct .addBtn,
 .products .addBtn,
 .productImages .addBtn,
 .categories .addBtn,
@@ -1349,16 +1351,13 @@ a:hover {
   cursor: pointer;
   transition: background-color 0.15s ease-in;
 }
-.newProduct .addBtn:hover,
 .products .addBtn:hover,
 .productImages .addBtn:hover,
 .categories .addBtn:hover,
 .dashboard .addBtn:hover {
   background-color: #6f1e51;
 }
-.newProduct .addBtn > i, .newProduct .addBtn > span,
-.products .addBtn > i,
-.products .addBtn > span,
+.products .addBtn > i, .products .addBtn > span,
 .productImages .addBtn > i,
 .productImages .addBtn > span,
 .categories .addBtn > i,
@@ -1433,6 +1432,227 @@ a:hover {
   border-radius: 50%;
 }
 
+.products .form,
+.categories .form {
+  width: 95%;
+  margin: 0 auto;
+}
+@media only screen and (min-width: 992px) {
+  .products .form,
+.categories .form {
+    width: 65%;
+  }
+}
+.products .form label.netPriceLabel,
+.categories .form label.netPriceLabel {
+  cursor: initial;
+}
+.products .form label.netPriceLabel:hover,
+.categories .form label.netPriceLabel:hover {
+  color: #2d3436;
+}
+.products .form__group,
+.categories .form__group {
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  background-color: #fff;
+  border-radius: 0.3rem;
+}
+.products .form__group > button,
+.categories .form__group > button {
+  width: 20%;
+  height: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  margin: 0 1rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in, color 0.15s ease-in;
+}
+.products .form__group > button.save:hover,
+.categories .form__group > button.save:hover {
+  background-color: #1abc9c;
+  color: #fff;
+}
+.products .form__group > button.close:hover,
+.categories .form__group > button.close:hover {
+  background-color: #ea2027;
+  color: #fff;
+}
+.products .form__field,
+.categories .form__field {
+  width: 95%;
+  margin: 0 auto;
+}
+.products .form__field__wrapper,
+.categories .form__field__wrapper {
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.products .form__field__wrapper__column,
+.categories .form__field__wrapper__column {
+  display: flex;
+  flex-direction: column;
+}
+.products .form__field__wrapper__column .tool,
+.categories .form__field__wrapper__column .tool {
+  height: 2rem;
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  border: 1px solid #2d3436;
+  border-radius: 0.3rem;
+  transition: border-color 0.15s ease-in;
+}
+.products .form__field__wrapper__column .tool.active,
+.categories .form__field__wrapper__column .tool.active {
+  border-color: #1289a7;
+}
+.products .form__field__wrapper__column .tool.error,
+.categories .form__field__wrapper__column .tool.error {
+  border-color: #ea2027;
+}
+.products .form__field__wrapper__column .tool > i,
+.categories .form__field__wrapper__column .tool > i {
+  height: 100%;
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.products .form__field__wrapper__column .tool > i.fa-minus,
+.categories .form__field__wrapper__column .tool > i.fa-minus {
+  border-right: 1px solid #2d3436;
+  transition: border-right-color 0.15s ease-in, color 0.15s ease-in;
+}
+.products .form__field__wrapper__column .tool > i.fa-minus:hover,
+.categories .form__field__wrapper__column .tool > i.fa-minus:hover {
+  color: #1289a7;
+}
+.products .form__field__wrapper__column .tool > i.fa-minus.active,
+.categories .form__field__wrapper__column .tool > i.fa-minus.active {
+  border-right-color: #1289a7;
+}
+.products .form__field__wrapper__column .tool > i.fa-minus.error,
+.categories .form__field__wrapper__column .tool > i.fa-minus.error {
+  border-right-color: #ea2027;
+}
+.products .form__field__wrapper__column .tool > i.fa-plus,
+.categories .form__field__wrapper__column .tool > i.fa-plus {
+  border-left: 1px solid #2d3436;
+  transition: border-left-color 0.15s ease-in, color 0.15s ease-in;
+}
+.products .form__field__wrapper__column .tool > i.fa-plus:hover,
+.categories .form__field__wrapper__column .tool > i.fa-plus:hover {
+  color: #1289a7;
+}
+.products .form__field__wrapper__column .tool > i.fa-plus.active,
+.categories .form__field__wrapper__column .tool > i.fa-plus.active {
+  border-left-color: #1289a7;
+}
+.products .form__field__wrapper__column .tool > i.fa-plus.error,
+.categories .form__field__wrapper__column .tool > i.fa-plus.error {
+  border-left-color: #ea2027;
+}
+.products .form__field__wrapper__column .tool > input,
+.categories .form__field__wrapper__column .tool > input {
+  height: 100%;
+  border: none;
+  text-align: center;
+}
+.products .form__field__wrapper__column.netPrice > p, .products .form__field__wrapper__column.updateNetPrice > p,
+.categories .form__field__wrapper__column.netPrice > p,
+.categories .form__field__wrapper__column.updateNetPrice > p {
+  height: 2rem;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  background-color: rgba(80, 92, 96, 0.5);
+  border-radius: 0.3rem;
+  color: #505c60;
+}
+.products .form__field .oldPrice,
+.categories .form__field .oldPrice {
+  width: 100%;
+  margin: 1rem 0 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  transform: translateY(-1rem);
+  visibility: hidden;
+  opacity: 0;
+  z-index: 9;
+  transition: visibility 0.15s ease-in, transform 0.15s ease-in, opacity 0.15s ease-in;
+}
+.products .form__field .oldPrice.active,
+.categories .form__field .oldPrice.active {
+  position: static;
+  transform: translateY(0);
+  visibility: visible;
+  opacity: 1;
+  z-index: 9;
+}
+.products .form__field .oldPrice__wrapper,
+.categories .form__field .oldPrice__wrapper {
+  width: 45%;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  border: 1px solid #2d3436;
+  border-radius: 0.3rem;
+  transition: border-color 0.15s ease-in;
+}
+@media only screen and (min-width: 992px) {
+  .products .form__field .oldPrice__wrapper,
+.categories .form__field .oldPrice__wrapper {
+    width: 35%;
+  }
+}
+.products .form__field .oldPrice__wrapper.active,
+.categories .form__field .oldPrice__wrapper.active {
+  border-color: #1289a7;
+}
+.products .form__field .oldPrice__wrapper.error,
+.categories .form__field .oldPrice__wrapper.error {
+  border-color: #ea2027;
+}
+.products .form__field .oldPrice__wrapper > input,
+.categories .form__field .oldPrice__wrapper > input {
+  border: none;
+  height: 100%;
+  text-align: center;
+}
+.products .form__field .oldPrice__wrapper > span,
+.categories .form__field .oldPrice__wrapper > span {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid #2d3436;
+  padding: 0 0.5rem;
+  transition: border-left-color 0.15s ease-in;
+}
+.products .form__field .oldPrice__wrapper > span.active,
+.categories .form__field .oldPrice__wrapper > span.active {
+  border-left-color: #1289a7;
+}
+.products .form__field .oldPrice__wrapper > span.error,
+.categories .form__field .oldPrice__wrapper > span.error {
+  border-left-color: #ea2027;
+}
+
+.productImages .modal__footer,
+.categories .modal__footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 @media only screen and (min-width: 992px) {
   .productImages .table {
     width: 50%;
@@ -1454,188 +1674,30 @@ a:hover {
   background-color: #fff;
   border-radius: 0.3rem;
 }
-.productImages .modal__footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
 
-.products .form {
-  width: 95%;
-  margin: 0 auto;
-}
 @media only screen and (min-width: 992px) {
-  .products .form {
-    width: 65%;
-  }
-}
-.products .form label.netPriceLabel {
-  cursor: initial;
-}
-.products .form label.netPriceLabel:hover {
-  color: #2d3436;
-}
-.products .form__group {
-  padding: 0.5rem;
-  margin: 0.5rem 0;
-  background-color: #fff;
-  border-radius: 0.3rem;
-}
-.products .form__group > button {
-  width: 20%;
-  height: 75%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  margin: 0 1rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  transition: background-color 0.15s ease-in, color 0.15s ease-in;
-}
-.products .form__group > button.save:hover {
-  background-color: #1abc9c;
-  color: #fff;
-}
-.products .form__group > button.close:hover {
-  background-color: #ea2027;
-  color: #fff;
-}
-.products .form__field {
-  width: 95%;
-  margin: 0 auto;
-}
-.products .form__field__wrapper {
-  width: 95%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-}
-.products .form__field__wrapper__column {
-  display: flex;
-  flex-direction: column;
-}
-.products .form__field__wrapper__column .tool {
-  height: 2rem;
-  margin: 0.5rem 0;
-  display: flex;
-  align-items: center;
-  border: 1px solid #2d3436;
-  border-radius: 0.3rem;
-  transition: border-color 0.15s ease-in;
-}
-.products .form__field__wrapper__column .tool.active {
-  border-color: #1289a7;
-}
-.products .form__field__wrapper__column .tool.error {
-  border-color: #ea2027;
-}
-.products .form__field__wrapper__column .tool > i {
-  height: 100%;
-  padding: 0 0.5rem;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-.products .form__field__wrapper__column .tool > i.fa-minus {
-  border-right: 1px solid #2d3436;
-  transition: border-right-color 0.15s ease-in, color 0.15s ease-in;
-}
-.products .form__field__wrapper__column .tool > i.fa-minus:hover {
-  color: #1289a7;
-}
-.products .form__field__wrapper__column .tool > i.fa-minus.active {
-  border-right-color: #1289a7;
-}
-.products .form__field__wrapper__column .tool > i.fa-minus.error {
-  border-right-color: #ea2027;
-}
-.products .form__field__wrapper__column .tool > i.fa-plus {
-  border-left: 1px solid #2d3436;
-  transition: border-left-color 0.15s ease-in, color 0.15s ease-in;
-}
-.products .form__field__wrapper__column .tool > i.fa-plus:hover {
-  color: #1289a7;
-}
-.products .form__field__wrapper__column .tool > i.fa-plus.active {
-  border-left-color: #1289a7;
-}
-.products .form__field__wrapper__column .tool > i.fa-plus.error {
-  border-left-color: #ea2027;
-}
-.products .form__field__wrapper__column .tool > input {
-  height: 100%;
-  border: none;
-  text-align: center;
-}
-.products .form__field__wrapper__column.netPrice > p, .products .form__field__wrapper__column.updateNetPrice > p {
-  height: 2rem;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  background-color: rgba(80, 92, 96, 0.5);
-  border-radius: 0.3rem;
-  color: #505c60;
-}
-.products .form__field .oldPrice {
-  width: 100%;
-  margin: 1rem 0 0.5rem 0;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  left: 0;
-  transform: translateY(-1rem);
-  visibility: hidden;
-  opacity: 0;
-  z-index: 9;
-  transition: visibility 0.15s ease-in, transform 0.15s ease-in, opacity 0.15s ease-in;
-}
-.products .form__field .oldPrice.active {
-  position: static;
-  transform: translateY(0);
-  visibility: visible;
-  opacity: 1;
-  z-index: 9;
-}
-.products .form__field .oldPrice__wrapper {
-  width: 45%;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  border: 1px solid #2d3436;
-  border-radius: 0.3rem;
-  transition: border-color 0.15s ease-in;
-}
-@media only screen and (min-width: 992px) {
-  .products .form__field .oldPrice__wrapper {
+  .categories .form {
     width: 35%;
   }
 }
-.products .form__field .oldPrice__wrapper.active {
-  border-color: #1289a7;
+.categories .form__field {
+  position: relative;
 }
-.products .form__field .oldPrice__wrapper.error {
-  border-color: #ea2027;
+.categories .form__field > label {
+  position: relative;
 }
-.products .form__field .oldPrice__wrapper > input {
-  border: none;
-  height: 100%;
-  text-align: center;
+.categories .form__field > label:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
-.products .form__field .oldPrice__wrapper > span {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  border-left: 1px solid #2d3436;
-  padding: 0 0.5rem;
-  transition: border-left-color 0.15s ease-in;
+.categories .form__field > label .tooltip {
+  top: 50%;
+  left: 7.5rem;
+  transform: translateY(-50%);
 }
-.products .form__field .oldPrice__wrapper > span.active {
-  border-left-color: #1289a7;
-}
-.products .form__field .oldPrice__wrapper > span.error {
-  border-left-color: #ea2027;
+.categories .form__field > label .tooltip > i {
+  color: rgba(45, 52, 54, 0.9);
+  left: -0.3rem;
 }
 
 /*# sourceMappingURL=main.css.map */

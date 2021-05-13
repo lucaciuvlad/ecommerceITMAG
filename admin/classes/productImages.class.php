@@ -6,12 +6,18 @@ require_once("database.class.php");
 class ProductImages extends Database
 {
     private $productId;
+    private $productImageId;
     private $productImage;
     private $errorMessage;
 
     public function setProductId($ProductId)
     {
         $this->productId = $ProductId;
+    }
+
+    public function setProductImageId($ProductImageId)
+    {
+        $this->productImageId = $ProductImageId;
     }
 
     public function setProductImages($ProductImage)
@@ -44,7 +50,8 @@ class ProductImages extends Database
 
     public function selectProductImages()
     {
-        $selectProductImagesSql = "SELECT product_images.id as productImageID, product_image FROM product_images WHERE product_id = ?";
+        $selectProductImagesSql =
+            "SELECT product_images.id as productImageID, product_image FROM product_images WHERE product_id = ?";
         $selectProductImagesStmt = $this->connect()->prepare($selectProductImagesSql);
         $selectProductImagesStmt->bind_param("s", $this->productId);
 
@@ -68,6 +75,22 @@ class ProductImages extends Database
 
         $insertStmt->close();
         $this->connect()->close();
+    }
+
+    public function deleteProductImage()
+    {
+        $deleteSql = "DELETE FROM product_images WHERE product_images.id = ?";
+        $deleteStmt = $this->connect()->prepare($deleteSql);
+        $deleteStmt->bind_param("i", $this->productImageId);
+
+        if ($deleteStmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+
+        $deleteStmt->close();
+        $this->close();
     }
 }
 ?>
@@ -115,5 +138,12 @@ if (isset($_FILES["productImageInfo"]) && isset($_POST["productId"])) {
 // Delete Product Images
 if (isset($_POST["deleteProductImageId"])) {
     $deleteProductImageId = htmlentities($_POST["deleteProductImageId"]);
+
+    $productImagesHandle = new ProductImages();
+    $productImagesHandle->setProductImageId($deleteProductImageId);
+
+    $deleteResult = $productImagesHandle->deleteProductImage();
+
+    echo json_encode(array("isDeleted" => $deleteResult));
 }
 ?>

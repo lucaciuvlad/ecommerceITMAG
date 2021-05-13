@@ -9,7 +9,6 @@ class Categories extends Database
     private $categoryId;
     private $categoryName;
     private $categoryIcon;
-    private $categorySpecs;
 
     public function setCategoryId($CategoryId)
     {
@@ -26,11 +25,6 @@ class Categories extends Database
         $this->categoryIcon = $CategoryIcon;
     }
 
-    public function setCategorySpecs($CategorySpecs)
-    {
-        $this->categorySpecs = $CategorySpecs;
-    }
-
     public function selectCategories()
     {
         $sql = "SELECT categories.id as categoryID, category_name, category_icon, category_created_at FROM categories";
@@ -41,13 +35,16 @@ class Categories extends Database
 
     public function insertCategory()
     {
-        $sql = "INSERT INTO categories(category_name, category_metaphone, category_image, category_specs) VALUES(?, ?, ?, ?)";
+        $sql = "INSERT INTO categories(category_name, category_icon) VALUES(?, ?)";
         $stmt = $this->connect()->prepare($sql);
 
-        $categoryMetaphone = metaphone($this->categoryName);
-        $stmt->bind_param("ssss", $this->categoryName, $categoryMetaphone, $this->categoryIcon, $this->categorySpecs);
+        $stmt->bind_param("ss", $this->categoryName, $this->categoryIcon);
 
-        $stmt->execute();
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
 
         $stmt->close();
         $this->close();
@@ -55,13 +52,16 @@ class Categories extends Database
 
     public function updateCategory()
     {
-        $sql = "UPDATE categories SET category_name = ?, category_metaphone = ?, category_image = ?, category_specs = ? WHERE category_id = ?";
+        $sql = "UPDATE categories SET category_name = ?, category_icon = ? WHERE id = ?";
         $stmt = $this->connect()->prepare($sql);
 
-        $categoryMetaphone = metaphone($this->categoryName);
-        $stmt->bind_param("ssssi", $this->categoryName, $categoryMetaphone, $this->categoryIcon, $this->categorySpecs, $this->categoryId);
+        $stmt->bind_param("ssi", $this->categoryName, $this->categoryIcon, $this->categoryId);
 
-        $stmt->execute();
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
 
         $stmt->close();
         $this->close();
@@ -69,15 +69,99 @@ class Categories extends Database
 
     public function deleteCategory()
     {
-        $sql = "DELETE FROM categories WHERE category_id = ?";
+        $sql = "DELETE FROM categories WHERE id = ?";
         $stmt = $this->connect()->prepare($sql);
 
         $stmt->bind_param("i", $this->categoryId);
 
-        $stmt->execute();
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
 
         $stmt->close();
         $this->close();
     }
+}
+?>
+
+<?php
+// Insert Category
+if (isset($_POST["categoryName"]) && isset($_POST["categoryIcon"])) {
+    $categoryName = htmlentities($_POST["categoryName"]);
+    $categoryIcon = htmlentities($_POST["categoryIcon"]);
+
+    $validation = new Validation();
+    $validation->setField($categoryName);
+    $validation->setFlag("categoryName");
+    $validation->isEmpty();
+    $validation->isNumeric();
+
+    $validation->setField($categoryIcon);
+    $validation->setFlag("categoryIcon");
+    $validation->isEmpty();
+    $validation->isNumeric();
+
+    $validationErrors = $validation->getErrorMessges();
+
+    if ($validationErrors != null) {
+        echo json_encode($validationErrors);
+    } else {
+        $categoriesHandler = new Categories();
+        $categoriesHandler->setCategoryName($categoryName);
+        $categoriesHandler->setCategoryIcon($categoryIcon);
+        $insertResult = $categoriesHandler->insertCategory();
+
+        echo json_encode(array("isInserted" => $insertResult));
+    }
+}
+?>
+
+<?php
+// Update Category
+if (isset($_POST["updateCategoryId"]) && isset($_POST["updateCategoryName"]) && isset($_POST["updateCategoryIcon"])) {
+    $categoryId = htmlentities($_POST["updateCategoryId"]);
+    $updateCategoryName = htmlentities($_POST["updateCategoryName"]);
+    $updateCategoryIcon = htmlentities($_POST["updateCategoryIcon"]);
+
+    $validation = new Validation();
+    $validation->setField($updateCategoryName);
+    $validation->setFlag("updateCategoryName");
+    $validation->isEmpty();
+    $validation->isNumeric();
+    $validation->dbValidation("category_name", "categories", "s");
+
+    $validation->setField($updateCategoryIcon);
+    $validation->setFlag("updateCategoryIcon");
+    $validation->isEmpty();
+    $validation->isNumeric();
+
+    $validationErrors = $validation->getErrorMessges();
+
+    if ($validationErrors != null) {
+        echo json_encode($validationErrors);
+    } else {
+        $categoriesHandler = new Categories();
+        $categoriesHandler->setCategoryId($categoryId);
+        $categoriesHandler->setCategoryName($updateCategoryName);
+        $categoriesHandler->setCategoryIcon($updateCategoryIcon);
+        $updateResult = $categoriesHandler->updateCategory();
+
+        echo json_encode(array("isUpdated" => $updateResult));
+    }
+}
+?>
+
+<?php
+// Delete Category
+if (isset($_POST["deleteCategoryId"])) {
+    $categoryId = htmlentities($_POST["deleteCategoryId"]);
+
+    $categoriesHandle = new Categories();
+    $categoriesHandle->setCategoryId($categoryId);
+    $deleteResult = $categoriesHandle->deleteCategory();
+
+    echo json_encode(array("isDeleted" => $deleteResult));
 }
 ?>

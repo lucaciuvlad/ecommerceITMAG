@@ -202,7 +202,6 @@ if (
         $productsHandle->setProductCategoryId($productCategoryId);
         $productsHandle->setProductBrandId($productBrandId);
         $productsHandle->setProductStock($productStock);
-
         $insertResult = $productsHandle->insertProduct();
 
         echo json_encode(array("isInserted" => $insertResult));
@@ -272,7 +271,6 @@ if (
         $productsHandle->setProductCategoryId($updateProductCategoryId);
         $productsHandle->setProductBrandId($updateProductBrandId);
         $productsHandle->setProductStock($updateProductStock);
-
         $updateResult = $productsHandle->updateProduct();
 
         echo json_encode(array("isUpdated" => $updateResult));
@@ -287,8 +285,8 @@ if (isset($_POST["deleteProductId"])) {
 
     $productsHandle = new Products();
     $productsHandle->setProductId($productId);
-    $deleteProductResponse = $productsHandle->deleteProduct();
+    $deleteResult = $productsHandle->deleteProduct();
 
-    echo json_encode(array("isDeleted" => $deleteProductResponse));
+    echo json_encode(array("isDeleted" => $deleteResult));
 }
 ?>

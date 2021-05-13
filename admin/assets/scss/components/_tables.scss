@@ -48,6 +48,7 @@
 
         & > i {
           left: -0.3rem;
+          color: rgba(getMap($colors, text-color), 0.9);
         }
       }
 
