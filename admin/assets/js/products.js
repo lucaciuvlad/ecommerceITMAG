@@ -27,7 +27,6 @@ import { isEmpty, showError, hideError } from "./validations.js";
 const optionsToggles = document.querySelectorAll(".dropdown__tab");
 const actionDropdowns = document.querySelectorAll(".dropdown__actions");
 
-// Product Functionality Triggers
 const productFunctionalities = () => {
   // Toggle Table Data Dropdowns
   optionsToggles.forEach((optionToggle, index) => {
@@ -280,8 +279,7 @@ const updateNetPrice = (input, taxSpan, netPriceValue) => {
   }
 };
 
-// BACKEND REQUESTS
-// Insert Product
+// Insert Product Request
 const insertProduct = () => {
   const request = serverRequest();
 
@@ -366,7 +364,6 @@ const insertProduct = () => {
   request.send(formData);
 };
 
-// Insert Product Functionality Triggers
 const insertProductFunctionalities = () => {
   // Show Insert Modal Form
   addProductBtn.addEventListener("click", () => {
@@ -683,7 +680,6 @@ if (document.querySelectorAll(".productUpdate")) {
   updateForms = Array.from(document.querySelectorAll(".productUpdate"));
 }
 
-// Update Product Functionality Triggers
 const updateProductFunctionalities = () => {
   // Functionalities For Each Update Modal Form
   updateProductBtns.forEach((updateProductBtn, index) => {
@@ -1347,17 +1343,16 @@ if (document.querySelector(".modal.delete")) {
   closeModal = modalConfirmation.querySelector(".modal__close");
 }
 
-// Delete Product Functionalities Trigger
 const deleteProductFunctionalities = () => {
-  deleteProductBtns.forEach((deleteProductButton) => {
-    deleteProductButton.addEventListener("click", () => {
+  deleteProductBtns.forEach((deleteProductBtn) => {
+    deleteProductBtn.addEventListener("click", () => {
       // Show Modal Deletion Confirmation
       addCssClass(modalConfirmation, "active");
 
       // Remove Any Active Action Dropdown
-      actionDropdowns.forEach((ActionDropdown) => {
-        if (ActionDropdown.classList.contains("active")) {
-          removeCssClass(ActionDropdown, "active");
+      actionDropdowns.forEach((actionDropdown) => {
+        if (actionDropdown.classList.contains("active")) {
+          removeCssClass(actionDropdown, "active");
         } else {
           return;
         }
@@ -1376,7 +1371,7 @@ const deleteProductFunctionalities = () => {
 
       // Product Deletion
       confirmBtn.addEventListener("click", () => {
-        const productId = deleteProductButton.dataset.productId;
+        const productId = deleteProductBtn.dataset.productId;
 
         const request = serverRequest();
 

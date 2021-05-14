@@ -1,8 +1,11 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["adminName"]))
+if (!isset($_SESSION["adminName"])) {
     header("location: login.php");
+}
+
+require_once("./classes/dashboard.class.php");
 ?>
 
 <!DOCTYPE html>
@@ -33,11 +36,19 @@ if (!isset($_SESSION["adminName"]))
             <h1> Panou de control </h1>
         </div>
 
+        <?php
+        $dashboardHandler = new Dashboard();
+        $productsNumber = $dashboardHandler->getProductsNumber();
+        $adminsNumber = $dashboardHandler->getAdminsNumber();
+        $categoriesNumber = $dashboardHandler->getCategoriesNumber();
+        $brandsNumber = $dashboardHandler->getBrandsNumber();
+        ?>
+
         <div class="dashboard__cards">
             <div class="dashboard__cards__card">
                 <div class="info">
-                    <p> Total Produse </p>
-                    <span> 3100 </span>
+                    <p> Produse </p>
+                    <span> <?php echo $productsNumber; ?> </span>
                 </div>
                 <div class="icon">
                     <i class="fa fa-pie-chart" aria-hidden="true"></i>
@@ -45,16 +56,25 @@ if (!isset($_SESSION["adminName"]))
             </div>
             <div class="dashboard__cards__card">
                 <div class="info">
-                    <p> Total Clienti </p>
-                    <span> 200 </span>
+                    <p> Categorii </p>
+                    <span> <?php echo $categoriesNumber; ?> </span>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <i class="fa fa-pie-chart" aria-hidden="true"></i>
                 </div>
             </div>
             <div class="dashboard__cards__card">
                 <div class="info">
-                    <p> Total Vanzari </p>
+                    <p> Producatori </p>
+                    <span> <?php echo $brandsNumber; ?> </span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="dashboard__cards__card">
+                <div class="info">
+                    <p> Vanzari </p>
                     <span> 10 000 Lei </span>
                 </div>
                 <div class="icon">
@@ -63,11 +83,29 @@ if (!isset($_SESSION["adminName"]))
             </div>
             <div class="dashboard__cards__card">
                 <div class="info">
-                    <p> Numar Comenzi </p>
+                    <p> Comenzi </p>
                     <span> 100 </span>
                 </div>
                 <div class="icon">
                     <i class="fa fa-handshake-o" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="dashboard__cards__card">
+                <div class="info">
+                    <p> Clienti </p>
+                    <span> 200 </span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="dashboard__cards__card">
+                <div class="info">
+                    <p> Admini </p>
+                    <span> <?php echo $adminsNumber; ?> </span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-users" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
