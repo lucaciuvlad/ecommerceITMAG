@@ -39,6 +39,11 @@ require_once("classes/brands.class.php");
     <main class="brands">
         <h1> Toti producatorii </h1>
 
+        <button class="addBtn">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <span> Adauga un nou producator </span>
+        </button>
+
         <?php
         if ($brands->num_rows == 0) :
         ?>
@@ -119,21 +124,6 @@ require_once("classes/brands.class.php");
             </div>
         </div>
 
-        <div class="modal delete">
-            <div class="modal__close">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-
-            <div class="modal__content">
-                <div class="modal__confirmation">
-                    <p> Esti sigur ca vrei sa stergi producatorul? </p>
-                    <div class="modal__confirmation__actions">
-                        <button type="button" id="confirm"> Da </button>
-                        <button type="button" id="reject"> Nu </button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <?php endforeach; ?>
 
         <div class="modal insert">
@@ -157,12 +147,29 @@ require_once("classes/brands.class.php");
                 <button type="button" class="close"> Anuleaza </button>
             </div>
         </div>
-
-        <button class="addBtn">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            <span> Adauga un nou producator </span>
-        </button>
     </main>
+
+    <?php
+    foreach ($brands as $brand) :
+    ?>
+
+    <div class="modal delete">
+        <div class="modal__close">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+
+        <div class="modal__content">
+            <div class="modal__confirmation">
+                <p> Esti sigur ca vrei sa stergi producatorul? </p>
+                <div class="modal__confirmation__actions">
+                    <button type="button" id="confirm"> Da </button>
+                    <button type="button" id="reject"> Nu </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php endforeach; ?>
 
     <script src="./assets/js/navigationBar.js" type="module"></script>
     <script src="./assets/js/brands.js" type="module"></script>

@@ -1,8 +1,11 @@
 <?php
-session_start();
+// Logout
+if (isset($_POST["logout"])) {
+    session_start();
+    $logout = $_POST["logout"];
 
-if (isset($_SESSION["client"])) {
-    session_destroy();
-
-    header("location: index.php");
+    if ($logout) {
+        session_destroy();
+        echo json_encode(array("isLoggedOut" => true));
+    }
 }

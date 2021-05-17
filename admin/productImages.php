@@ -5,21 +5,17 @@ if (!isset($_SESSION["adminName"])) {
     header("location: login.php");
 }
 
-if (!isset($_GET["productID"])) {
-    header("location: products.php");
-}
-?>
-
-<?php
 require_once "classes/products.class.php";
 require_once "classes/productImages.class.php";
 
-if (isset($_GET["productID"])) {
+if (!isset($_GET["productID"])) {
+    header("location: products.php");
+} else {
     $productID = htmlentities($_GET["productID"]);
 
     $productHandle = new Products();
     $productHandle->setProductId($productID);
-    $productInfo = $productHandle->selectProducts()->fetch_assoc();
+    $productInfo = $productHandle->selectProduct()->fetch_assoc();
 
     $productImagesHandle = new ProductImages();
     $productImagesHandle->setProductId($productID);
@@ -56,6 +52,7 @@ if (isset($_GET["productID"])) {
         <?php if ($productImages->num_rows == 0) : ?>
         <p class="error <?php echo 'active'; ?>"> Momentan nu exista nicio imagine asociata produsului </p>
         <?php else : ?>
+
 
         <table class="table">
             <thead>
@@ -110,28 +107,6 @@ if (isset($_GET["productID"])) {
         </table>
         <?php endif; ?>
 
-        <?php
-        foreach ($productImages as $productImage) :
-        ?>
-
-        <div class="modal delete">
-            <div class="modal__close">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-
-            <div class="modal__content">
-                <div class="modal__confirmation">
-                    <p> Esti sigur ca vrei sa stergi imaginea produsului? </p>
-                    <div class="modal__confirmation__actions">
-                        <button type="button" id="confirm"> Da </button>
-                        <button type="button" id="reject"> Nu </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <?php endforeach; ?>
-
         <div class="modal insert">
             <div class="modal__close">
                 <i class="fa fa-times" aria-hidden="true"></i>
@@ -174,6 +149,28 @@ if (isset($_GET["productID"])) {
             <span> Adauga o noua imagine </span>
         </button>
     </main>
+
+    <?php
+    foreach ($productImages as $productImage) :
+    ?>
+
+    <div class="modal delete">
+        <div class="modal__close">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+
+        <div class="modal__content">
+            <div class="modal__confirmation">
+                <p> Esti sigur ca vrei sa stergi imaginea produsului? </p>
+                <div class="modal__confirmation__actions">
+                    <button type="button" id="confirm"> Da </button>
+                    <button type="button" id="reject"> Nu </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php endforeach; ?>
 
     <script src="assets/js/productImages.js" type="module"></script>
 </body>

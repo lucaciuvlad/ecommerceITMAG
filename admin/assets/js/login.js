@@ -94,6 +94,18 @@ const loginFunctionalities = () => {
   });
 
   // Password
+  passwordLabel.addEventListener("click", () => {
+    addCssClass(passwordInputWrapper, "active");
+  });
+
+  passwordInput.addEventListener("keyup", () => {
+    passwordValidation();
+  });
+
+  passwordInput.addEventListener("focus", () => {
+    addCssClass(passwordInputWrapper, "active");
+  });
+
   passwordInput.addEventListener("keyup", () => {
     passwordValidation();
   });

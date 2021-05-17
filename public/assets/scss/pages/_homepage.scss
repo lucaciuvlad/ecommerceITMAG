@@ -1,0 +1,258 @@
+#homepage {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  transform: scale(0.8);
+  opacity: 0;
+  transition: getMap($transitions, transform), getMap($transitions, opacity);
+
+  &.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.product {
+  width: 95%;
+  margin: 0.5rem auto;
+
+  @include mq(medium) {
+    width: 100%;
+    padding: 0 2rem;
+  }
+
+  @include mq(desktop) {
+    padding: 0 5rem;
+  }
+
+  & > h1 {
+    height: 3rem;
+    display: flex;
+    align-items: center;
+  }
+
+  &__carousel {
+    width: 100%;
+    height: 20rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+
+    &__slider {
+      min-width: 100%;
+      height: 100%;
+      display: flex;
+      transition: getMap($transitions, transform);
+
+      &__slide {
+        min-width: 11.71rem;
+        height: 100%;
+        padding: 0;
+        margin-right: 0.8rem;
+        position: relative;
+        border: 1px solid getMap($colors, primary-color);
+        border-radius: $border-radius;
+        transition: getMap($transitions, box-shadow);
+
+        &:hover {
+          box-shadow: 0 0 1rem rgba(getMap($colors, text-color), 0.8);
+        }
+
+        & > .promoIndicator {
+          position: absolute;
+          padding: 0.5rem;
+          background-color: getMap($colors, danger-color);
+          border-top-left-radius: $border-radius;
+
+          & > span {
+            color: #fff;
+            font-size: 0.8rem;
+          }
+        }
+
+        & > .addToFav {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+          background-color: transparent;
+          cursor: pointer;
+
+          &:hover > .tooltip {
+            visibility: visible;
+            opacity: 1;
+          }
+
+          & > i {
+            font-size: 1.4rem;
+            font-weight: 1000;
+            color: getMap($colors, danger-color);
+          }
+
+          & > .tooltip {
+            width: 9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            right: calc(100% + 1rem);
+
+            & > i {
+              right: -0.3rem;
+              color: rgba(getMap($colors, text-color), 0.9);
+            }
+          }
+        }
+
+        & > .productImage {
+          width: 100%;
+          height: 45%;
+
+          & > img {
+            width: 100%;
+            height: 100%;
+            padding: 0.5rem;
+            object-fit: contain;
+          }
+        }
+
+        & > .productName {
+          width: 100%;
+          height: 20%;
+          padding: 0 0.3rem;
+          display: flex;
+          align-items: center;
+          text-align: center;
+
+          & > p {
+            font-weight: 1000;
+          }
+        }
+
+        & > .productRating {
+          width: 100%;
+          height: 10%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          & > i {
+            margin: 0 0.3rem;
+            color: getMap($colors, star-color);
+          }
+        }
+
+        & > .productPrice {
+          width: 100%;
+          height: 15%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          & > p {
+            display: flex;
+            align-items: flex-start;
+            margin: 0 0.5rem;
+
+            &.oldPrice {
+              text-decoration: line-through;
+
+              &.hidden {
+                display: none;
+              }
+            }
+
+            &.newPrice {
+              color: getMap($colors, danger-color);
+
+              & > span {
+                font-size: 1.05rem;
+                font-weight: 1000;
+              }
+            }
+
+            & > span {
+              font-size: 0.9rem;
+            }
+
+            & > sup {
+              font-size: 0.65rem;
+            }
+          }
+        }
+
+        & > .addToCart {
+          width: 100%;
+          height: 10%;
+          position: relative;
+          background-color: rgba(getMap($colors, primary-color), 0.8);
+          cursor: pointer;
+          transition: getMap($transitions, bg-color);
+
+          &:hover {
+            background-color: getMap($colors, primary-color);
+          }
+
+          &::before {
+            content: "\f07a";
+            font-family: "FontAwesome";
+            font-size: 1.4rem;
+            position: absolute;
+            top: 50%;
+            left: 0.5rem;
+            transform: translateY(-50%);
+            color: #fff;
+          }
+
+          & > span {
+            color: #fff;
+          }
+        }
+      }
+    }
+
+    & > button {
+      display: none;
+      position: absolute;
+      padding: 1rem;
+      background-color: rgba(getMap($colors, primary-color), 0.8);
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      transition: getMap($transitions, bg-color);
+      border-radius: $border-radius;
+
+      @include mq(desktop) {
+        display: block;
+      }
+
+      & > i {
+        color: #fff;
+      }
+
+      &:hover {
+        background-color: getMap($colors, primary-color);
+      }
+
+      &.leftBtn {
+        left: 0;
+        transition: getMap($transitions, visibility),
+          getMap($transitions, opacity);
+
+        &.hidden {
+          visibility: hidden;
+          opacity: 0;
+        }
+      }
+
+      &.rightBtn {
+        right: 0;
+        transition: getMap($transitions, visibility),
+          getMap($transitions, opacity);
+
+        &.hidden {
+          visibility: hidden;
+          opacity: 0;
+        }
+      }
+    }
+  }
+}

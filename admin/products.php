@@ -4,6 +4,7 @@ session_start();
 if (!isset($_SESSION["adminName"])) {
     header("location: login.php");
 }
+
 require_once("classes/products.class.php");
 require_once("classes/brands.class.php");
 require_once("classes/categories.class.php");
@@ -46,6 +47,11 @@ require_once("classes/categories.class.php");
     <main class="products">
         <h1> Toate produsele </h1>
 
+        <button class="addBtn">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <span> Adauga un produs nou </span>
+        </button>
+
         <?php
         if ($products->num_rows == 0) :
         ?>
@@ -61,9 +67,7 @@ require_once("classes/categories.class.php");
                     <th> Categorie produs </th>
                     <th> Brand produs </th>
                     <th> Pret total </th>
-                    <?php if ($products->fetch_assoc()["product_old_price"] != null) : ?>
                     <th> Pret redus </th>
-                    <?php endif; ?>
                     <th> Stoc </th>
                     <th> Optiuni </th>
                 </tr>
@@ -73,7 +77,7 @@ require_once("classes/categories.class.php");
                     foreach ($products as $product) :
                     ?>
                 <tr>
-                    <td> <?php echo $product["product_name"]; ?> </td>
+                    <td class="prName"> <?php echo $product["product_name"]; ?> </td>
 
                     <td> <?php echo $product["category_name"] ?> </td>
 
@@ -81,9 +85,16 @@ require_once("classes/categories.class.php");
 
                     <td> <?php echo $product["product_price"]; ?> Lei </td>
 
-                    <?php if ($product["product_old_price"] != null) : ?>
-                    <td> <?php echo $product["product_old_price"]; ?> </td>
-                    <?php endif; ?>
+                    <td>
+                        <?php if ($product["product_old_price"] != null) {
+                                    echo $product["product_old_price"];
+                                } else {
+                                    echo "0";
+                                }
+                                ?>
+                        Lei
+                    </td>
+
 
                     <td> <?php echo $product["product_stock"] ?> </td>
 
@@ -302,21 +313,6 @@ require_once("classes/categories.class.php");
             </div>
         </div>
 
-        <div class="modal delete">
-            <div class="modal__close">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-
-            <div class="modal__content">
-                <div class="modal__confirmation">
-                    <p> Esti sigur ca vrei sa stergi categoria? </p>
-                    <div class="modal__confirmation__actions">
-                        <button type="button" id="confirm"> Da </button>
-                        <button type="button" id="reject"> Nu </button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <?php endforeach; ?>
 
         <div class="modal insert">
@@ -473,12 +469,29 @@ require_once("classes/categories.class.php");
                 <button type="button" class="close"> Anuleaza </button>
             </div>
         </div>
-
-        <button class="addBtn">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            <span> Adauga un produs nou </span>
-        </button>
     </main>
+
+    <?php
+    foreach ($products as $product) :
+    ?>
+
+    <div class="modal delete">
+        <div class="modal__close">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+
+        <div class="modal__content">
+            <div class="modal__confirmation">
+                <p> Esti sigur ca vrei sa stergi categoria? </p>
+                <div class="modal__confirmation__actions">
+                    <button type="button" id="confirm"> Da </button>
+                    <button type="button" id="reject"> Nu </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php endforeach; ?>
 
     <script src="./assets/js/navigationBar.js" type="module"></script>
     <script src="./assets/js/products.js" type="module"></script>

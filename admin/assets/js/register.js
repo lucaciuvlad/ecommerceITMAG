@@ -106,8 +106,6 @@ const registerAdmin = () => {
 
       const response = JSON.parse(request.response);
 
-      console.log(response);
-
       if (response.isRegistered) {
         showNotification(
           "Te-ai inregistrat cu succes! Un email de confirmare a contului fost trimis!",
@@ -115,6 +113,12 @@ const registerAdmin = () => {
           3000,
           null
         );
+      }
+
+      if (response.firstName != null) {
+        showError(firstNameArr, firstNameErrorMsg, response.firstName);
+      } else {
+        hideError(firstNameArr, firstNameErrorMsg);
       }
 
       if (response.lastName != null) {

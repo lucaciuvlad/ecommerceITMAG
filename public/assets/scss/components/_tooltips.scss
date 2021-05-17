@@ -1,0 +1,25 @@
+.tooltip {
+  padding: 0 0.5rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  background-color: rgba(getMap($colors, text-color), 0.9);
+  border-radius: $border-radius;
+  z-index: 9;
+  visibility: hidden;
+  opacity: 0;
+  transition: getMap($transitions, visibility), getMap($transitions, opacity);
+
+  & > i {
+    position: absolute;
+    z-index: -1;
+    font-size: 1rem;
+  }
+
+  & > p {
+    font-size: 0.75rem;
+    color: #fff;
+  }
+}

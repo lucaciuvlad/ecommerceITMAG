@@ -1,0 +1,198 @@
+#login,
+#register {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.8);
+  opacity: 0;
+  transition: getMap($transitions, transform), getMap($transitions, opacity);
+
+  &.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.login,
+.register {
+  width: 90%;
+  height: 100%;
+  margin: 0 auto;
+
+  @include mq(medium) {
+    width: 50%;
+  }
+
+  @include mq(large) {
+    width: 40%;
+  }
+
+  & > header {
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & > a {
+      width: 3rem;
+      height: 100%;
+      position: relative;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+
+  & > section {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  &__option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    & > a {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.form {
+  width: 98%;
+  margin: 0 auto;
+
+  &__group {
+    position: relative;
+  }
+
+  &__field {
+    // For Register Password Field
+    &__wrapper {
+      &.pw {
+        width: 100%;
+        height: 2rem;
+        margin: 0.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        border: 1px solid getMap($colors, text-color);
+        border-radius: $border-radius;
+        transition: getMap($transitions, border-color);
+
+        &.active {
+          border-color: getMap($colors, primary-color);
+        }
+
+        &.error {
+          border-color: getMap($colors, danger-color);
+        }
+
+        & > input {
+          width: 100%;
+          height: 100%;
+          padding: 0 0.5rem;
+          border-radius: $border-radius;
+        }
+
+        & > i {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 1rem;
+          cursor: pointer;
+        }
+      }
+    }
+
+    &__helper {
+      position: absolute;
+      top: -10rem;
+      left: -0.3rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: getMap($colors, primary-color);
+      box-shadow: 0 0 0.3rem getMap($colors, text-color);
+      border-radius: $border-radius;
+      z-index: 9;
+      transform: scale(0.8);
+      visibility: hidden;
+      opacity: 0;
+      transition: getMap($transitions, transform),
+        getMap($transitions, visibility), getMap($transitions, opacity);
+
+      @include mq(desktop) {
+        width: 70%;
+        left: 105%;
+        top: -110%;
+      }
+
+      &.active {
+        transform: scale(1);
+        visibility: visible;
+        opacity: 1;
+      }
+
+      &::after {
+        content: "\f0d7";
+        font-family: "FontAwesome";
+        font-size: 1.3rem;
+        position: absolute;
+        top: 94%;
+        z-index: -1;
+        left: 1.3rem;
+        color: getMap($colors, primary-color);
+
+        @include mq(desktop) {
+          left: -0.5rem;
+          top: 80%;
+          transform: rotate(90deg);
+        }
+      }
+
+      & > p {
+        color: #fff;
+        font-size: 0.85rem;
+      }
+
+      & > ul {
+        margin-top: 0.5rem;
+        list-style-type: initial;
+        list-style-position: inside;
+
+        & > li {
+          color: #fff;
+          padding: 0.2rem 0;
+          transition: getMap($transitions, color);
+
+          &.error {
+            color: getMap($colors, danger-color);
+          }
+        }
+      }
+    }
+  }
+
+  // For Login Password Field
+  &__wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

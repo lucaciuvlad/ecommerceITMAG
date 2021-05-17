@@ -38,10 +38,11 @@ require_once("./classes/dashboard.class.php");
 
         <?php
         $dashboardHandler = new Dashboard();
-        $productsNumber = $dashboardHandler->getProductsNumber();
-        $adminsNumber = $dashboardHandler->getAdminsNumber();
-        $categoriesNumber = $dashboardHandler->getCategoriesNumber();
-        $brandsNumber = $dashboardHandler->getBrandsNumber();
+        $productsNumber = $dashboardHandler->getEntriesNumber("products", "productsNumber");
+        $adminsNumber = $dashboardHandler->getEntriesNumber("admins", "adminsNumber");
+        $usersNumber = $dashboardHandler->getEntriesNumber("users", "usersNumber");
+        $categoriesNumber = $dashboardHandler->getEntriesNumber("categories", "categoriesNumber");
+        $brandsNumber = $dashboardHandler->getEntriesNumber("brands", "brandsNumber");
         ?>
 
         <div class="dashboard__cards">
@@ -93,7 +94,7 @@ require_once("./classes/dashboard.class.php");
             <div class="dashboard__cards__card">
                 <div class="info">
                     <p> Clienti </p>
-                    <span> 200 </span>
+                    <span> <?php echo $usersNumber; ?> </span>
                 </div>
                 <div class="icon">
                     <i class="fa fa-users" aria-hidden="true"></i>

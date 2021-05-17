@@ -1,5 +1,5 @@
 i {
-  color: getMap($colors, text-color-light);
+  color: getMap($colors, primary-color);
   transition: getMap($transitions, color);
 
   &.fa-times,

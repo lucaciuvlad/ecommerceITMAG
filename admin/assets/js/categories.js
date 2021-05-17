@@ -127,6 +127,11 @@ const insertCategoryFunctionalities = () => {
   // Show Insert Modal Form
   addCategoryBtn.addEventListener("click", () => {
     addCssClass(insertFormModal, "active");
+
+    // Hide Table Action Dropdown
+    actionDropdowns.forEach((actionDropdown) => {
+      removeCssClass(actionDropdown, "active");
+    });
   });
 
   // Hide Insert Modal Form

@@ -56,7 +56,11 @@ const searchEngine = () => {
           const item = createElement("li", null, null);
           appendElement(item, searchResultsList);
 
-          const link = createElement("a", "href", "products.php");
+          const link = createElement(
+            "a",
+            "href",
+            `search.php?productID=${response.product_id[i]}`
+          );
           appendElement(link, item);
 
           const image = createElement(

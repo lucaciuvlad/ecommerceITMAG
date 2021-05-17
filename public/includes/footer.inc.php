@@ -1,3 +1,3 @@
 <footer>
-    <span> ITMAG - Copyright © <?php echo date("Y"); ?> </span>
+    <p> ITMAG &copy; <?php echo date("Y"); ?> </p>
 </footer>

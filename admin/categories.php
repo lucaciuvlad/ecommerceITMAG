@@ -39,6 +39,11 @@ require_once("classes/categories.class.php");
     <main class="categories">
         <h1> Toate categoriile </h1>
 
+        <button class="addBtn">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <span> Adauga o noua categorie </span>
+        </button>
+
         <?php
         if ($categories->num_rows == 0) :
         ?>
@@ -142,21 +147,6 @@ require_once("classes/categories.class.php");
             </div>
         </div>
 
-        <div class="modal delete">
-            <div class="modal__close">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-
-            <div class="modal__content">
-                <div class="modal__confirmation">
-                    <p> Esti sigur ca vrei sa stergi categoria? </p>
-                    <div class="modal__confirmation__actions">
-                        <button type="button" id="confirm"> Da </button>
-                        <button type="button" id="reject"> Nu </button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <?php endforeach; ?>
 
         <div class="modal insert">
@@ -194,12 +184,29 @@ require_once("classes/categories.class.php");
                 <button type="button" class="close"> Anuleaza </button>
             </div>
         </div>
-
-        <button class="addBtn">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            <span> Adauga o noua categorie </span>
-        </button>
     </main>
+
+    <?php
+    foreach ($categories as $category) :
+    ?>
+
+    <div class="modal delete">
+        <div class="modal__close">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+
+        <div class="modal__content">
+            <div class="modal__confirmation">
+                <p> Esti sigur ca vrei sa stergi categoria? </p>
+                <div class="modal__confirmation__actions">
+                    <button type="button" id="confirm"> Da </button>
+                    <button type="button" id="reject"> Nu </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php endforeach; ?>
 
     <script src="./assets/js/navigationBar.js" type="module"></script>
     <script src="./assets/js/categories.js" type="module"></script>

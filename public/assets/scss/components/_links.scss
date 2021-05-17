@@ -6,24 +6,4 @@ a {
   &:hover {
     color: getMap($colors, primary-color);
   }
-
-  &.highlighted {
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 1px;
-      background-color: getMap($colors, text-color);
-      transition: getMap($transitions, width);
-    }
-
-    &:hover::after {
-      width: 100%;
-    }
-  }
 }

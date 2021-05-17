@@ -1,0 +1,40 @@
+.loader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(getMap($colors, text-color), 0.5);
+  visibility: hidden;
+  opacity: 0;
+  z-index: 9999;
+  backdrop-filter: blur(0);
+  transition: getMap($transitions, visibility), getMap($transitions, opacity),
+    getMap($transitions, bd-filter);
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+    backdrop-filter: blur(2px);
+  }
+
+  & > div {
+    width: 1rem;
+    height: 1rem;
+    background-color: #fff;
+    border-radius: 50%;
+    margin: 0 0.5rem;
+    animation: loadingBounce 1s ease-in infinite backwards;
+
+    &:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+  }
+}

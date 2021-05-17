@@ -103,8 +103,6 @@ export {
   insertBeforeElement,
   debounce,
   serverRequest,
-  notification,
-  notificationMsg,
   showNotification,
   delayShowingMainContainer,
 };

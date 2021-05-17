@@ -368,6 +368,11 @@ const insertProductFunctionalities = () => {
   // Show Insert Modal Form
   addProductBtn.addEventListener("click", () => {
     addCssClass(insertFormModal, "active");
+
+    // Hide Table Action Dropdown
+    actionDropdowns.forEach((actionDropdown) => {
+      removeCssClass(actionDropdown, "active");
+    });
   });
 
   // Hide Insert Modal Form
@@ -604,7 +609,10 @@ const insertProductFunctionalities = () => {
           productOldPriceErrMsg,
           "Campul este obligatoriu!"
         );
-      } else if (productOldPriceInput.value <= productFullPriceInput.value) {
+      } else if (
+        parseFloat(productOldPriceInput.value) <=
+        parseFloat(productFullPriceInput.value)
+      ) {
         showError(
           productOldPriceArr,
           productOldPriceErrMsg,
@@ -1259,8 +1267,8 @@ const updateProductFunctionalities = () => {
               "Campul este obligatoriu!"
             );
           } else if (
-            updateProductOldPriceInput.value <=
-            updateProductFullPriceInput.value
+            parseFloat(updateProductOldPriceInput.value) <=
+            parseFloat(updateProductFullPriceInput.value)
           ) {
             showError(
               updateProductOldPriceArr,

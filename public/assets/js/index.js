@@ -1,163 +1,207 @@
 import {
-    createHTMLElement,
-    appendHTMLElement,
-    setActive,
-    removeActive,
-    overlay
+  addCssClass,
+  removeCssClass,
+  toggleCssClass,
+  serverRequest,
+  showNotification,
 } from "./global.js";
 
-overlay.style.height = `${document.body.clientHeight}px`;
+const homepage = document.querySelector("#homepage");
+toggleCssClass(homepage, "active");
 
-const productCarousels = document.querySelectorAll(".product-carousel");
+// Product Carousel
+const sliders = document.querySelectorAll(".product__carousel__slider");
 
-// Functionalities For All Carousels
-productCarousels.forEach(ProductCarousel => {
-    const slider = ProductCarousel.querySelector(".product-carousel__slider");
+sliders.forEach((slider) => {
+  const nextBtn = slider.parentElement.querySelector(".rightBtn");
+  const prevBtn = slider.parentElement.querySelector(".leftBtn");
+  const slides = Array.from(slider.children);
 
-    const cards = ProductCarousel.querySelectorAll(".product-carousel__slider__slide");
-    const oneCardWidth = cards[0].clientWidth + 10;
+  // Slider Initial Styles | Values
+  const oneSlideWidth = slides[0].clientWidth;
+  const oneSlideMargin = parseFloat(
+    window
+      .getComputedStyle(slides[0])
+      .getPropertyValue("margin")
+      .split(" ")[1]
+      .trim()
+  );
+  slider.style.width = `${
+    oneSlideWidth * slides.length + oneSlideMargin * slides.length
+  }px`;
+  addCssClass(prevBtn, "hidden");
 
-    const prevBtn = ProductCarousel.querySelector(".product-carousel>i.fa-chevron-left");
-    const nextBtn = ProductCarousel.querySelector(".product-carousel>i.fa-chevron-right");
+  // Slider Functionalities
+  let initialTouch = null;
+  let currentTouch = null;
+  let differenceTouch = null;
+  let translatedValue = 0;
+  let moving = false;
 
-    const bulletsContainer = ProductCarousel.querySelector(".product-carousel__bullets");
+  const startGesture = (e) => {
+    e.preventDefault();
 
-    // Generate Bullet Navigation For Product Carousel
-    const generateProductCarouselBullets = () => {
-        for (let i = 6; i <= cards.length; i += 6) {
-            const bullet = createHTMLElement("div", null);
-            appendHTMLElement(bulletsContainer, bullet);
-        }
-    };
-    generateProductCarouselBullets();
+    initialTouch = e.pageX;
+    moving = true;
 
-    // Set And Data Custom Attribute With The Proper Index For Each Bullet
-    const productCarouselBullets = Array.from(bulletsContainer.children);
-    productCarouselBullets.forEach((Bullet, Index) => {
-        Bullet.setAttribute("data-index", `${Index}`);
+    const transformMatrix = window
+      .getComputedStyle(slider)
+      .getPropertyValue("transform");
+
+    if (transformMatrix != "none") {
+      translatedValue = parseFloat(transformMatrix.split(",")[4].trim());
+    }
+  };
+
+  const moveGesture = (e) => {
+    e.preventDefault();
+
+    if (moving) {
+      currentTouch = e.pageX;
+      differenceTouch = initialTouch - currentTouch;
+
+      slider.style.transform = `translateX(${
+        -differenceTouch + translatedValue
+      }px)`;
+    }
+  };
+
+  const endGesture = (e) => {
+    e.preventDefault();
+    moving = false;
+
+    const transformed = -differenceTouch + translatedValue;
+    let visibleSlides = 0;
+
+    if (transformed > 0) {
+      slider.style.transform = `translateX(0px)`;
+      addCssClass(prevBtn, "hidden");
+      removeCssClass(nextBtn, "hidden");
+
+      moving = false;
+    }
+
+    if (window.innerWidth >= 1200) {
+      visibleSlides = 5.95;
+
+      if (
+        transformed <
+        -(
+          slider.clientWidth -
+          oneSlideWidth * visibleSlides -
+          oneSlideMargin * visibleSlides
+        )
+      ) {
+        slider.style.transform = `translateX(${-(
+          slider.clientWidth -
+          oneSlideWidth * visibleSlides -
+          oneSlideMargin * visibleSlides
+        )}px)`;
+
+        addCssClass(nextBtn, "hidden");
+        removeCssClass(prevBtn, "hidden");
+
+        moving = false;
+      }
+    }
+
+    if (window.innerWidth < 768) {
+      visibleSlides = 2.26;
+
+      if (
+        transformed <
+        -(
+          slider.clientWidth -
+          oneSlideWidth * visibleSlides -
+          oneSlideMargin * visibleSlides
+        )
+      ) {
+        slider.style.transform = `translateX(${-(
+          slider.clientWidth -
+          oneSlideWidth * visibleSlides -
+          oneSlideMargin * visibleSlides
+        )}px)`;
+
+        moving = false;
+      }
+    }
+  };
+
+  const nextSlides = (visibleSlides) => {
+    slider.style.transform = `translateX(${-(
+      slider.clientWidth -
+      oneSlideWidth * visibleSlides -
+      oneSlideMargin * visibleSlides
+    )}px)`;
+
+    slider.addEventListener("transitionend", () => {
+      addCssClass(nextBtn, "hidden");
+      removeCssClass(prevBtn, "hidden");
     });
+  };
 
+  const prevSlides = () => {
+    slider.style.transform = `translateX(0px)`;
+    slider.addEventListener("transitionend", () => {
+      addCssClass(prevBtn, "hidden");
+      removeCssClass(nextBtn, "hidden");
+    });
+  };
 
-    // Initialize The Slider
-    let sliderWidth = null;
+  // For Each Slider Functionality Triggers
+  slider.addEventListener("mousedown", (e) => {
+    startGesture(e);
+  });
 
-    const initializeSlider = () => {
-        setActive(nextBtn);
-        setActive(productCarouselBullets[0]);
+  slider.addEventListener("mousemove", (e) => {
+    moveGesture(e);
+  });
 
-        slider.style.width = `${oneCardWidth * cards.length}px`;
-        sliderWidth = parseInt(slider.style.width);
-    };
-    initializeSlider();
+  slider.addEventListener("mouseup", (e) => {
+    endGesture(e);
+  });
 
-    // Update Bullet Navigation Based On Current Slide Index
-    const updateProductCarouselBullets = SlideIndex => {
-        productCarouselBullets.forEach((Bullet, Index) => {
-            if (Bullet.classList.contains("active")) {
-                Bullet.classList.remove("active");
-            }
+  nextBtn.addEventListener("click", () => {
+    if (window.innerWidth >= 1200) {
+      nextSlides(5.95);
+    }
+  });
 
-            if (SlideIndex == Index) {
-                Bullet.classList.add("active");
-            }
-        });
-    };
+  prevBtn.addEventListener("click", prevSlides);
 
-    // Next Visible Cards Slide
-    let cardCounter = 0;
-    let slideCounter = 0;
+  // Product Price Formatting
+  const productOldFullPrices = slider.querySelectorAll(
+    "p.oldPrice > .oldFullPrice"
+  );
+  const productOldPriceDecimals = slider.querySelectorAll(
+    "p.oldPrice > .oldFullPriceDecimal"
+  );
 
-    const nextProductSlide = VisibleCards => {
-        let remainingCards = null;
+  const formatProductPrice = (productPrices, productDecimals) => {
+    productPrices.forEach((productPrice, index) => {
+      const fullProductPrice = productPrice.innerHTML;
+      let intPart = null;
+      let decimalPart = null;
 
-        if (VisibleCards !== null) {
-            remainingCards = VisibleCards;
-            cardCounter += VisibleCards;
-        } else {
-            cardCounter += 6;
-            slideCounter++;
-        }
+      if (productPrice.innerHTML.trim() == "") {
+        addCssClass(productPrice.parentElement, "hidden");
+      } else {
+        const dotPosition = fullProductPrice.search(/\./g);
+        intPart = fullProductPrice.slice(0, dotPosition);
+        decimalPart = fullProductPrice.slice(dotPosition + 1);
+      }
 
-        slider.style.transform = `translateX(-${oneCardWidth * cardCounter}px)`;
+      productPrice.innerHTML = intPart;
+      productDecimals[index].innerHTML = decimalPart;
+    });
+  };
+  formatProductPrice(productOldFullPrices, productOldPriceDecimals);
 
-        setActive(prevBtn);
-        updateProductCarouselBullets(slideCounter);
-
-        if (cardCounter == cards.length - remainingCards) {
-            removeActive(nextBtn);
-            return;
-        }
-    };
-
-    // Previous Visible Cards Slide
-    const prevProductSlide = VisibleCards => {
-        if (VisibleCards !== null) {
-            cardCounter -= VisibleCards;
-        } else {
-            cardCounter -= 6;
-            slideCounter--;
-        }
-
-        slider.style.transform = `translateX(-${oneCardWidth * cardCounter}px)`;
-
-        setActive(nextBtn);
-        updateProductCarouselBullets(slideCounter);
-
-        if (cardCounter == 0) {
-            removeActive(prevBtn);
-            return;
-        }
-    };
-
-    // Pointed Bullet Cards Slide
-    const pointedBulletSlide = e => {
-        const pointedBullet = e.target;
-
-        if (pointedBullet.dataset.index) {
-            const slideIndex = pointedBullet.dataset.index;
-
-            if (pointedBullet.classList.contains("active")) {
-                return;
-            }
-
-            if (slideIndex != 0) {
-                nextProductSlide(null);
-            } else {
-                prevProductSlide(null);
-            }
-        } else {
-            return;
-        }
-    };
-
-    // Index Functionalities Trigger
-    const indexFunctionalities = () => {
-        nextBtn.addEventListener("click", () => {
-            if (window.innerWidth < 768) {
-                nextProductSlide(3);
-            } else if (window.innerWidth >= 768 && window.innerWidth < 1200) {
-                nextProductSlide(4);
-            } else if (window.innerWidth >= 1200) {
-                nextProductSlide(null);
-
-                if (cardCounter == cards.length / 2) {
-                    removeActive(nextBtn);
-                    return;
-                }
-            }
-        });
-
-        prevBtn.addEventListener("click", () => {
-            if (window.innerWidth < 768) {
-                prevProductSlide(3);
-            } else if (window.innerWidth >= 768 && window.innerWidth < 1200) {
-                prevProductSlide(4);
-            } else if (window.innerWidth >= 1200) {
-                prevProductSlide(null);
-            }
-        });
-
-        bulletsContainer.addEventListener("click", pointedBulletSlide);
-    };
-    indexFunctionalities();
+  const productNewFullPrices = slider.querySelectorAll(
+    "p.newPrice > .newFullPrice"
+  );
+  const productNewPriceDecimals = slider.querySelectorAll(
+    "p.newPrice > .newFullPriceDecimal"
+  );
+  formatProductPrice(productNewFullPrices, productNewPriceDecimals);
 });

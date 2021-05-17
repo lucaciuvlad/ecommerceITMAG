@@ -1,0 +1,52 @@
+.notificationContainer {
+  width: 100%;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  background-color: transparent;
+  opacity: 0;
+  z-index: -1;
+  visibility: hidden;
+  transition: getMap($transitions, visibility), getMap($transitions, opacity);
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+    z-index: 9;
+  }
+
+  &__notification {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    padding: 0 0.5rem;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: getMap($colors, success-color);
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    transform: translateX(-50%);
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    transition: getMap($transitions, transform),
+      getMap($transitions, visibility), getMap($transitions, opacity);
+
+    &.error {
+      background-color: getMap($colors, danger-color);
+    }
+
+    &.active {
+      transform: translateX(0);
+      visibility: visible;
+      opacity: 1;
+    }
+
+    & > p {
+      padding: 1rem;
+      color: #fff;
+    }
+  }
+}

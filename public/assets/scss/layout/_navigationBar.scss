@@ -1,0 +1,650 @@
+.navbar {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  position: relative;
+  background-color: #fff;
+
+  @include mq(medium) {
+    padding: 0 2rem;
+  }
+
+  @include mq(desktop) {
+    height: 3rem;
+    padding: 0 5rem;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      getMap($colors, primary-color),
+      getMap($colors, secondary-color)
+    );
+  }
+
+  &__left {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    &__menu {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      & > button {
+        padding: 0.5rem;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: transparent;
+
+        &:hover > i {
+          color: getMap($colors, secondary-color);
+        }
+
+        &.active {
+          background-color: rgba(getMap($colors, secondary-color), 0.3);
+        }
+
+        & > i {
+          font-size: 1.3rem;
+
+          &.active {
+            color: getMap($colors, secondary-color);
+          }
+        }
+      }
+
+      &__categories {
+        width: 11.5rem;
+        position: absolute;
+        top: calc(100% + 1px);
+        left: 0;
+        background-color: getMap($colors, primary-color);
+        border-bottom-right-radius: $border-radius;
+        transform: translateX(-100%);
+        visibility: hidden;
+        opacity: 0;
+        transition: getMap($transitions, transform),
+          getMap($transitions, visibility), getMap($transitions, opacity);
+
+        @include mq(medium) {
+          transform: translateY(-1rem);
+          border-bottom-left-radius: $border-radius;
+
+          &.active {
+            transform: translateY(0);
+          }
+        }
+
+        &.active {
+          transform: translateX(0);
+          visibility: visible;
+          opacity: 1;
+          z-index: 9;
+        }
+
+        & > ul {
+          width: 100%;
+
+          & > li {
+            width: 100%;
+            height: 2.5rem;
+            padding: 0 0.7rem;
+
+            @include mq(medium) {
+              &.login {
+                display: none;
+              }
+            }
+
+            &:hover > a > span {
+              color: getMap($colors, text-color);
+            }
+
+            &:hover > a > i {
+              color: getMap($colors, text-color);
+            }
+
+            & > a {
+              width: 90%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+              color: #fff;
+
+              & > i {
+                width: 10%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-size: 1.3rem;
+                transition: getMap($transitions, color);
+
+                &.fa-user-o {
+                  font-size: 1.1rem;
+                }
+              }
+
+              & > span {
+                margin-left: 0.7rem;
+                transition: getMap($transitions, color);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &__home {
+      height: 100%;
+      display: flex;
+      align-items: center;
+
+      & > a {
+        width: 4rem;
+        height: 80%;
+
+        & > img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+
+  &__search {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    transform: translateY(-1rem);
+    z-index: -1;
+    visibility: hidden;
+    opacity: 0;
+    transition: getMap($transitions, transform), getMap($transitions, z-index),
+      getMap($transitions, visibility), getMap($transitions, opacity);
+
+    @include mq(medium) {
+      width: 60%;
+      margin: 0 auto;
+      position: static;
+      display: flex;
+      align-items: center;
+      z-index: 1;
+      transform: translateY(0);
+      visibility: visible;
+      opacity: 1;
+    }
+
+    @include mq(desktop) {
+      width: 55%;
+    }
+
+    &.active {
+      transform: translateY(0);
+      z-index: 9;
+      visibility: visible;
+      opacity: 1;
+    }
+
+    &__input {
+      width: 100%;
+      padding: 0 1.5rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      position: absolute;
+
+      @include mq(medium) {
+        height: 75%;
+        padding: 0 0.8rem;
+        border: 1px solid getMap($colors, primary-color);
+        border-radius: $border-radius;
+
+        &.activeSuggestions {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+
+        &::after {
+          display: none;
+        }
+      }
+
+      @include mq(desktop) {
+        height: 2.5rem;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          getMap($colors, primary-color),
+          getMap($colors, secondary-color)
+        );
+      }
+
+      & > input {
+        width: 84%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+        font-size: 1rem;
+
+        @include mq(medium) {
+          font-size: 0.85rem;
+        }
+
+        @include mq(desktop) {
+          width: 88%;
+        }
+      }
+
+      & > i {
+        width: 8%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: 1.2rem;
+        cursor: pointer;
+
+        @include mq(desktop) {
+          width: 6%;
+        }
+
+        &.fa-search:hover {
+          color: getMap($colors, secondary-color);
+          transition: getMap($transitions, color);
+        }
+
+        &.fa-times:hover {
+          color: getMap($colors, danger-color);
+          transition: getMap($transitions, color);
+        }
+
+        &.fa-times {
+          visibility: visible;
+          opacity: 1;
+
+          @include mq(medium) {
+            visibility: hidden;
+            opacity: 0;
+
+            &.active {
+              visibility: visible;
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+
+    &__suggestions {
+      width: 100%;
+      height: calc(100vh - 3rem - 1px);
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 0;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      transform: translateY(-1rem);
+      visibility: hidden;
+      opacity: 0;
+      transition: getMap($transitions, transform),
+        getMap($transitions, visibility), getMap($transitions, opacity);
+
+      @include mq(medium) {
+        height: auto;
+        top: calc(100% - 12.5%);
+        padding: 0 0.8rem;
+        border: 1px solid getMap($colors, primary-color);
+        border-radius: $border-radius;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-top: none;
+      }
+
+      @include mq(desktop) {
+        top: calc(100% - 0.25rem);
+      }
+
+      &.active {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+      }
+
+      & > span {
+        padding: 0.5rem 0;
+        font-weight: 1000;
+      }
+
+      & > ul {
+        width: 100%;
+
+        & > p {
+          height: 2rem;
+          display: flex;
+          align-items: center;
+        }
+
+        & > li {
+          width: 100%;
+          height: 3rem;
+          border-bottom: 1px solid rgba(getMap($colors, primary-color), 0.3);
+
+          & > a {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            color: getMap($colors, text-color);
+            transition: getMap($transitions, transform);
+
+            &:hover {
+              transform: translateX(0.2rem);
+            }
+
+            &:hover > span {
+              color: getMap($colors, primary-color);
+            }
+
+            & > img {
+              height: 100%;
+              object-fit: contain;
+            }
+
+            & > span {
+              transition: getMap($transitions, transform);
+            }
+          }
+        }
+      }
+
+      &__back {
+        width: 100%;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        bottom: 3rem;
+        left: 0;
+        cursor: pointer;
+
+        @include mq(medium) {
+          display: none;
+        }
+
+        &:hover > span {
+          color: getMap($colors, primary-color);
+        }
+
+        &:hover > i {
+          transform: translateX(-0.2rem);
+        }
+
+        & > span {
+          transition: getMap($transitions, color);
+        }
+
+        & > i {
+          margin-right: 0.5rem;
+          color: getMap($colors, primary-color);
+          transition: getMap($transitions, transform);
+        }
+      }
+    }
+  }
+
+  &__right {
+    margin-left: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    & > button {
+      width: 2.5rem;
+      height: 100%;
+      background-color: transparent;
+      cursor: pointer;
+
+      @include mq(medium) {
+        display: none;
+      }
+
+      &:hover > i {
+        color: getMap($colors, secondary-color);
+      }
+
+      &.active {
+        background-color: rgba(getMap($colors, secondary-color), 0.3);
+      }
+
+      & > i {
+        font-size: 1.3rem;
+
+        &.active {
+          color: getMap($colors, secondary-color);
+        }
+      }
+    }
+
+    &__user {
+      display: none;
+
+      @include mq(medium) {
+        display: flex;
+        height: 100%;
+        margin: 0 0.5rem;
+        position: relative;
+      }
+
+      & > a {
+        @include mq(medium) {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &.active {
+            color: getMap($colors, secondary-color);
+          }
+
+          &:hover {
+            color: getMap($colors, secondary-color);
+          }
+
+          &:hover > i {
+            color: getMap($colors, secondary-color);
+          }
+
+          & > i {
+            padding: 0.5rem;
+            font-size: 1.3rem;
+
+            &.active {
+              color: getMap($colors, secondary-color);
+            }
+          }
+        }
+
+        & > span {
+          display: none;
+
+          @include mq(desktop) {
+            display: flex;
+            padding: 0.2rem;
+            position: relative;
+
+            &::after {
+              content: "\f0d7";
+              font-family: "FontAwesome";
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              right: -0.5rem;
+            }
+          }
+        }
+      }
+
+      &__panel {
+        display: none;
+
+        @include mq(desktop) {
+          position: absolute;
+          top: calc(100% + 1px);
+          left: 0;
+          width: 10rem;
+          display: block;
+          background-color: getMap($colors, primary-color);
+          border-bottom-left-radius: $border-radius;
+          border-bottom-right-radius: $border-radius;
+          transform: translateY(-1rem);
+          visibility: hidden;
+          z-index: -1;
+          opacity: 0;
+          transition: getMap($transitions, transform),
+            getMap($transitions, visibility), getMap($transitions, z-index),
+            getMap($transitions, opacity);
+
+          &.active {
+            transform: translateY(0);
+            visibility: visible;
+            z-index: 9;
+            opacity: 1;
+          }
+
+          & > ul {
+            width: 100%;
+            padding: 0 0.7rem;
+            display: flex;
+            flex-direction: column;
+
+            & > li {
+              width: 100%;
+              height: 2.5rem;
+
+              & > a,
+              & > button {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                color: #fff;
+                transition: getMap($transitions, transform);
+                background-color: transparent;
+                cursor: pointer;
+
+                &:hover {
+                  transform: translateX(0.2rem);
+                }
+
+                &:hover > i,
+                &:hover > span {
+                  color: getMap($colors, text-color);
+                }
+
+                & > i {
+                  width: 10%;
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: #fff;
+                  font-size: 1.1rem;
+                  transition: getMap($transitions, color);
+                }
+
+                & > span {
+                  width: 90%;
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  margin-left: 0.5rem;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &__favoriteProducts,
+    &__shoppingCart {
+      margin: 0 0.5rem;
+
+      @include mq(medium) {
+        margin: 0 0.5rem;
+      }
+
+      & > a {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          color: getMap($colors, secondary-color);
+        }
+
+        &:hover > i {
+          color: getMap($colors, secondary-color);
+        }
+
+        & > i {
+          padding: 0.5rem;
+          font-size: 1.3rem;
+        }
+
+        & > span {
+          display: none;
+
+          @include mq(desktop) {
+            display: flex;
+            padding: 0 0.2rem;
+            position: relative;
+
+            &::after {
+              content: "\f0d7";
+              font-family: "FontAwesome";
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              right: -0.5rem;
+            }
+          }
+        }
+      }
+    }
+
+    &__shoppingCart {
+    }
+  }
+}

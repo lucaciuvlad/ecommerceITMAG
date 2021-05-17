@@ -17,15 +17,14 @@ class SearchEngine extends Database
 
         $selectSql = "  SELECT  products.id, product_name, product_price, product_image
                         FROM    products INNER JOIN product_images ON product_id = products.id
-                        WHERE   product_name LIKE CONCAT('%', ?, '%') OR 
-                                product_metaphone LIKE CONCAT('%', ?, '%') OR
-                                products.id LIKE CONCAT('%', ?, '%')
-                        GROUP BY product_name;
+                        WHERE   product_metaphone LIKE CONCAT('%', ?, '%') OR products.id = ?
+                        GROUP BY product_name
+                        LIMIT 7;
             ";
         $selectStmt = $this->connect()->prepare($selectSql);
 
         $metaphoneName = metaphone($this->searchToken);
-        $selectStmt->bind_param("ssi", $this->searchToken, $metaphoneName, $this->searchToken);
+        $selectStmt->bind_param("si", $metaphoneName, $this->searchToken);
 
         if ($selectStmt->execute()) {
             $returnedRows = $selectStmt->get_result();

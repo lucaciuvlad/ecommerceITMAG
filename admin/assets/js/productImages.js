@@ -158,6 +158,20 @@ const insertProductImages = () => {
       if (request.readyState === 4 && request.status === 200) {
         const response = JSON.parse(request.response);
 
+        if (response.imageError != null) {
+          productImgsLabels.forEach((imgsLabel) => {
+            addCssClass(imgsLabel, "error");
+          });
+          addCssClass(productImgsErrMsg, "active");
+          productImgsErrMsg.innerHTML = response.imageError;
+        } else {
+          productImgsLabels.forEach((imgsLabel) => {
+            removeCssClass(imgsLabel, "error");
+          });
+          removeCssClass(productImgsErrMsg, "active");
+          productImgsErrMsg.innerHTML = "";
+        }
+
         if (response.isInserted) {
           showNotification(
             "Imaginile au fost adaugate cu succes!",

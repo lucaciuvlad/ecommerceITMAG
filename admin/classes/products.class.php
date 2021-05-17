@@ -65,6 +65,29 @@ class Products extends Database
         return $products;
     }
 
+    public function selectProduct()
+    {
+        $selectProduct =
+            "   SELECT	products.id AS productID, product_name, product_price, product_old_price, product_stock, 
+                        category_name, brand_name
+
+                FROM	products, categories, brands
+    
+                WHERE	products.category_id = categories.id AND 
+                        products.brand_id = brands.id AND
+                        products.id = ?;
+            ";
+        $selectProductStmt = $this->connect()->prepare($selectProduct);
+        $selectProductStmt->bind_param("i", $this->productId);
+
+        if ($selectProductStmt->execute()) {
+            $product = $selectProductStmt->get_result();
+            return $product;
+        }
+        $selectProductStmt->close();
+        $this->connect()->close();
+    }
+
     public function insertProduct()
     {
         $insertSql = "INSERT INTO products(product_name, product_metaphone, product_price, product_old_price, product_stock, brand_id, category_id) VALUES(?, ?, ?, ?, ?, ?, ?)";

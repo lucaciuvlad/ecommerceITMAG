@@ -104,6 +104,11 @@ const insertBrandFunctionalities = () => {
   // Show Insert Modal Form
   addBrandBtn.addEventListener("click", () => {
     addCssClass(insertFormModal, "active");
+
+    // Hide Table Action Dropdown
+    actionDropdowns.forEach((actionDropdown) => {
+      removeCssClass(actionDropdown, "active");
+    });
   });
 
   // Hide Insert Modal Form

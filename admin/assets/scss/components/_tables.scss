@@ -1,6 +1,6 @@
 .table {
   width: 95%;
-  margin: 0 auto;
+  margin: 0.5rem auto;
   border-collapse: collapse;
   border-radius: $border-radius;
   border: 1px solid rgba(getMap($colors, text-color), 0.5);
@@ -22,8 +22,13 @@
     }
 
     & td {
-      text-align: center;
       position: relative;
+      text-align: center;
+
+      &.prName {
+        text-align: left;
+        padding: 0 0.7rem;
+      }
 
       & > img {
         height: 100%;
@@ -82,7 +87,7 @@
           border-bottom-left-radius: $border-radius;
           visibility: hidden;
           opacity: 0;
-          transform: translateY(-1rem);
+          transform: translateY(-10rem);
           transition: getMap($transitions, transform),
             getMap($transitions, visibility), getMap($transitions, opacity);
 
@@ -123,7 +128,7 @@
                 height: 100%;
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                padding: 0 0.7rem;
                 color: #fff;
               }
             }

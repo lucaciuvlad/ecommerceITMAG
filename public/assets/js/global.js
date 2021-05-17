@@ -15,8 +15,7 @@ const removeCssClass = (item, cssClass) => {
 const createElement = (item, attrName, attrValue) => {
   const newItem = document.createElement(`${item}`);
 
-  if (attrName !== undefined)
-    newItem.setAttribute(`${attrName}`, `${attrValue}`);
+  if (attrName !== null) newItem.setAttribute(`${attrName}`, `${attrValue}`);
 
   return newItem;
 };
@@ -51,37 +50,39 @@ const serverRequest = () => {
 };
 
 // Notification Component
-// const notificationContainer = document.querySelector(".notificationContainer");
-// const notification = notificationContainer.children[0];
-// const notificationMsg = notification.children[0];
+const notificationContainer = document.querySelector(".notificationContainer");
+const notification = notificationContainer.children[0];
+const notificationMsg = notification.children[0];
 
-// const showNotification = (msg, page) => {
-//   notificationContainer.style.height = `${notificationContainer.parentElement.clientHeight}px`;
-//   addCssClass(notificationContainer, "active");
-//   addCssClass(notification, "active");
-//   notificationMsg.innerText = msg;
+const showNotification = (msg, page, delay, error) => {
+  notificationContainer.style.height = `${notificationContainer.parentElement.clientHeight}px`;
+  addCssClass(notificationContainer, "active");
+  addCssClass(notification, "active");
 
-//   const hideNotification = setTimeout(() => {
-//     removeCssClass(notification, "active");
-//     removeCssClass(notificationContainer, "active");
+  if (error === "error") {
+    addCssClass(notification, "error");
+  }
 
-//     clearTimeout(hideNotification);
-//   }, 1000);
+  notificationMsg.innerHTML = msg;
 
-//   const redirect = setTimeout(() => {
-//     window.location.assign(`http://localhost/itmag/admin/${page}.php`);
+  const hideNotification = setTimeout(() => {
+    removeCssClass(notification, "active");
+    removeCssClass(notificationContainer, "active");
 
-//     clearTimeout(redirect);
-//   }, 1250);
-// };
+    if (error !== null) {
+      removeCssClass(notification, "error");
+    }
 
-// Animation When Loading A Page
-const delayShowingMainContainer = (mainContainer) => {
-  const delay = setTimeout(() => {
-    addCssClass(mainContainer, "active");
+    notificationMsg.innerHTML = "";
 
-    clearTimeout(delay);
-  }, 50);
+    clearTimeout(hideNotification);
+  }, delay);
+
+  const redirect = setTimeout(() => {
+    window.location.assign(`http://localhost/itmag/public/${page}`);
+
+    clearTimeout(redirect);
+  }, delay + 150);
 };
 
 export {
@@ -93,8 +94,5 @@ export {
   insertBeforeElement,
   debounce,
   serverRequest,
-  // notification,
-  // notificationMsg,
-  // showNotification,
-  delayShowingMainContainer,
+  showNotification,
 };

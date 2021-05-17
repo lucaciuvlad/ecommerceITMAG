@@ -339,7 +339,7 @@ a:hover {
 
 .table {
   width: 95%;
-  margin: 0 auto;
+  margin: 0.5rem auto;
   border-collapse: collapse;
   border-radius: 0.3rem;
   border: 1px solid rgba(45, 52, 54, 0.5);
@@ -357,8 +357,12 @@ a:hover {
   height: 3rem;
 }
 .table tr td {
-  text-align: center;
   position: relative;
+  text-align: center;
+}
+.table tr td.prName {
+  text-align: left;
+  padding: 0 0.7rem;
 }
 .table tr td > img {
   height: 100%;
@@ -409,7 +413,7 @@ a:hover {
   border-bottom-left-radius: 0.3rem;
   visibility: hidden;
   opacity: 0;
-  transform: translateY(-1rem);
+  transform: translateY(-10rem);
   transition: transform 0.15s ease-in, visibility 0.15s ease-in, opacity 0.15s ease-in;
 }
 .table tr td.dropdown .dropdown__actions.active {
@@ -443,7 +447,7 @@ a:hover {
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  padding: 0 0.7rem;
   color: #fff;
 }
 .table tr td:last-child {
@@ -479,30 +483,29 @@ a:hover {
   height: 100%;
   position: fixed;
   top: 0;
+  left: 0;
   background-color: transparent;
   opacity: 0;
-  z-index: -1;
   visibility: hidden;
+  z-index: 9;
   transition: visibility 0.15s ease-in, opacity 0.15s ease-in;
 }
 .notificationContainer.active {
   visibility: visible;
   opacity: 1;
-  z-index: 9;
 }
 .notificationContainer__notification {
-  position: absolute;
+  position: fixed;
   top: 1rem;
-  right: 0;
+  left: 0;
   padding: 0 0.5rem;
-  width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #1abc9c;
-  border-top-left-radius: 0.3rem;
-  border-bottom-left-radius: 0.3rem;
-  transform: translateX(50%);
+  border-top-right-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+  transform: translateX(-50%);
   z-index: 999;
   visibility: hidden;
   opacity: 0;
@@ -523,13 +526,15 @@ a:hover {
 
 .modal {
   width: 100%;
-  min-height: 100%;
+  min-height: calc(100vh - 3rem);
   position: fixed;
   top: -100%;
   left: 0;
   display: flex;
   flex-direction: column;
-  z-index: 9;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
   background-color: rgba(45, 52, 54, 0.3);
   visibility: hidden;
   opacity: 0;
@@ -544,14 +549,21 @@ a:hover {
   backdrop-filter: blur(2px);
 }
 .modal.delete {
+  min-height: 100vh;
   display: flex;
   align-items: center;
+}
+.modal.delete .modal__close {
+  position: fixed;
+  top: 1rem;
 }
 .modal__close {
   width: 100%;
   height: 2rem;
   display: flex;
   justify-content: flex-end;
+  position: fixed;
+  top: 0;
 }
 .modal__close > i {
   padding: 0 0.5rem;
@@ -602,11 +614,11 @@ a:hover {
   cursor: pointer;
   transition: background-color 0.15s ease-in, color 0.15s ease-in;
 }
-.modal__confirmation__actions > button:first-child:hover {
+.modal__confirmation__actions > button#confirm:hover {
   background-color: #1abc9c;
   color: #fff;
 }
-.modal__confirmation__actions > button:nth-child(2):hover {
+.modal__confirmation__actions > button#reject:hover {
   background-color: #ea2027;
   color: #fff;
 }
@@ -641,7 +653,7 @@ a:hover {
 
 .loader {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -937,7 +949,7 @@ a:hover {
 }
 .navigationBar__search {
   width: calc(100% - 2.3rem - 7rem - 2.3rem);
-  height: 100%;
+  min-height: 100%;
   position: relative;
   border-right: 1px solid rgba(45, 52, 54, 0.3);
 }
@@ -1304,7 +1316,7 @@ a:hover {
 .categories,
 .brands {
   width: 100%;
-  min-height: calc(100vh - 3rem);
+  min-height: 100%;
   margin-top: 3rem;
   transform: scale(0.8);
   opacity: 0;
@@ -1350,7 +1362,7 @@ a:hover {
 .productImages .addBtn,
 .categories .addBtn,
 .brands .addBtn {
-  margin: 0.5rem 1rem;
+  margin: 1rem;
   padding: 0.5rem 0;
   background-color: #1289a7;
   border-radius: 0.3rem;
@@ -1383,6 +1395,7 @@ a:hover {
 }
 .dashboard__cards {
   width: 100%;
+  padding: 1rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   place-items: center;
@@ -1398,13 +1411,23 @@ a:hover {
   }
 }
 .dashboard__cards__card {
-  width: 15rem;
+  width: 12rem;
   height: 7rem;
   margin-top: 0.5rem;
   display: flex;
   align-items: center;
   background: #1289a7;
   border-radius: 0.3rem;
+}
+@media only screen and (min-width: 768px) {
+  .dashboard__cards__card {
+    width: 13rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .dashboard__cards__card {
+    width: 15rem;
+  }
 }
 .dashboard__cards__card > .info {
   width: 65%;
@@ -1423,7 +1446,7 @@ a:hover {
 }
 .dashboard__cards__card > .icon {
   width: 25%;
-  height: 45%;
+  height: 35%;
   margin: 1rem;
   display: flex;
   align-items: center;
@@ -1435,10 +1458,14 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   color: #1289a7;
   background: #fff;
   border-radius: 50%;
+}
+
+.products .modal {
+  min-height: 200vh;
 }
 
 .products .form,
@@ -1691,10 +1718,11 @@ a:hover {
   border-left-color: #ea2027;
 }
 
+.products .modal__footer,
 .productImages .modal__footer,
 .categories .modal__footer,
 .brands .modal__footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
 }

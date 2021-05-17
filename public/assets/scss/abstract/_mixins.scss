@@ -1,6 +1,6 @@
 @mixin mq($size) {
-  $breakpoint: getMap($breakpoints, $size);
-  @media only screen and (min-width: #{$breakpoint}) {
-    @content;
-  }
+    $breakpoint: getMap($breakpoints, $size);
+    @media only screen and (min-width: #{$breakpoint}) {
+        @content;
+    }
 }
