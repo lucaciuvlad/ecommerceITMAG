@@ -10,7 +10,7 @@ const homepage = document.querySelector("#homepage");
 toggleCssClass(homepage, "active");
 
 // Product Carousel
-const sliders = document.querySelectorAll(".product__carousel__slider");
+const sliders = document.querySelectorAll(".productSection__carousel__slider");
 
 sliders.forEach((slider) => {
   const nextBtn = slider.parentElement.querySelector(".rightBtn");

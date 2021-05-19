@@ -1,0 +1,38 @@
+.stickyTopBtn {
+  position: sticky;
+  top: 85%;
+  left: 100%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 7;
+  background-color: rgba(getMap($colors, primary-color), 0.6);
+  border-top-left-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  transition: getMap($transitions, bg-color);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(25%);
+  transition: getMap($transitions, transform), getMap($transitions, visibility),
+    getMap($transitions, opacity);
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &:hover {
+    background-color: getMap($colors, primary-color);
+  }
+
+  &:hover > i {
+    color: #fff;
+  }
+
+  & > i {
+    font-size: 1.5rem;
+  }
+}

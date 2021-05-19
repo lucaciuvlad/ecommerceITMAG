@@ -2,7 +2,7 @@
     <i class="fa fa-bars hamburger" aria-hidden="true"></i>
 
     <div class="navigationBar__store">
-        <a href="#">
+        <a href="../public" target="_BLANK">
             <p> ITmag </p>
             <i class="fa fa-external-link" aria-hidden="true"></i>
         </a>

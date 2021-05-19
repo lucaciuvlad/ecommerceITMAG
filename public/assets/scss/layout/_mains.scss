@@ -1,0 +1,14 @@
+#homepage,
+#product {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  transform: scale(0.8);
+  opacity: 0;
+  transition: getMap($transitions, transform), getMap($transitions, opacity);
+
+  &.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

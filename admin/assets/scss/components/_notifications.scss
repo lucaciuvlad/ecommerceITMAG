@@ -7,7 +7,7 @@
   background-color: transparent;
   opacity: 0;
   visibility: hidden;
-  z-index: 9;
+  z-index: 99999;
   transition: getMap($transitions, visibility), getMap($transitions, opacity);
 
   &.active {

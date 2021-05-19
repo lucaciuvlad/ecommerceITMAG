@@ -85,6 +85,21 @@ const showNotification = (msg, page, delay, error) => {
   }, delay + 150);
 };
 
+// Sticky Top Button Component
+const stickyTopButton = document.querySelector(".stickyTopBtn");
+const toggleStickyTopBtn = () => {
+  const scrolledY = window.scrollY;
+  const halfBodyHeight = document.body.clientHeight / 6;
+
+  console.log(scrolledY, halfBodyHeight);
+
+  if (scrolledY > halfBodyHeight) {
+    addCssClass(stickyTopButton, "active");
+  } else {
+    removeCssClass(stickyTopButton, "active");
+  }
+};
+
 export {
   toggleCssClass,
   addCssClass,
@@ -95,4 +110,5 @@ export {
   debounce,
   serverRequest,
   showNotification,
+  toggleStickyTopBtn,
 };

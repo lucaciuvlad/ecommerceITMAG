@@ -1,10 +1,50 @@
 import {
   addCssClass,
   removeCssClass,
+  toggleCssClass,
   createElement,
   appendElement,
+  toggleStickyTopBtn,
 } from "./global.js";
 
+const product = document.querySelector("#product");
+toggleCssClass(product, "active");
+
+// Product Price Formatting
+const productOldFullPrice = document.querySelector(
+  "p.oldPrice > .oldFullPrice"
+);
+const productOldPriceDecimal = document.querySelector(
+  "p.oldPrice > .oldFullPriceDecimal"
+);
+
+const formatProductPrice = (productPrice, productDecimal) => {
+  const fullProductPrice = productPrice.innerHTML;
+  let intPart = null;
+  let decimalPart = null;
+
+  if (productPrice.innerHTML.trim() == "") {
+    addCssClass(productPrice.parentElement, "hidden");
+  } else {
+    const dotPosition = fullProductPrice.search(/\./g);
+    intPart = fullProductPrice.slice(0, dotPosition);
+    decimalPart = fullProductPrice.slice(dotPosition + 1);
+  }
+
+  productPrice.innerHTML = intPart;
+  productDecimal.innerHTML = decimalPart;
+};
+formatProductPrice(productOldFullPrice, productOldPriceDecimal);
+
+const productNewFullPrice = document.querySelector(
+  "p.newPrice > .newFullPrice"
+);
+const productNewPriceDecimal = document.querySelector(
+  "p.newPrice > .newFullPriceDecimal"
+);
+formatProductPrice(productNewFullPrice, productNewPriceDecimal);
+
+// Product Carousel
 const productCarousel = document.querySelector(".product .carousel");
 const productSlider = productCarousel.children[0];
 const productSliderImgs = Array.from(productSlider.children);
@@ -64,7 +104,10 @@ const carouselLeft = () => {
   updateCarouselBullets(currentImgIndex);
 };
 
-const product = () => {
+const productFunctionalities = () => {
+  // Back To Top Button
+  window.addEventListener("scroll", toggleStickyTopBtn);
+
   // Product Carousel Left Button Functionality
   productCarouselLeft.addEventListener("click", () => {
     if (currentImgIndex == 0) {
@@ -95,4 +138,4 @@ const product = () => {
     carouselRight();
   });
 };
-product();
+productFunctionalities();

@@ -2,6 +2,7 @@
   width: 100%;
   height: 30rem;
   margin: 1rem 0;
+  margin-bottom: 5rem;
   position: relative;
   overflow: hidden;
 
@@ -78,12 +79,7 @@
       margin: 0 0.3rem;
       background-color: getMap($colors, primary-color);
       border-radius: 50%;
-      cursor: pointer;
       transition: getMap($transitions, bg-color);
-
-      &:hover {
-        background-color: getMap($colors, secondary-color);
-      }
 
       &.active {
         background-color: getMap($colors, secondary-color);

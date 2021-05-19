@@ -7,6 +7,7 @@
 @import "./base/defaults";
 @import "./base/typography";
 
+@import "./components/carousel";
 @import "./components/forms";
 @import "./components/icons";
 @import "./components/links";
@@ -16,9 +17,11 @@
 @import "./components/tables";
 @import "./components/tooltips";
 @import "./components/footers";
+@import "./components/stickyTopBtn";
 
 @import "./layout/navigationBar";
 @import "./layout/loginSystem";
+@import "./layout/mains";
 
-// @import "./pages/product";
+@import "./pages/product";
 @import "./pages/homepage";

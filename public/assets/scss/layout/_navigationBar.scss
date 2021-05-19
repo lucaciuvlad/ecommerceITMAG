@@ -28,6 +28,13 @@
     );
   }
 
+  &.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    animation: translateIn 0.2s ease-in 1;
+  }
+
   &__left {
     height: 100%;
     display: flex;

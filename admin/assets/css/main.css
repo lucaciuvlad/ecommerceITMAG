@@ -130,6 +130,22 @@ p.active {
 .form input[type=file] {
   display: none;
 }
+.form textarea {
+  width: 100%;
+  min-height: 10rem;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border: 1px solid #2d3436;
+  border-radius: 0.3rem;
+  transition: border-color 0.15s ease-in;
+  resize: vertical;
+}
+.form textarea:focus {
+  border-color: #1289a7;
+}
+.form textarea.error {
+  border-color: #ea2027;
+}
 .form__group {
   width: 100%;
 }
@@ -146,6 +162,11 @@ p.active {
 }
 .form__field {
   width: 100%;
+  height: 100%;
+}
+.form__field__file {
+  width: 100%;
+  height: 100%;
 }
 .form__field__file > label > i {
   margin-right: 0.5rem;
@@ -158,6 +179,7 @@ p.active {
 }
 .form__field__file__images__image {
   width: 10rem;
+  height: 100%;
   margin: 0.2rem;
   display: flex;
   flex-direction: column;
@@ -354,6 +376,7 @@ a:hover {
   border-bottom: none;
 }
 .table tr th, .table tr td {
+  padding: 0 0.5rem;
   height: 3rem;
 }
 .table tr td {
@@ -363,6 +386,12 @@ a:hover {
 .table tr td.prName {
   text-align: left;
   padding: 0 0.7rem;
+}
+.table tr td.productDescriptionTitle {
+  padding: 3rem;
+}
+.table tr td.productDescriptionBody {
+  padding: 1rem;
 }
 .table tr td > img {
   height: 100%;
@@ -487,7 +516,7 @@ a:hover {
   background-color: transparent;
   opacity: 0;
   visibility: hidden;
-  z-index: 9;
+  z-index: 99999;
   transition: visibility 0.15s ease-in, opacity 0.15s ease-in;
 }
 .notificationContainer.active {
@@ -535,7 +564,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  background-color: rgba(45, 52, 54, 0.3);
+  background-color: rgba(45, 52, 54, 0.6);
   visibility: hidden;
   opacity: 0;
   transform: scale(0.9);
@@ -552,10 +581,6 @@ a:hover {
   min-height: 100vh;
   display: flex;
   align-items: center;
-}
-.modal.delete .modal__close {
-  position: fixed;
-  top: 1rem;
 }
 .modal__close {
   width: 100%;
@@ -580,7 +605,13 @@ a:hover {
 }
 .modal__content {
   width: 100%;
+  height: 100%;
   margin: 2rem 0;
+}
+.modal__content > img {
+  width: 50%;
+  margin: 0 auto;
+  object-fit: contain;
 }
 .modal__confirmation {
   width: 75%;
@@ -590,7 +621,7 @@ a:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(18, 137, 167, 0.5);
+  background-color: rgba(18, 137, 167, 0.8);
   border-radius: 0.3rem;
 }
 @media only screen and (min-width: 992px) {
@@ -625,6 +656,8 @@ a:hover {
 .modal__footer {
   width: 100%;
   height: 3rem;
+  position: fixed;
+  bottom: 0%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1313,10 +1346,13 @@ a:hover {
 .dashboard,
 .products,
 .productImages,
+.productDescriptions,
 .categories,
 .brands {
   width: 100%;
+  height: calc(100vh - 3rem);
   min-height: 100%;
+  position: relative;
   margin-top: 3rem;
   transform: scale(0.8);
   opacity: 0;
@@ -1326,6 +1362,7 @@ a:hover {
   .dashboard,
 .products,
 .productImages,
+.productDescriptions,
 .categories,
 .brands {
     margin-left: 12.5rem;
@@ -1335,6 +1372,7 @@ a:hover {
 .dashboard.active,
 .products.active,
 .productImages.active,
+.productDescriptions.active,
 .categories.active,
 .brands.active {
   opacity: 1;
@@ -1343,6 +1381,7 @@ a:hover {
 .dashboard > h1,
 .products > h1,
 .productImages > h1,
+.productDescriptions > h1,
 .categories > h1,
 .brands > h1 {
   padding: 1rem;
@@ -1353,6 +1392,7 @@ a:hover {
 .dashboard > p,
 .products > p,
 .productImages > p,
+.productDescriptions > p,
 .categories > p,
 .brands > p {
   margin: 0 1rem;
@@ -1360,6 +1400,7 @@ a:hover {
 .dashboard .addBtn,
 .products .addBtn,
 .productImages .addBtn,
+.productDescriptions .addBtn,
 .categories .addBtn,
 .brands .addBtn {
   margin: 1rem;
@@ -1372,6 +1413,7 @@ a:hover {
 .dashboard .addBtn:hover,
 .products .addBtn:hover,
 .productImages .addBtn:hover,
+.productDescriptions .addBtn:hover,
 .categories .addBtn:hover,
 .brands .addBtn:hover {
   background-color: #6f1e51;
@@ -1381,6 +1423,8 @@ a:hover {
 .products .addBtn > span,
 .productImages .addBtn > i,
 .productImages .addBtn > span,
+.productDescriptions .addBtn > i,
+.productDescriptions .addBtn > span,
 .categories .addBtn > i,
 .categories .addBtn > span,
 .brands .addBtn > i,
@@ -1718,35 +1762,37 @@ a:hover {
   border-left-color: #ea2027;
 }
 
-.products .modal__footer,
-.productImages .modal__footer,
-.categories .modal__footer,
-.brands .modal__footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-}
-
 @media only screen and (min-width: 992px) {
-  .productImages .table {
+  .productImages .table,
+.productDescriptions .table {
     width: 50%;
     margin: 0 auto;
   }
 }
-.productImages .form {
+.productImages .form,
+.productDescriptions .form {
   width: 75%;
   margin: 0 auto;
 }
 @media only screen and (min-width: 992px) {
-  .productImages .form {
+  .productImages .form,
+.productDescriptions .form {
     width: 50%;
   }
 }
-.productImages .form__group {
+.productImages .form__group,
+.productDescriptions .form__group {
   padding: 0.5rem;
   margin: 0.5rem 0;
   background-color: #fff;
   border-radius: 0.3rem;
+}
+
+@media only screen and (min-width: 992px) {
+  .productDescriptions .table {
+    width: 90%;
+    margin: 0 auto;
+  }
 }
 
 @media only screen and (min-width: 992px) {

@@ -482,7 +482,7 @@ require_once("classes/categories.class.php");
 
         <div class="modal__content">
             <div class="modal__confirmation">
-                <p> Esti sigur ca vrei sa stergi categoria? </p>
+                <p> Esti sigur ca vrei sa stergi produsul? </p>
                 <div class="modal__confirmation__actions">
                     <button type="button" id="confirm"> Da </button>
                     <button type="button" id="reject"> Nu </button>

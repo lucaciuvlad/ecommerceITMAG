@@ -25,11 +25,11 @@ session_start();
     require_once("./classes/homepage.class.php");
     ?>
 
-    <section class="product">
+    <section class="productSection">
         <h1> Telefoane Samsung </h1>
 
-        <div class="product__carousel">
-            <div class="product__carousel__slider">
+        <div class="productSection__carousel">
+            <div class="productSection__carousel__slider">
                 <?php
                 $homepageHandler = new Homepage();
                 $products = $homepageHandler->fetchCarouselProducts(3, 1);
@@ -41,7 +41,7 @@ session_start();
                     }
                 ?>
 
-                <a class="product__carousel__slider__slide"
+                <a class="productSection__carousel__slider__slide"
                     href="product.php?productID=<?php echo $product["productID"] ?>">
                     <div class="promoIndicator">
                         <span> <?php echo $promoPercent; ?>% </span>
@@ -111,11 +111,11 @@ session_start();
         </div>
     </section>
 
-    <section class="product">
+    <section class="productSection">
         <h1> Telefoane Huawei </h1>
 
-        <div class="product__carousel">
-            <div class="product__carousel__slider">
+        <div class="productSection__carousel">
+            <div class="productSection__carousel__slider">
                 <?php
                 $homepageHandler = new Homepage();
                 $products = $homepageHandler->fetchCarouselProducts(3, 2);
@@ -127,7 +127,7 @@ session_start();
                     }
                 ?>
 
-                <a class="product__carousel__slider__slide"
+                <a class="productSection__carousel__slider__slide"
                     href="product.php?productID=<?php echo $product["productID"] ?>">
                     <div class="promoIndicator">
                         <span> <?php echo $promoPercent; ?>% </span>

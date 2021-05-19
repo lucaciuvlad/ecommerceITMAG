@@ -31,7 +31,7 @@ if (!isset($_GET["productID"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/main.css">
-    <title> Imagini produs </title>
+    <title> <?php echo $productInfo["product_name"]; ?> </title>
 
     <?php
     require_once("includes/fonts.inc.php");
@@ -48,6 +48,11 @@ if (!isset($_GET["productID"])) {
 
     <main class="productImages">
         <h1> Imagini produs - <?php echo $productInfo["product_name"]; ?> </h1>
+
+        <button class="addBtn" data-product-id=<?php echo $productID; ?>>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <span> Adauga o noua imagine </span>
+        </button>
 
         <?php if ($productImages->num_rows == 0) : ?>
         <p class="error <?php echo 'active'; ?>"> Momentan nu exista nicio imagine asociata produsului </p>
@@ -143,11 +148,6 @@ if (!isset($_GET["productID"])) {
                 <button type="button" class="close"> Anuleaza </button>
             </div>
         </div>
-
-        <button class="addBtn" data-product-id=<?php echo $productID; ?>>
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            <span> Adauga o noua imagine </span>
-        </button>
     </main>
 
     <?php

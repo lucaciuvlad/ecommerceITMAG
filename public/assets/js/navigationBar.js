@@ -9,6 +9,9 @@ import {
   showNotification,
 } from "./global.js";
 
+// Navigation
+const navigationBar = document.querySelector(".navbar");
+
 // Left
 const leftMenu = document.querySelector(".navbar__left__menu");
 const hamburgerBtn = leftMenu.querySelector(".hamburger");
@@ -123,7 +126,22 @@ const searchEngine = () => {
   request.send(formData);
 };
 
+const toggleStickyNavigationBar = () => {
+  const scrolledY = window.scrollY;
+  const bodyHeight = document.body.clientHeight;
+  const boundary = bodyHeight / 6;
+
+  if (scrolledY > boundary) {
+    addCssClass(navigationBar, "sticky");
+  } else {
+    removeCssClass(navigationBar, "sticky");
+  }
+};
+
 const navigationBarFunctionalities = () => {
+  // Sticky Navigation Bar
+  window.addEventListener("scroll", toggleStickyNavigationBar);
+
   // Toggle Left Menu Categories
   hamburgerBtn.addEventListener("click", () => {
     if (!leftMenuCategories.classList.contains("active")) {
