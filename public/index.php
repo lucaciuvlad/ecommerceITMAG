@@ -23,6 +23,11 @@ session_start();
     require_once("./includes/loader.inc.php");
     require_once("./includes/notification.inc.php");
     require_once("./classes/homepage.class.php");
+
+
+    if (isset($_SESSION["userID"])) {
+        echo "<div id='userId' style='display: none;'data-user='$_SESSION[userID]'></div>";
+    }
     ?>
 
     <section class="productSection">
@@ -47,7 +52,7 @@ session_start();
                         <span> <?php echo $promoPercent; ?>% </span>
                     </div>
 
-                    <button type="button" class="addToFav">
+                    <button type="button" class="addToFav" data-product-id="<?php echo $product["productID"]; ?>">
                         <i class="fa fa-heart-o" aria-hidden="true"></i>
                         <div class="tooltip">
                             <i class="fa fa-caret-right" aria-hidden="true"></i>
@@ -92,7 +97,7 @@ session_start();
                         </p>
                     </div>
 
-                    <button type="button" class="addToCart">
+                    <button type="button" class="addToCart" data-product-id="<?php echo $product["productID"]; ?>">
                         <span> Adauga in cos </span>
                     </button>
                 </a>
@@ -101,7 +106,7 @@ session_start();
 
             </div>
 
-            <button type="button" class="leftBtn">
+            <button type=" button" class="leftBtn">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
             </button>
 
@@ -133,8 +138,8 @@ session_start();
                         <span> <?php echo $promoPercent; ?>% </span>
                     </div>
 
-                    <button type="button" class="addToFav">
-                        <i class="fa fa-heart-o" aria-hidden="true"></i>
+                    <button type="button" class="addToFav" data-product-id="<?php echo $product["productID"]; ?>">
+                        <i class=" fa fa-heart-o" aria-hidden="true"></i>
                         <div class="tooltip">
                             <i class="fa fa-caret-right" aria-hidden="true"></i>
                             <p> Adauga la favorite </p>
@@ -178,7 +183,7 @@ session_start();
                         </p>
                     </div>
 
-                    <button type="button" class="addToCart">
+                    <button type="button" class="addToCart" data-product-id="<?php echo $product["productID"]; ?>">
                         <span> Adauga in cos </span>
                     </button>
                 </a>

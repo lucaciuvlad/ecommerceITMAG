@@ -23,7 +23,7 @@
         <div class="navigationBar__search__suggestions">
             <div class="navigationBar__search__suggestions__header">
                 <p> Sugestii de cautare </p>
-                <a href="products.php">
+                <a href="search.php">
                     <i class="fa fa-search" aria-hidden="true"></i>
                     <p> Cautare avansata </p>
                 </a>

@@ -205,3 +205,47 @@ sliders.forEach((slider) => {
   );
   formatProductPrice(productNewFullPrices, productNewPriceDecimals);
 });
+
+// Local Favorite + Cart Products
+const productSlides = document.querySelectorAll(
+  ".productSection__carousel__slider__slide"
+);
+
+// Local Product Persistent State
+productSlides.forEach((productSlide) => {
+  const productFavBtn = productSlide.querySelector(".addToFav > i");
+  const productFavBtnTooltipMessage = productSlide.querySelector(
+    ".addToFav > .tooltip > p"
+  );
+  const productAddToCartBtn = productSlide.querySelector(".addToCart");
+  const productName = productSlide.querySelector(".productName > p").innerHTML;
+
+  const localStorageLength = localStorage.length;
+
+  for (let i = 0; i <= localStorageLength - 1; i++) {
+    const actualProduct = localStorage.key(i);
+
+    if (actualProduct.startsWith("fav")) {
+      const localStorageObject = JSON.parse(
+        localStorage.getItem(actualProduct)
+      );
+      const localProductName = localStorageObject.productName;
+
+      if (productName === localProductName) {
+        productFavBtn.setAttribute("class", "fa fa-heart");
+        productFavBtnTooltipMessage.innerHTML = "Adaugat la favorite";
+      }
+    } else if (actualProduct.startsWith("cart")) {
+      const localStorageObject = JSON.parse(
+        localStorage.getItem(actualProduct)
+      );
+      const localProductName = localStorageObject.productName;
+
+      if (productName === localProductName) {
+        addCssClass(productAddToCartBtn, "active");
+        const addToCartMsg = productAddToCartBtn.querySelector("span");
+        addToCartMsg.innerHTML = "Adaugat in cos";
+      }
+    }
+  }
+});

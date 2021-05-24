@@ -9,7 +9,7 @@ import {
   debounce,
 } from "./global.js";
 
-import { isEmpty, matchSpecifiedRegExp } from "./validations.js";
+import { isEmpty } from "./validations.js";
 
 // Hamburger & Side Menu
 const hamburger = document.querySelector(".navigationBar .hamburger");
@@ -28,6 +28,9 @@ const searchSuggestions = document.querySelector(
 );
 const searchResultsList = document.querySelector(
   ".navigationBar__search__suggestions__results > ul"
+);
+const searchLink = searchSuggestions.querySelector(
+  ".navigationBar__search__suggestions__header > a"
 );
 
 // Admin
@@ -59,7 +62,9 @@ const searchEngine = () => {
           const link = createElement(
             "a",
             "href",
-            `search.php?productID=${response.product_id[i]}`
+            `search.php?searchString=${encodeURIComponent(
+              response.product_name[i].replace(/\s+/g, "%20")
+            )}`
           );
           appendElement(link, item);
 
@@ -199,6 +204,17 @@ const navigationFunctionalities = () => {
 
       removeCssClass(searchCloseIcon, "active");
       removeCssClass(searchSuggestions, "active");
+    }
+  });
+
+  searchLink.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    if (searchInput.value != "") {
+      const stringParam = `?searchString=${encodeURIComponent(
+        searchInput.value.replace(/\s+/g, "%20")
+      )}`;
+      window.location.assign(`${searchLink.href}${stringParam}`);
     }
   });
 

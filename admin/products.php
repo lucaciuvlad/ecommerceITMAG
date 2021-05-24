@@ -207,8 +207,6 @@ require_once("classes/categories.class.php");
                             </div>
                         </div>
 
-                        <?php if ($product["product_old_price"]) : ?>
-
                         <div class="form__field updateProductOldPrice">
                             <label for="updateProductOldPrice<?php echo $indexId; ?>"> Afiseaza o reducere de pret
                                 pentru acest produs
@@ -220,7 +218,11 @@ require_once("classes/categories.class.php");
 
                             <div class="oldPrice active">
                                 <div class="oldPrice__wrapper">
-                                    <input type="text" value="<?php echo $product["product_old_price"]; ?>"
+                                    <input type="text" value="<?php if ($product["product_old_price"] == null) {
+                                                                        echo "0";
+                                                                    } else {
+                                                                        echo $product["product_old_price"];
+                                                                    } ?>"
                                         id="updateProductOldPrice<?php echo $indexId; ?>" />
                                     <span> RON </span>
                                 </div>
@@ -234,8 +236,6 @@ require_once("classes/categories.class.php");
 
                             <p class="error"></p>
                         </div>
-
-                        <?php endif; ?>
                     </div>
 
                     <div class="form__group">

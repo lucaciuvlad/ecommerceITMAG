@@ -148,14 +148,51 @@
             <a href="favoriteProducts.php">
                 <i class="fa fa-heart-o" aria-hidden="true"></i>
                 <span> Favorite </span>
+                <div class="counter">
+                    <span> </span>
+                </div>
             </a>
+
+            <div class="navbar__right__favoriteProducts__panel">
+                <span> Ultimele adaugate </span>
+
+                <ul>
+                </ul>
+
+                <button type="button" class="goToFav">
+                    <a href="fav.php"> Vezi toate produsele favorite </a>
+                </button>
+            </div>
         </div>
 
         <div class="navbar__right__shoppingCart">
             <a href="cart.php">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                 <span> Cosul meu </span>
+                <div class="counter">
+                    <span> </span>
+                </div>
             </a>
+
+            <div class="navbar__right__shoppingCart__panel">
+                <span> Ultimele adaugate </span>
+
+                <ul>
+                </ul>
+
+                <div class="summary">
+                    <p class="totalLabel"> TOTAL: <span class="totalCounter"> </span> </p>
+                    <p class="newPrice">
+                        <span class="whole"> </span>
+                        <sup class="decimal"> </sup>
+                        <span> Lei </span>
+                    </p>
+                </div>
+
+                <button type="button" class="goToCart">
+                    <a href="cart.php"> Vezi detalii cos </a>
+                </button>
+            </div>
         </div>
     </div>
 </nav>

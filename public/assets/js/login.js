@@ -54,7 +54,7 @@ const userLogin = () => {
       const response = JSON.parse(request.response);
 
       if (response.isLoggedIn) {
-        showNotification("Te-ai logat cu succes!", "index.php", 1500, null);
+        showNotification("Bine ai venit!", "index.php", 1500, null);
       }
 
       if (response.activeAccount != null) {

@@ -174,7 +174,11 @@
           transition: getMap($transitions, bg-color);
 
           &:hover {
-            background-color: getMap($colors, primary-color);
+            background-color: getMap($colors, secondary-color);
+          }
+
+          &.active {
+            background-color: getMap($colors, secondary-color);
           }
 
           &::before {

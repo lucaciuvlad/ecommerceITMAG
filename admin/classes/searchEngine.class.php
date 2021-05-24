@@ -12,19 +12,19 @@ class SearchEngine extends Database
         $this->searchToken = $SearchToken;
     }
 
-    public function fetchSuggestions()
+    public function fetchNavbarSuggestions()
     {
 
         $selectSql = "  SELECT  products.id, product_name, product_price, product_image
                         FROM    products INNER JOIN product_images ON product_id = products.id
-                        WHERE   product_metaphone LIKE CONCAT('%', ?, '%') OR products.id = ?
+                        WHERE   product_metaphone LIKE CONCAT('%', ?, '%')
                         GROUP BY product_name
                         LIMIT 7;
             ";
         $selectStmt = $this->connect()->prepare($selectSql);
 
         $metaphoneName = metaphone($this->searchToken);
-        $selectStmt->bind_param("si", $metaphoneName, $this->searchToken);
+        $selectStmt->bind_param("s", $metaphoneName);
 
         if ($selectStmt->execute()) {
             $returnedRows = $selectStmt->get_result();
@@ -54,11 +54,35 @@ class SearchEngine extends Database
         $selectStmt->close();
         $this->connect()->close();
     }
+
+    public function fetchSearchSuggestions()
+    {
+
+        $selectSql = "  SELECT  products.id as productID, product_name, product_price, product_old_price, product_stock, category_name, brand_name
+                        FROM    products, categories, brands
+                        WHERE   product_metaphone LIKE CONCAT('%', ?, '%') AND
+                                products.category_id = categories.id AND
+                                products.brand_id = brands.id
+                        GROUP BY product_name;
+            ";
+        $selectStmt = $this->connect()->prepare($selectSql);
+
+        $metaphoneName = metaphone($this->searchToken);
+        $selectStmt->bind_param("s", $metaphoneName);
+
+        if ($selectStmt->execute()) {
+            $searchSuggestions = $selectStmt->get_result();
+            return $searchSuggestions;
+        }
+
+        $selectStmt->close();
+        $this->connect()->close();
+    }
 }
 ?>
 
 <?php
-require_once("./validations.class.php");
+require_once("validations.class.php");
 if (isset($_POST["searchToken"])) {
     $searchString = htmlentities($_POST["searchToken"]);
 
@@ -73,7 +97,7 @@ if (isset($_POST["searchToken"])) {
         echo json_encode($validationErrors);
     } else {
         $searchEngine = new SearchEngine($searchString);
-        $searchSuggestions = $searchEngine->fetchSuggestions();
+        $searchSuggestions = $searchEngine->fetchNavbarSuggestions();
         echo json_encode($searchSuggestions);
     }
 }

@@ -581,13 +581,13 @@ a:hover {
 }
 
 .notificationContainer {
-  width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
   position: fixed;
   top: 0;
+  left: 0;
   background-color: transparent;
   opacity: 0;
-  z-index: -1;
+  z-index: 9;
   visibility: hidden;
   transition: visibility 0.15s ease-in, opacity 0.15s ease-in;
 }
@@ -597,11 +597,11 @@ a:hover {
   z-index: 9;
 }
 .notificationContainer__notification {
-  position: absolute;
+  position: sticky;
+  width: auto;
   top: 1rem;
   left: 0;
   padding: 0 0.5rem;
-  width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -764,23 +764,6 @@ a:hover {
   color: #fff;
 }
 
-footer {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 3rem;
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(45, 52, 54, 0.7);
-}
-footer > p {
-  color: #fff;
-  font-weight: 550;
-}
-
 .stickyTopBtn {
   position: sticky;
   top: 85%;
@@ -885,8 +868,10 @@ footer > p {
   position: absolute;
   top: calc(100% + 1px);
   left: 0;
-  background-color: #1289a7;
+  background-color: #fff;
+  border-bottom-left-radius: 0.3rem;
   border-bottom-right-radius: 0.3rem;
+  box-shadow: 0 0 0.8rem #6f1e51;
   transform: translateX(-100%);
   visibility: hidden;
   opacity: 0;
@@ -920,18 +905,22 @@ footer > p {
     display: none;
   }
 }
-.navbar__left__menu__categories > ul > li:hover > a > span {
-  color: #2d3436;
-}
-.navbar__left__menu__categories > ul > li:hover > a > i {
-  color: #2d3436;
-}
 .navbar__left__menu__categories > ul > li > a {
   width: 90%;
   height: 100%;
   display: flex;
   align-items: center;
-  color: #fff;
+  color: #2d3436;
+  transition: transform 0.15s ease-in;
+}
+.navbar__left__menu__categories > ul > li > a:hover {
+  transform: translateX(0.2rem);
+}
+.navbar__left__menu__categories > ul > li > a:hover > span {
+  color: #6f1e51;
+}
+.navbar__left__menu__categories > ul > li > a:hover > i {
+  color: #6f1e51;
 }
 .navbar__left__menu__categories > ul > li > a > i {
   width: 10%;
@@ -939,7 +928,7 @@ footer > p {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #2d3436;
   font-size: 1.3rem;
   transition: color 0.15s ease-in;
 }
@@ -1158,7 +1147,7 @@ footer > p {
   transform: translateX(0.2rem);
 }
 .navbar__search__suggestions > ul > li > a:hover > span {
-  color: #1289a7;
+  color: #6f1e51;
 }
 .navbar__search__suggestions > ul > li > a > img {
   height: 100%;
@@ -1286,12 +1275,13 @@ footer > p {
   .navbar__right__user__panel {
     position: absolute;
     top: calc(100% + 1px);
-    left: 0;
+    right: calc(0% - 0.5rem);
     width: 10rem;
     display: block;
-    background-color: #1289a7;
+    background-color: #fff;
     border-bottom-left-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem;
+    box-shadow: 0 0 0.8rem #6f1e51;
     transform: translateY(-1rem);
     visibility: hidden;
     z-index: -1;
@@ -1319,7 +1309,7 @@ footer > p {
     height: 100%;
     display: flex;
     align-items: center;
-    color: #fff;
+    color: #2d3436;
     transition: transform 0.15s ease-in;
     background-color: transparent;
     cursor: pointer;
@@ -1328,7 +1318,7 @@ footer > p {
     transform: translateX(0.2rem);
   }
   .navbar__right__user__panel > ul > li > a:hover > i, .navbar__right__user__panel > ul > li > a:hover > span, .navbar__right__user__panel > ul > li > button:hover > i, .navbar__right__user__panel > ul > li > button:hover > span {
-    color: #2d3436;
+    color: #6f1e51;
   }
   .navbar__right__user__panel > ul > li > a > i, .navbar__right__user__panel > ul > li > button > i {
     width: 10%;
@@ -1336,7 +1326,7 @@ footer > p {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: #2d3436;
     font-size: 1.1rem;
     transition: color 0.15s ease-in;
   }
@@ -1350,6 +1340,7 @@ footer > p {
 }
 .navbar__right__favoriteProducts, .navbar__right__shoppingCart {
   margin: 0 0.5rem;
+  position: relative;
 }
 @media only screen and (min-width: 768px) {
   .navbar__right__favoriteProducts, .navbar__right__shoppingCart {
@@ -1361,6 +1352,7 @@ footer > p {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .navbar__right__favoriteProducts > a:hover, .navbar__right__shoppingCart > a:hover {
   color: #6f1e51;
@@ -1368,9 +1360,19 @@ footer > p {
 .navbar__right__favoriteProducts > a:hover > i, .navbar__right__shoppingCart > a:hover > i {
   color: #6f1e51;
 }
+.navbar__right__favoriteProducts > a:hover > .counter, .navbar__right__shoppingCart > a:hover > .counter {
+  background-color: #6f1e51;
+}
+.navbar__right__favoriteProducts > a.active, .navbar__right__shoppingCart > a.active {
+  color: #6f1e51;
+}
 .navbar__right__favoriteProducts > a > i, .navbar__right__shoppingCart > a > i {
   padding: 0.5rem;
   font-size: 1.3rem;
+  transition: color 0.15s ease-in;
+}
+.navbar__right__favoriteProducts > a > i.active, .navbar__right__shoppingCart > a > i.active {
+  color: #6f1e51;
 }
 .navbar__right__favoriteProducts > a > span, .navbar__right__shoppingCart > a > span {
   display: none;
@@ -1380,6 +1382,7 @@ footer > p {
     display: flex;
     padding: 0 0.2rem;
     position: relative;
+    transition: color 0.15s ease-in;
   }
   .navbar__right__favoriteProducts > a > span::after, .navbar__right__shoppingCart > a > span::after {
     content: "";
@@ -1389,7 +1392,287 @@ footer > p {
     transform: translateY(-50%);
     right: -0.5rem;
   }
+  .navbar__right__favoriteProducts > a > span.active, .navbar__right__shoppingCart > a > span.active {
+    color: #6f1e51;
+  }
 }
+.navbar__right__favoriteProducts > a > .counter, .navbar__right__shoppingCart > a > .counter {
+  position: absolute;
+  top: 0.4rem;
+  left: 1.3rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #1289a7;
+  transition: background-color 0.15s ease-in;
+}
+.navbar__right__favoriteProducts > a > .counter.active, .navbar__right__shoppingCart > a > .counter.active {
+  background-color: #6f1e51;
+}
+.navbar__right__favoriteProducts > a > .counter > span, .navbar__right__shoppingCart > a > .counter > span {
+  color: #fff;
+  font-size: 0.8rem;
+}
+.navbar__right__favoriteProducts__panel, .navbar__right__shoppingCart__panel {
+  display: none;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar__right__favoriteProducts__panel, .navbar__right__shoppingCart__panel {
+    position: absolute;
+    top: calc(100% + 2px);
+    right: calc(0% - 0.5rem);
+    width: 20rem;
+    display: block;
+    background-color: #fff;
+    border-bottom-left-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+    box-shadow: 0 0 0.8rem #6f1e51;
+    transform: translateY(-1rem);
+    visibility: hidden;
+    z-index: -1;
+    opacity: 0;
+    transition: transform 0.15s ease-in, visibility 0.15s ease-in, z-index 0.15s ease-in, opacity 0.15s ease-in;
+  }
+  .navbar__right__favoriteProducts__panel.active, .navbar__right__shoppingCart__panel.active {
+    transform: translateY(0);
+    visibility: visible;
+    z-index: 9;
+    opacity: 1;
+  }
+  .navbar__right__favoriteProducts__panel > span, .navbar__right__shoppingCart__panel > span {
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(18, 137, 167, 0.7);
+  }
+  .navbar__right__favoriteProducts__panel > ul, .navbar__right__shoppingCart__panel > ul {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li, .navbar__right__shoppingCart__panel > ul > li {
+    width: 100%;
+    height: 100%;
+    border-bottom: 1px solid rgba(18, 137, 167, 0.3);
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a, .navbar__right__shoppingCart__panel > ul > li > a {
+    width: 100%;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a:hover .actions, .navbar__right__shoppingCart__panel > ul > li > a:hover .actions {
+    visibility: visible;
+    opacity: 1;
+    z-index: 1;
+    top: 100%;
+    position: static;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo, .navbar__right__shoppingCart__panel > ul > li > a .productInfo {
+    width: 100%;
+    height: 4rem;
+    display: flex;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo > img, .navbar__right__shoppingCart__panel > ul > li > a .productInfo > img {
+    width: 3rem;
+    height: 100%;
+    object-fit: contain;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo > p.name, .navbar__right__shoppingCart__panel > ul > li > a .productInfo > p.name {
+    font-size: 0.8rem;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo .prices, .navbar__right__shoppingCart__panel > ul > li > a .productInfo .prices {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo .prices > p, .navbar__right__shoppingCart__panel > ul > li > a .productInfo .prices > p {
+    display: flex;
+    align-items: flex-start;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo .prices > p.oldPrice, .navbar__right__shoppingCart__panel > ul > li > a .productInfo .prices > p.oldPrice {
+    text-decoration: line-through;
+    color: #505c60;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo .prices > p.oldPrice.hidden, .navbar__right__shoppingCart__panel > ul > li > a .productInfo .prices > p.oldPrice.hidden {
+    display: none;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo .prices > p.newPrice, .navbar__right__shoppingCart__panel > ul > li > a .productInfo .prices > p.newPrice {
+    color: #ea2027;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo .prices > p.newPrice > span, .navbar__right__shoppingCart__panel > ul > li > a .productInfo .prices > p.newPrice > span {
+    font-size: 0.95rem;
+    font-weight: 1000;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo .prices > p > span, .navbar__right__shoppingCart__panel > ul > li > a .productInfo .prices > p > span {
+    font-size: 0.8rem;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .productInfo .prices > p > sup, .navbar__right__shoppingCart__panel > ul > li > a .productInfo .prices > p > sup {
+    font-size: 0.65rem;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .actions, .navbar__right__shoppingCart__panel > ul > li > a .actions {
+    width: 100%;
+    height: 2rem;
+    padding: 0 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 90%;
+    visibility: hidden;
+    opacity: 0;
+    z-index: -1;
+    border-top: 1px solid rgba(111, 30, 81, 0.3);
+    transition: top 0.15s ease-in, visibility 0.15s ease-in, opacity 0.15s ease-in, z-index 0.15s ease-in;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .actions > button, .navbar__right__shoppingCart__panel > ul > li > a .actions > button {
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.favAddToCart:hover > i, .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.cartAddToFav:hover > i, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.favAddToCart:hover > i, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.cartAddToFav:hover > i {
+    color: #6f1e51;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.favAddToCart:hover > span::after, .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.cartAddToFav:hover > span::after, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.favAddToCart:hover > span::after, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.cartAddToFav:hover > span::after {
+    width: 100%;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.favAddToCart > span, .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.cartAddToFav > span, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.favAddToCart > span, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.cartAddToFav > span {
+    padding: 0.1rem;
+    position: relative;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.favAddToCart > span::after, .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.cartAddToFav > span::after, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.favAddToCart > span::after, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.cartAddToFav > span::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #6f1e51;
+    transition: width 0.15s ease-in;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.favAddToCart > i, .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.cartAddToFav > i, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.favAddToCart > i, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.cartAddToFav > i {
+    font-size: 1rem;
+    color: #1289a7;
+    transition: color 0.15s ease-in;
+    transition-delay: 0.15s;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.removeFromFav > i, .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.removeFromCart > i, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.removeFromFav > i, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.removeFromCart > i {
+    font-size: 1rem;
+    color: #1289a7;
+    transition: color 0.15s ease-in;
+  }
+  .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.removeFromFav > i:hover, .navbar__right__favoriteProducts__panel > ul > li > a .actions > button.removeFromCart > i:hover, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.removeFromFav > i:hover, .navbar__right__shoppingCart__panel > ul > li > a .actions > button.removeFromCart > i:hover {
+    color: #ea2027;
+  }
+  .navbar__right__favoriteProducts__panel .summary, .navbar__right__shoppingCart__panel .summary {
+    width: 100%;
+    height: 3rem;
+    padding: 0 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(18, 137, 167, 0.3);
+    visibility: hidden;
+    z-index: -1;
+    opacity: 0;
+    position: absolute;
+    transition: visibility 0.15s ease-in, opacity 0.15s ease-in, z-index 0.15s ease-in;
+  }
+  .navbar__right__favoriteProducts__panel .summary.active, .navbar__right__shoppingCart__panel .summary.active {
+    z-index: 1;
+    visibility: visible;
+    opacity: 1;
+    position: static;
+  }
+  .navbar__right__favoriteProducts__panel .summary > p.totalLabel > span, .navbar__right__shoppingCart__panel .summary > p.totalLabel > span {
+    margin: 0 0.5rem;
+  }
+  .navbar__right__favoriteProducts__panel .summary > p, .navbar__right__shoppingCart__panel .summary > p {
+    display: flex;
+    align-items: flex-start;
+  }
+  .navbar__right__favoriteProducts__panel .summary > p.newPrice, .navbar__right__shoppingCart__panel .summary > p.newPrice {
+    color: #ea2027;
+  }
+  .navbar__right__favoriteProducts__panel .summary > p.newPrice > span, .navbar__right__shoppingCart__panel .summary > p.newPrice > span {
+    font-size: 0.95rem;
+    font-weight: 1000;
+  }
+  .navbar__right__favoriteProducts__panel .summary > p > span, .navbar__right__shoppingCart__panel .summary > p > span {
+    font-size: 0.8rem;
+  }
+  .navbar__right__favoriteProducts__panel .summary > p > sup, .navbar__right__shoppingCart__panel .summary > p > sup {
+    font-size: 0.65rem;
+  }
+  .navbar__right__favoriteProducts__panel .goToCart, .navbar__right__favoriteProducts__panel .goToFav, .navbar__right__shoppingCart__panel .goToCart, .navbar__right__shoppingCart__panel .goToFav {
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    transition: visibility 0.15s ease-in, opacity 0.15s ease-in, z-index 0.15s ease-in;
+  }
+  .navbar__right__favoriteProducts__panel .goToCart:hover > a, .navbar__right__favoriteProducts__panel .goToFav:hover > a, .navbar__right__shoppingCart__panel .goToCart:hover > a, .navbar__right__shoppingCart__panel .goToFav:hover > a {
+    background-color: #6f1e51;
+    color: #fff;
+  }
+  .navbar__right__favoriteProducts__panel .goToCart.active, .navbar__right__favoriteProducts__panel .goToFav.active, .navbar__right__shoppingCart__panel .goToCart.active, .navbar__right__shoppingCart__panel .goToFav.active {
+    z-index: 1;
+    visibility: visible;
+    opacity: 1;
+    position: static;
+  }
+  .navbar__right__favoriteProducts__panel .goToCart > a, .navbar__right__favoriteProducts__panel .goToFav > a, .navbar__right__shoppingCart__panel .goToCart > a, .navbar__right__shoppingCart__panel .goToFav > a {
+    width: 60%;
+    height: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(111, 30, 81, 0.3);
+    border-radius: 0.3rem;
+    transition: background-color 0.15s ease-in;
+  }
+}
+
+footer {
+  position: fixed;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 3rem;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(45, 52, 54, 0.7);
+}
+footer > p {
+  color: #fff;
+  font-weight: 550;
+}
+footer > a {
+  color: #2d3436;
+  font-size: 0.8rem;
+  position: absolute;
+  right: 5rem;
+}
+footer > a:hover {
+  color: #fff;
+}
+
 #login,
 #register {
   position: relative;
@@ -1575,7 +1858,8 @@ footer > p {
 }
 
 #homepage,
-#product {
+#product,
+#cart {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -1584,7 +1868,8 @@ footer > p {
   transition: transform 0.15s ease-in, opacity 0.15s ease-in;
 }
 #homepage.active,
-#product.active {
+#product.active,
+#cart.active {
   opacity: 1;
   transform: scale(1);
 }
@@ -2079,7 +2364,10 @@ footer > p {
   transition: background-color 0.15s ease-in;
 }
 .productSection__carousel__slider__slide > .addToCart:hover {
-  background-color: #1289a7;
+  background-color: #6f1e51;
+}
+.productSection__carousel__slider__slide > .addToCart.active {
+  background-color: #6f1e51;
 }
 .productSection__carousel__slider__slide > .addToCart::before {
   content: "";
@@ -2131,6 +2419,307 @@ footer > p {
 .productSection__carousel > button.rightBtn.hidden {
   visibility: hidden;
   opacity: 0;
+}
+
+.cart {
+  padding: 1rem;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (min-width: 768px) {
+  .cart {
+    padding: 0 2rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .cart {
+    padding: 0 5rem;
+    display: grid;
+    grid-template-columns: 0.3fr 0.3fr 0.4fr;
+    grid-template-areas: "header header header" "productInfo productInfo cartInfo";
+    align-items: center;
+    position: relative;
+  }
+}
+.cart > h1 {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+}
+@media only screen and (min-width: 992px) {
+  .cart > h1 {
+    grid-area: header;
+  }
+}
+.cart__products {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (min-width: 992px) {
+  .cart__products {
+    grid-area: productInfo;
+  }
+}
+.cart__product {
+  width: 100%;
+  height: 10rem;
+  display: grid;
+  margin: 0.5rem 0;
+  grid-template-columns: 0.3fr 0.2fr 0.5fr;
+  grid-template-areas: "img info info" "img range actions" "img price price";
+  border: 1px solid #505c60;
+  border-radius: 0.3rem;
+  transition: box-shadow 0.15s ease-in;
+}
+.cart__product:hover {
+  box-shadow: 0 0 0.7rem rgba(80, 92, 96, 0.7);
+}
+.cart__product:hover > img {
+  transform: scale(1.05);
+}
+.cart__product > img {
+  grid-area: img;
+  width: 100%;
+  height: 10rem;
+  padding: 1rem;
+  object-fit: contain;
+  transition: transform 0.15s ease-in;
+}
+.cart__product > a {
+  grid-area: info;
+  font-weight: 1000;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+.cart__product > .range {
+  grid-area: range;
+  position: relative;
+}
+.cart__product > .range .range-header {
+  display: flex;
+  align-items: center;
+}
+.cart__product > .range .range-header > span.number {
+  width: 3rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #2d3436;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+.cart__product > .range .range-header > span.number:hover > i {
+  color: #505c60;
+}
+.cart__product > .range .range-header > span.number.activeNumbers {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.cart__product > .range .range-header > span.number > i {
+  margin-left: 0.3rem;
+  color: #2d3436;
+  transition: color 0.15s ease-in;
+}
+.cart__product > .range .range-header > span {
+  margin-left: 0.5rem;
+}
+.cart__product > .range > ul {
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  width: 3rem;
+  margin: 0 0.5rem;
+  border: 1px solid #2d3436;
+  border-top: 0;
+  border-radius: 0 0 0.3rem 0.3rem;
+  background-color: #fff;
+  z-index: 9;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-1rem);
+  transition: visibility 0.15s ease-in, transform 0.15s ease-in, opacity 0.15s ease-in;
+}
+.cart__product > .range > ul.active {
+  visibility: visible;
+  transform: translateY(0);
+  opacity: 1;
+}
+.cart__product > .range > ul > li {
+  width: 100%;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in, color 0.15s ease-in;
+}
+.cart__product > .range > ul > li:hover {
+  background-color: rgba(80, 92, 96, 0.5);
+  color: #fff;
+}
+.cart__product > .range > ul > li.active {
+  background-color: rgba(80, 92, 96, 0.5);
+  color: #fff;
+}
+.cart__product > .actions {
+  grid-area: actions;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+}
+.cart__product > .actions > button {
+  margin: 0 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+.cart__product > .actions > button.addToFav {
+  background-color: rgba(18, 137, 167, 0.7);
+  color: #fff;
+  transition: background-color 0.15s ease-in;
+}
+.cart__product > .actions > button.addToFav:hover {
+  background-color: #1289a7;
+}
+.cart__product > .actions > button.removeFromCart {
+  background-color: rgba(234, 32, 39, 0.7);
+  color: #fff;
+  transition: background-color 0.15s ease-in;
+}
+.cart__product > .actions > button.removeFromCart:hover {
+  background-color: #ea2027;
+}
+.cart__product > .price {
+  grid-area: price;
+  display: flex;
+  align-items: center;
+  margin: 0.7rem 0;
+}
+.cart__product > .price > p {
+  display: flex;
+  align-items: flex-start;
+  margin: 0 0.5rem;
+}
+.cart__product > .price > p.oldPrice {
+  text-decoration: line-through;
+}
+.cart__product > .price > p.oldPrice.hidden {
+  display: none;
+}
+.cart__product > .price > p.newPrice {
+  color: #ea2027;
+}
+.cart__product > .price > p.newPrice > span {
+  font-size: 1.05rem;
+  font-weight: 1000;
+}
+.cart__product > .price > p > span {
+  font-size: 0.75rem;
+}
+.cart__product > .price > p > sup {
+  font-size: 0.65rem;
+}
+
+.cartInfo {
+  width: 75%;
+  margin: 1rem auto;
+  padding: 0 0.5rem;
+  box-shadow: 0 0 0.7rem rgba(18, 137, 167, 0.7);
+  border-radius: 0.3rem;
+  transition: box-shadow 0.15s ease-in;
+}
+@media only screen and (min-width: 992px) {
+  .cartInfo {
+    grid-area: cartInfo;
+    align-self: flex-start;
+    position: sticky;
+    top: 4rem;
+    left: 100%;
+  }
+}
+.cartInfo:hover {
+  box-shadow: 0 0 0.7rem rgba(111, 30, 81, 0.7);
+}
+.cartInfo > h2 {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+}
+.cartInfo > .productInfo {
+  display: flex;
+  flex-direction: column;
+}
+.cartInfo > .productInfo > .productPrice, .cartInfo > .productInfo > .productTax {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cartInfo > .productInfo > .productPrice > p, .cartInfo > .productInfo > .productTax > p {
+  display: flex;
+  align-items: flex-start;
+  margin: 0 0.5rem;
+}
+.cartInfo > .productInfo > .productPrice > p.newPrice, .cartInfo > .productInfo > .productTax > p.newPrice {
+  color: #2d3436;
+}
+.cartInfo > .productInfo > .productPrice > p.newPrice > span, .cartInfo > .productInfo > .productTax > p.newPrice > span {
+  font-size: 1.05rem;
+  font-weight: 1000;
+}
+.cartInfo > .productInfo > .productPrice > p > span, .cartInfo > .productInfo > .productTax > p > span {
+  font-size: 0.9rem;
+}
+.cartInfo > .productInfo > .productPrice > p > sup, .cartInfo > .productInfo > .productTax > p > sup {
+  font-size: 0.65rem;
+}
+.cartInfo > .cartTotal {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+.cartInfo > .cartTotal > .total {
+  display: flex;
+  align-items: center;
+}
+.cartInfo > .cartTotal > .total > span {
+  text-transform: uppercase;
+  font-weight: 1000;
+  font-size: 1.1rem;
+}
+.cartInfo > .cartTotal > .total > p {
+  display: flex;
+  align-items: flex-start;
+  margin: 0 0.5rem;
+}
+.cartInfo > .cartTotal > .total > p.newPrice {
+  color: #2d3436;
+}
+.cartInfo > .cartTotal > .total > p.newPrice > span {
+  font-size: 1.05rem;
+  font-weight: 1000;
+}
+.cartInfo > .cartTotal > .total > p > span {
+  font-size: 0.9rem;
+}
+.cartInfo > .cartTotal > .total > p > sup {
+  font-size: 0.65rem;
+}
+.cartInfo > .cartTotal > .checkoutBtn {
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  background-color: rgba(18, 137, 167, 0.7);
+  color: #fff;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in;
+}
+.cartInfo > .cartTotal > .checkoutBtn:hover {
+  background-color: #6f1e51;
 }
 
 /*# sourceMappingURL=main.css.map */

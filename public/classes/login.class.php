@@ -18,7 +18,7 @@ class Login extends Database
 
     public function login()
     {
-        $sql = "SELECT user_last_name, user_first_name FROM users WHERE user_email = ?";
+        $sql = "SELECT users.id AS userID, user_last_name, user_first_name FROM users WHERE user_email = ?";
         $stmt = $this->connect()->prepare($sql);
 
         $stmt->bind_param("s", $this->email);
@@ -28,6 +28,7 @@ class Login extends Database
 
             $_SESSION["userFullName"] =
                 $user["user_last_name"] . " " .  $user["user_first_name"];
+            $_SESSION["userID"] = $user["userID"];
 
             return true;
         } else {

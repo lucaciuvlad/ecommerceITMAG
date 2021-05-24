@@ -55,7 +55,6 @@ const notification = notificationContainer.children[0];
 const notificationMsg = notification.children[0];
 
 const showNotification = (msg, page, delay, error) => {
-  notificationContainer.style.height = `${notificationContainer.parentElement.clientHeight}px`;
   addCssClass(notificationContainer, "active");
   addCssClass(notification, "active");
 
@@ -78,11 +77,13 @@ const showNotification = (msg, page, delay, error) => {
     clearTimeout(hideNotification);
   }, delay);
 
-  const redirect = setTimeout(() => {
-    window.location.assign(`http://localhost/itmag/public/${page}`);
+  if (page !== null) {
+    const redirect = setTimeout(() => {
+      window.location.assign(`http://localhost/itmag/public/${page}`);
 
-    clearTimeout(redirect);
-  }, delay + 150);
+      clearTimeout(redirect);
+    }, delay + 150);
+  }
 };
 
 // Sticky Top Button Component

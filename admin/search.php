@@ -8,14 +8,21 @@ if (!isset($_SESSION["adminName"])) {
 require_once("classes/products.class.php");
 require_once("classes/categories.class.php");
 require_once("classes/brands.class.php");
+require_once("classes/searchEngine.class.php");
 
 
 if (isset($_GET["productID"])) {
     $productID = htmlentities($_GET["productID"]);
 
-    $productHandler = new Products();
-    $productHandler->setProductId($productID);
-    $product = $productHandler->selectProduct()->fetch_assoc();
+    $searchEngineHandler = new SearchEngine($productID);
+    $searchSuggestions = $searchEngineHandler->fetchSearchSuggestions();
+}
+
+if (isset($_GET["searchString"])) {
+    $searchString = htmlentities($_GET["searchString"]);
+
+    $searchEngineHandler = new SearchEngine($searchString);
+    $searchSuggestions = $searchEngineHandler->fetchSearchSuggestions();
 
     $categoriesHandler = new Categories();
     $categories = $categoriesHandler->selectCategories();
@@ -33,7 +40,7 @@ if (isset($_GET["productID"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/main.css">
-    <title> <?php echo $product["product_name"]; ?> </title>
+    <title> Cautari </title>
 
     <?php
     require_once("./includes/fonts.inc.php");
@@ -49,7 +56,15 @@ if (isset($_GET["productID"])) {
     ?>
 
     <main class="products">
-        <h1> <?php echo $product["product_name"]; ?> </h1>
+
+        <?php
+        if ($searchSuggestions->num_rows == 0) :
+        ?>
+
+        <p class="error active"> Nu a fost gasit niciun rezultat. </p>
+        <?php else : ?>
+
+        <h1> Au fost gasite <?php echo $searchSuggestions->num_rows; ?> produse </h1>
 
         <!-- Product View -->
         <table class="table">
@@ -59,28 +74,35 @@ if (isset($_GET["productID"])) {
                     <th> Categorie produs </th>
                     <th> Brand produs </th>
                     <th> Pret total </th>
-                    <?php if ($product["product_old_price"] != null) : ?>
                     <th> Pret redus </th>
-                    <?php endif; ?>
                     <th> Stoc </th>
                     <th> Optiuni </th>
                 </tr>
             </thead>
             <tbody>
+                <?php
+                    foreach ($searchSuggestions as $searchSuggestion) :
+                    ?>
                 <tr>
-                    <td> <?php echo $product["product_name"]; ?> </td>
+                    <td class="prName"> <?php echo $searchSuggestion["product_name"]; ?> </td>
 
-                    <td> <?php echo $product["category_name"] ?> </td>
+                    <td> <?php echo $searchSuggestion["category_name"] ?> </td>
 
-                    <td> <?php echo $product["brand_name"] ?> </td>
+                    <td> <?php echo $searchSuggestion["brand_name"] ?> </td>
 
-                    <td> <?php echo $product["product_price"]; ?> Lei </td>
+                    <td> <?php echo $searchSuggestion["product_price"]; ?> Lei </td>
 
-                    <?php if ($product["product_old_price"] != null) : ?>
-                    <td> <?php echo $product["product_old_price"]; ?> </td>
-                    <?php endif; ?>
+                    <td>
+                        <?php if ($searchSuggestion["product_old_price"] != null) {
+                                    echo $searchSuggestion["product_old_price"];
+                                } else {
+                                    echo "0";
+                                }
+                                ?>
+                        Lei
+                    </td>
 
-                    <td> <?php echo $product["product_stock"] ?> </td>
+                    <td> <?php echo $searchSuggestion["product_stock"] ?> </td>
 
                     <td class="dropdown">
                         <div class="dropdown__tab">
@@ -92,23 +114,24 @@ if (isset($_GET["productID"])) {
                                 <li>
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                     <span class="productUpdateBtn"
-                                        data-product-id="<?php echo $product["productID"]; ?>">
+                                        data-product-id="<?php echo $searchSuggestion["productID"]; ?>">
                                         Editeaza </span>
                                 </li>
                                 <li>
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                     <span class="productDeleteBtn"
-                                        data-product-id="<?php echo $product["productID"]; ?>"> Sterge </span>
+                                        data-product-id="<?php echo $searchSuggestion["productID"]; ?>"> Sterge </span>
                                 </li>
                                 <li>
                                     <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                    <a href="productImages.php?productID=<?php echo $product["productID"]; ?>">
+                                    <a href="productImages.php?productID=<?php echo $searchSuggestion["productID"]; ?>">
                                         Imagini
                                     </a>
                                 </li>
                                 <li>
                                     <i class="fa fa-book" aria-hidden="true"></i>
-                                    <a href="productDescriptions.php?productID=<?php echo $product["productID"]; ?>">
+                                    <a
+                                        href="productDescriptions.php?productID=<?php echo $searchSuggestion["productID"]; ?>">
                                         Descrieri
                                     </a>
                                 </li>
@@ -116,8 +139,16 @@ if (isset($_GET["productID"])) {
                         </div>
                     </td>
                 </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
+        <?php endif; ?>
+
+        <?php
+        $indexId = 0;
+        foreach ($searchSuggestions as $searchSuggestion) :
+            $indexId++;
+        ?>
 
         <div class="modal update">
             <div class="modal__close">
@@ -133,9 +164,9 @@ if (isset($_GET["productID"])) {
                         </div>
 
                         <div class="form__field updateProductName">
-                            <label for="updateProductName"> Nume produs </label>
-                            <input type="text" name="updateProductName" id="updateProductName"
-                                value=" <?php echo $product["product_name"]; ?>" />
+                            <label for="updateProductName<?php echo $indexId; ?>"> Nume produs </label>
+                            <input type="text" name="updateProductName" id="updateProductName<?php echo $indexId; ?>"
+                                value=" <?php echo $searchSuggestion["product_name"]; ?>" />
 
                             <p class="error"></p>
                         </div>
@@ -163,13 +194,14 @@ if (isset($_GET["productID"])) {
 
                         <div class="form__field__wrapper">
                             <div class="form__field__wrapper__column updateFullPrice">
-                                <label for="updateProductPrice"> Pret total (taxe incluse)
+                                <label for="updateProductPrice<?php echo $indexId; ?>"> Pret total (taxe incluse)
                                 </label>
 
                                 <div class="tool">
                                     <i class="fa fa-minus" aria-hidden="true"></i>
-                                    <input type="text" name="updateProductPrice" id="updateProductPrice"
-                                        value="<?php echo $product["product_price"]; ?>" />
+                                    <input type="text" name="updateProductPrice"
+                                        id="updateProductPrice<?php echo $indexId; ?>"
+                                        value="<?php echo $searchSuggestion["product_price"]; ?>" />
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                 </div>
 
@@ -182,10 +214,8 @@ if (isset($_GET["productID"])) {
                             </div>
                         </div>
 
-                        <?php if ($product["product_old_price"]) : ?>
-
                         <div class="form__field updateProductOldPrice">
-                            <label for="updateProductOldPrice"> Afiseaza o reducere de pret
+                            <label for="updateProductOldPrice<?php echo $indexId; ?>"> Afiseaza o reducere de pret
                                 pentru acest produs
                             </label>
 
@@ -195,8 +225,12 @@ if (isset($_GET["productID"])) {
 
                             <div class="oldPrice active">
                                 <div class="oldPrice__wrapper">
-                                    <input type="text" value="<?php echo $product["product_old_price"]; ?>"
-                                        id="updateProductOldPrice" />
+                                    <input type="text" value="<?php if ($searchSuggestion["product_old_price"] == null) {
+                                                                        echo "0";
+                                                                    } else {
+                                                                        echo $searchSuggestion["product_old_price"];
+                                                                    } ?>"
+                                        id="updateProductOldPrice<?php echo $indexId; ?>" />
                                     <span> RON </span>
                                 </div>
 
@@ -209,8 +243,6 @@ if (isset($_GET["productID"])) {
 
                             <p class="error"></p>
                         </div>
-
-                        <?php endif; ?>
                     </div>
 
                     <div class="form__group">
@@ -223,19 +255,19 @@ if (isset($_GET["productID"])) {
 
                             <div class="form__field__dropdown__tab">
                                 <span>
-                                    <?php echo $product["category_name"]; ?> </span>
+                                    <?php echo $searchSuggestion["category_name"]; ?> </span>
                                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             </div>
 
                             <div class="form__field__dropdown__options">
                                 <?php
-                                if ($categories->num_rows != 0) :
-                                    foreach ($categories as $category) :
-                                ?>
+                                    if ($categories->num_rows != 0) :
+                                        foreach ($categories as $category) :
+                                    ?>
                                 <p data-id=<?php echo $category["categoryID"]; ?>>
                                     <?php echo $category["category_name"]; ?> </p>
                                 <?php endforeach;
-                                endif; ?>
+                                    endif; ?>
                             </div>
 
                             <p class="error"></p>
@@ -245,19 +277,19 @@ if (isset($_GET["productID"])) {
                             <label> Producator </label>
 
                             <div class="form__field__dropdown__tab">
-                                <span> <?php echo $product["brand_name"]; ?> </span>
+                                <span> <?php echo $searchSuggestion["brand_name"]; ?> </span>
                                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             </div>
 
                             <div class="form__field__dropdown__options">
                                 <?php
-                                if ($brands->num_rows != 0) :
-                                    foreach ($brands as $brand) :
+                                    if ($brands->num_rows != 0) :
+                                        foreach ($brands as $brand) :
 
-                                ?>
+                                    ?>
                                 <p data-id=<?php echo $brand["brandID"]; ?>> <?php echo $brand["brand_name"]; ?> </p>
                                 <?php endforeach;
-                                endif; ?>
+                                    endif; ?>
                             </div>
 
                             <p class="error"></p>
@@ -265,12 +297,13 @@ if (isset($_GET["productID"])) {
 
                         <div class="form__field__wrapper">
                             <div class="form__field__wrapper__column updateProductStock">
-                                <label for="updateProductStock"> Stoc produs </label>
+                                <label for="updateProductStock<?php echo $indexId; ?>"> Stoc produs </label>
 
                                 <div class="tool">
                                     <i class="fa fa-minus" aria-hidden="true"></i>
                                     <input type="text" name="updateProductStock"
-                                        value="<?php echo $product["product_stock"]; ?>" id="updateProductStock" />
+                                        value="<?php echo $searchSuggestion["product_stock"]; ?>"
+                                        id="updateProductStock<?php echo $indexId; ?>" />
 
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                 </div>
@@ -287,22 +320,30 @@ if (isset($_GET["productID"])) {
             </div>
         </div>
 
-        <div class="modal delete">
-            <div class="modal__close">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
+        <?php endforeach; ?>
+    </main>
 
-            <div class="modal__content">
-                <div class="modal__confirmation">
-                    <p> Esti sigur ca vrei sa stergi categoria? </p>
-                    <div class="modal__confirmation__actions">
-                        <button type="button" id="confirm"> Da </button>
-                        <button type="button" id="reject"> Nu </button>
-                    </div>
+    <?php
+    foreach ($searchSuggestions as $searchSuggestion) :
+    ?>
+
+    <div class="modal delete">
+        <div class="modal__close">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+
+        <div class="modal__content">
+            <div class="modal__confirmation">
+                <p> Esti sigur ca vrei sa stergi produsul? </p>
+                <div class="modal__confirmation__actions">
+                    <button type="button" id="confirm"> Da </button>
+                    <button type="button" id="reject"> Nu </button>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+
+    <?php endforeach; ?>
 
     <script src="./assets/js/navigationBar.js" type="module"></script>
     <script src="./assets/js/search.js" type="module"></script>

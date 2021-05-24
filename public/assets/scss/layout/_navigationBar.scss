@@ -77,8 +77,10 @@
         position: absolute;
         top: calc(100% + 1px);
         left: 0;
-        background-color: getMap($colors, primary-color);
+        background-color: #fff;
+        border-bottom-left-radius: $border-radius;
         border-bottom-right-radius: $border-radius;
+        box-shadow: 0 0 0.8rem getMap($colors, secondary-color);
         transform: translateX(-100%);
         visibility: hidden;
         opacity: 0;
@@ -115,20 +117,25 @@
               }
             }
 
-            &:hover > a > span {
-              color: getMap($colors, text-color);
-            }
-
-            &:hover > a > i {
-              color: getMap($colors, text-color);
-            }
-
             & > a {
               width: 90%;
               height: 100%;
               display: flex;
               align-items: center;
-              color: #fff;
+              color: getMap($colors, text-color);
+              transition: getMap($transitions, transform);
+
+              &:hover {
+                transform: translateX(0.2rem);
+              }
+
+              &:hover > span {
+                color: getMap($colors, secondary-color);
+              }
+
+              &:hover > i {
+                color: getMap($colors, secondary-color);
+              }
 
               & > i {
                 width: 10%;
@@ -136,7 +143,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: #fff;
+                color: getMap($colors, text-color);
                 font-size: 1.3rem;
                 transition: getMap($transitions, color);
 
@@ -378,7 +385,7 @@
             }
 
             &:hover > span {
-              color: getMap($colors, primary-color);
+              color: getMap($colors, secondary-color);
             }
 
             & > img {
@@ -527,12 +534,13 @@
         @include mq(desktop) {
           position: absolute;
           top: calc(100% + 1px);
-          left: 0;
+          right: calc(0% - 0.5rem);
           width: 10rem;
           display: block;
-          background-color: getMap($colors, primary-color);
+          background-color: #fff;
           border-bottom-left-radius: $border-radius;
           border-bottom-right-radius: $border-radius;
+          box-shadow: 0 0 0.8rem getMap($colors, secondary-color);
           transform: translateY(-1rem);
           visibility: hidden;
           z-index: -1;
@@ -564,7 +572,7 @@
                 height: 100%;
                 display: flex;
                 align-items: center;
-                color: #fff;
+                color: getMap($colors, text-color);
                 transition: getMap($transitions, transform);
                 background-color: transparent;
                 cursor: pointer;
@@ -575,7 +583,7 @@
 
                 &:hover > i,
                 &:hover > span {
-                  color: getMap($colors, text-color);
+                  color: getMap($colors, secondary-color);
                 }
 
                 & > i {
@@ -584,7 +592,7 @@
                   display: flex;
                   align-items: center;
                   justify-content: center;
-                  color: #fff;
+                  color: getMap($colors, text-color);
                   font-size: 1.1rem;
                   transition: getMap($transitions, color);
                 }
@@ -606,6 +614,7 @@
     &__favoriteProducts,
     &__shoppingCart {
       margin: 0 0.5rem;
+      position: relative;
 
       @include mq(medium) {
         margin: 0 0.5rem;
@@ -616,6 +625,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
 
         &:hover {
           color: getMap($colors, secondary-color);
@@ -625,9 +635,22 @@
           color: getMap($colors, secondary-color);
         }
 
+        &:hover > .counter {
+          background-color: getMap($colors, secondary-color);
+        }
+
+        &.active {
+          color: getMap($colors, secondary-color);
+        }
+
         & > i {
           padding: 0.5rem;
           font-size: 1.3rem;
+          transition: getMap($transitions, color);
+
+          &.active {
+            color: getMap($colors, secondary-color);
+          }
         }
 
         & > span {
@@ -637,6 +660,7 @@
             display: flex;
             padding: 0 0.2rem;
             position: relative;
+            transition: getMap($transitions, color);
 
             &::after {
               content: "\f0d7";
@@ -646,12 +670,320 @@
               transform: translateY(-50%);
               right: -0.5rem;
             }
+
+            &.active {
+              color: getMap($colors, secondary-color);
+            }
+          }
+        }
+
+        & > .counter {
+          position: absolute;
+          top: 0.4rem;
+          left: 1.3rem;
+          width: 1.1rem;
+          height: 1.1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          background-color: getMap($colors, primary-color);
+          transition: getMap($transitions, bg-color);
+
+          &.active {
+            background-color: getMap($colors, secondary-color);
+          }
+
+          & > span {
+            color: #fff;
+            font-size: 0.8rem;
           }
         }
       }
-    }
 
-    &__shoppingCart {
+      &__panel {
+        display: none;
+
+        @include mq(desktop) {
+          position: absolute;
+          top: calc(100% + 2px);
+          right: calc(0% - 0.5rem);
+          width: 20rem;
+          display: block;
+          background-color: #fff;
+          border-bottom-left-radius: $border-radius;
+          border-bottom-right-radius: $border-radius;
+          box-shadow: 0 0 0.8rem getMap($colors, secondary-color);
+          transform: translateY(-1rem);
+          visibility: hidden;
+          z-index: -1;
+          opacity: 0;
+          transition: getMap($transitions, transform),
+            getMap($transitions, visibility), getMap($transitions, z-index),
+            getMap($transitions, opacity);
+
+          &.active {
+            transform: translateY(0);
+            visibility: visible;
+            z-index: 9;
+            opacity: 1;
+          }
+
+          & > span {
+            width: 100%;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(getMap($colors, primary-color), 0.7);
+          }
+
+          & > ul {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            & > li {
+              width: 100%;
+              height: 100%;
+              border-bottom: 1px solid rgba(getMap($colors, primary-color), 0.3);
+
+              & > a {
+                width: 100%;
+                padding: 0 0.5rem;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+
+                &:hover .actions {
+                  visibility: visible;
+                  opacity: 1;
+                  z-index: 1;
+                  top: 100%;
+                  position: static;
+                }
+
+                & .productInfo {
+                  width: 100%;
+                  height: 4rem;
+                  display: flex;
+
+                  & > img {
+                    width: 3rem;
+                    height: 100%;
+                    object-fit: contain;
+                  }
+
+                  & > p.name {
+                    font-size: 0.8rem;
+                  }
+
+                  & .prices {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+
+                    & > p {
+                      display: flex;
+                      align-items: flex-start;
+
+                      &.oldPrice {
+                        text-decoration: line-through;
+                        color: getMap($colors, text-color-light);
+
+                        &.hidden {
+                          display: none;
+                        }
+                      }
+
+                      &.newPrice {
+                        color: getMap($colors, danger-color);
+
+                        & > span {
+                          font-size: 0.95rem;
+                          font-weight: 1000;
+                        }
+                      }
+
+                      & > span {
+                        font-size: 0.8rem;
+                      }
+
+                      & > sup {
+                        font-size: 0.65rem;
+                      }
+                    }
+                  }
+                }
+
+                & .actions {
+                  width: 100%;
+                  height: 2rem;
+                  padding: 0 0.5rem;
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  position: absolute;
+                  top: 90%;
+                  visibility: hidden;
+                  opacity: 0;
+                  z-index: -1;
+                  border-top: 1px solid
+                    rgba(getMap($colors, secondary-color), 0.3);
+                  transition: getMap($transitions, top),
+                    getMap($transitions, visibility),
+                    getMap($transitions, opacity), getMap($transitions, z-index);
+
+                  & > button {
+                    background-color: transparent;
+                    cursor: pointer;
+
+                    &.favAddToCart,
+                    &.cartAddToFav {
+                      &:hover > i {
+                        color: getMap($colors, secondary-color);
+                      }
+
+                      &:hover > span::after {
+                        width: 100%;
+                      }
+
+                      & > span {
+                        padding: 0.1rem;
+                        position: relative;
+
+                        &::after {
+                          content: "";
+                          position: absolute;
+                          top: 100%;
+                          left: 0;
+                          width: 0;
+                          height: 1px;
+                          background-color: getMap($colors, secondary-color);
+                          transition: getMap($transitions, width);
+                        }
+                      }
+
+                      & > i {
+                        font-size: 1rem;
+                        color: getMap($colors, primary-color);
+                        transition: getMap($transitions, color);
+                        transition-delay: 0.15s;
+                      }
+                    }
+
+                    &.removeFromFav,
+                    &.removeFromCart {
+                      & > i {
+                        font-size: 1rem;
+                        color: getMap($colors, primary-color);
+                        transition: getMap($transitions, color);
+
+                        &:hover {
+                          color: getMap($colors, danger-color);
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          & .summary {
+            width: 100%;
+            height: 3rem;
+            padding: 0 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(getMap($colors, primary-color), 0.3);
+            visibility: hidden;
+            z-index: -1;
+            opacity: 0;
+            position: absolute;
+            transition: getMap($transitions, visibility),
+              getMap($transitions, opacity), getMap($transitions, z-index);
+
+            &.active {
+              z-index: 1;
+              visibility: visible;
+              opacity: 1;
+              position: static;
+            }
+
+            & > p.totalLabel {
+              & > span {
+                margin: 0 0.5rem;
+              }
+            }
+
+            & > p {
+              display: flex;
+              align-items: flex-start;
+
+              &.newPrice {
+                color: getMap($colors, danger-color);
+
+                & > span {
+                  font-size: 0.95rem;
+                  font-weight: 1000;
+                }
+              }
+
+              & > span {
+                font-size: 0.8rem;
+              }
+
+              & > sup {
+                font-size: 0.65rem;
+              }
+            }
+          }
+
+          & .goToCart,
+          & .goToFav {
+            width: 100%;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            z-index: -1;
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            transition: getMap($transitions, visibility),
+              getMap($transitions, opacity), getMap($transitions, z-index);
+
+            &:hover > a {
+              background-color: getMap($colors, secondary-color);
+              color: #fff;
+            }
+
+            &.active {
+              z-index: 1;
+              visibility: visible;
+              opacity: 1;
+              position: static;
+            }
+
+            & > a {
+              width: 60%;
+              height: 75%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background-color: rgba(getMap($colors, secondary-color), 0.3);
+              border-radius: $border-radius;
+              transition: getMap($transitions, bg-color);
+            }
+          }
+        }
+      }
     }
   }
 }
