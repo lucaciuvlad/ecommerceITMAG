@@ -716,7 +716,7 @@
           box-shadow: 0 0 0.8rem getMap($colors, secondary-color);
           transform: translateY(-1rem);
           visibility: hidden;
-          z-index: -1;
+          z-index: -9;
           opacity: 0;
           transition: getMap($transitions, transform),
             getMap($transitions, visibility), getMap($transitions, z-index),
@@ -776,11 +776,21 @@
                     object-fit: contain;
                   }
 
-                  & > p.name {
+                  & > p {
                     font-size: 0.8rem;
+
+                    &.name {
+                      padding: 0.3rem;
+                    }
+
+                    &.quantity {
+                      margin-right: 0.8rem;
+                      align-self: flex-start;
+                    }
                   }
 
                   & .prices {
+                    width: 4rem;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
@@ -902,14 +912,14 @@
             justify-content: space-between;
             border-bottom: 1px solid rgba(getMap($colors, primary-color), 0.3);
             visibility: hidden;
-            z-index: -1;
+            z-index: -9;
             opacity: 0;
             position: absolute;
             transition: getMap($transitions, visibility),
               getMap($transitions, opacity), getMap($transitions, z-index);
 
             &.active {
-              z-index: 1;
+              z-index: 9;
               visibility: visible;
               opacity: 1;
               position: static;

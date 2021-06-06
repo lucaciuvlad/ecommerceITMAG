@@ -1,6 +1,5 @@
 .cart {
   padding: 1rem;
-  min-height: 100%;
   display: flex;
   flex-direction: column;
 
@@ -13,13 +12,61 @@
     display: grid;
     grid-template-columns: 0.3fr 0.3fr 0.4fr;
     grid-template-areas: "header header header" "productInfo productInfo cartInfo";
-    align-items: center;
     position: relative;
+
+    &.emptyCart {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: static;
+    transition: getMap($transitions, visibility), getMap($transitions, z-index),
+      getMap($transitions, opacity);
+
+    @include mq(large) {
+      width: 85%;
+      height: calc(100vh - 12rem);
+      margin: 0 auto;
+      grid-area: emptyCart;
+    }
+
+    & > h3,
+    & > p {
+      padding: 0.7rem;
+    }
+
+    & > a {
+      margin-top: 0.5rem;
+      padding: 0.7rem;
+      background-color: getMap($colors, primary-color);
+      color: #fff;
+      border-radius: $border-radius;
+      transition: getMap($transitions, bg-color);
+
+      &:hover {
+        background-color: getMap($colors, secondary-color);
+      }
+    }
+
+    &.hidden {
+      opacity: 0;
+      visibility: hidden;
+      z-index: -1;
+      position: absolute;
+      left: 0;
+    }
   }
 
   & > h1 {
     width: 100%;
     height: 3rem;
+    margin: 1rem 0;
     display: flex;
     align-items: center;
 
@@ -31,8 +78,6 @@
   &__products {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
 
     @include mq(large) {
       grid-area: productInfo;
@@ -79,37 +124,31 @@
       position: relative;
 
       & .range-header {
+        width: 3rem;
+        height: 2rem;
         display: flex;
         align-items: center;
+        justify-content: center;
+        border: 1px solid getMap($colors, text-color);
+        border-radius: $border-radius;
+        cursor: pointer;
 
-        & > span.number {
-          width: 3rem;
-          height: 2rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid getMap($colors, text-color);
-          border-radius: $border-radius;
-          cursor: pointer;
+        &.activeNumbers {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
 
-          &:hover > i {
-            color: getMap($colors, text-color-light);
-          }
-
-          &.activeNumbers {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-          }
-
-          & > i {
-            margin-left: 0.3rem;
-            color: getMap($colors, text-color);
-            transition: getMap($transitions, color);
-          }
+        &:hover > i {
+          color: getMap($colors, text-color-light);
         }
 
         & > span {
-          margin-left: 0.5rem;
+          margin: 0 0.3rem;
+        }
+
+        & > i {
+          color: getMap($colors, text-color);
+          transition: getMap($transitions, color);
         }
       }
 
@@ -118,7 +157,6 @@
         top: 2rem;
         left: 0;
         width: 3rem;
-        margin: 0 0.5rem;
         border: 1px solid getMap($colors, text-color);
         border-top: 0;
         border-radius: 0 0 $border-radius $border-radius;
@@ -207,6 +245,10 @@
         &.oldPrice {
           text-decoration: line-through;
 
+          & > span {
+            font-size: 0.85rem;
+          }
+
           &.hidden {
             display: none;
           }
@@ -253,6 +295,14 @@
     box-shadow: 0 0 0.7rem rgba(getMap($colors, secondary-color), 0.7);
   }
 
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
+    position: absolute;
+    left: 0;
+  }
+
   & > h2 {
     height: 3rem;
     display: flex;
@@ -264,12 +314,18 @@
     flex-direction: column;
 
     & > .productPrice,
-    & > .productTax {
+    & > .productTax,
+    & > .productQuantity {
       display: flex;
       align-items: center;
       justify-content: space-between;
 
+      & > span {
+        width: 75%;
+      }
+
       & > p {
+        width: 25%;
         display: flex;
         align-items: flex-start;
         margin: 0 0.5rem;
@@ -304,7 +360,6 @@
       align-items: center;
 
       & > span {
-        text-transform: uppercase;
         font-weight: 1000;
         font-size: 1.1rem;
       }

@@ -8,8 +8,86 @@ import {
   createElement,
 } from "./global.js";
 
+import { renderLocalProducts, cartItemsCounter } from "./navigationBar.js";
+
 const cart = document.querySelector("#cart");
+const cartContainer = cart.querySelector(".cart");
+const emtpyCart = cartContainer.querySelector(".cart__empty");
+const cartInfo = cart.querySelector(".cartInfo");
 toggleCssClass(cart, "active");
+
+const cartProductsContainer = document.querySelector(".cart__products");
+
+const cartSummary = (cartProducts) => {
+  const productFinalPrice = document.querySelector(".cartInfo .productPrice");
+  const wholeFinalPriceSpan = productFinalPrice.querySelector(".newFullPrice");
+  const decimalFinalPriceSup = productFinalPrice.querySelector(
+    ".newFullPriceDecimal"
+  );
+  const productWholePrices = Array.from(
+    document.querySelectorAll(".cart__product .newFullPrice")
+  );
+  const productDecimalPrices = Array.from(
+    document.querySelectorAll(".cart__product .newFullPriceDecimal")
+  );
+  const cartTaxWholePrice = document.querySelector(
+    ".cartInfo .productTax .newFullPrice"
+  );
+  const cartTaxDecimalPrice = document.querySelector(
+    ".cartInfo .productTax .newFullPriceDecimal"
+  );
+  const cartQuantity = document.querySelector(".cartInfo .productQuantity p");
+  const totalCartPriceSpan = document.querySelector(".cartTotal .newFullPrice");
+  const totalCartPriceSup = document.querySelector(
+    ".cartTotal .newFullPriceDecimal"
+  );
+
+  let totalWholeFinalPrice = 0;
+  let totalDecimalFinalPrice = 0;
+
+  productWholePrices.forEach((productWholePrice) => {
+    const wholePrice = parseInt(productWholePrice.innerHTML.trim());
+    totalWholeFinalPrice += wholePrice;
+  });
+  wholeFinalPriceSpan.innerHTML = totalWholeFinalPrice;
+
+  productDecimalPrices.forEach((productDecimalPrice) => {
+    const decimalPrice = parseInt(productDecimalPrice.innerHTML.trim());
+    totalDecimalFinalPrice += decimalPrice;
+  });
+  decimalFinalPriceSup.innerHTML = totalDecimalFinalPrice;
+
+  if (totalWholeFinalPrice > 2500) {
+    cartTaxWholePrice.innerHTML = 0;
+    cartTaxDecimalPrice.innerHTML = 0;
+  } else {
+    cartTaxWholePrice.innerHTML = 15;
+    cartTaxDecimalPrice.innerHTML = 99;
+  }
+
+  let totalQuantity = 0;
+  cartProducts.forEach((cartProduct) => {
+    const product = JSON.parse(localStorage.getItem(cartProduct));
+    totalQuantity += product.productQuantity;
+  });
+  cartQuantity.innerHTML = totalQuantity;
+
+  let finalWholePrice = 0;
+  let finalDecimalPrice = 0;
+
+  finalWholePrice =
+    totalWholeFinalPrice + parseInt(cartTaxWholePrice.innerHTML);
+  finalDecimalPrice =
+    totalDecimalFinalPrice + parseInt(cartTaxDecimalPrice.innerHTML);
+
+  if (finalDecimalPrice > 99) {
+    finalDecimalPrice -= 100;
+    finalWholePrice++;
+
+    totalCartPriceSpan.innerHTML = finalWholePrice;
+    totalCartPriceSup.innerHTML = finalDecimalPrice;
+  }
+};
 
 // Render Local Storage Cart Products
 const renderCartProducts = () => {
@@ -28,7 +106,16 @@ const renderCartProducts = () => {
     }
   });
 
-  const cartProductsContainer = document.querySelector(".cart__products");
+  if (localStorageCartProducts.length === 0) {
+    addCssClass(cartContainer, "emptyCart");
+    addCssClass(cartInfo, "hidden");
+    removeCssClass(emtpyCart, "hidden");
+  } else {
+    removeCssClass(cartInfo, "hidden");
+    removeCssClass(cartContainer, "emptyCart");
+    addCssClass(emtpyCart, "hidden");
+  }
+
   cartProductsContainer.innerHTML = "";
 
   localStorageCartProducts.forEach((cartProduct) => {
@@ -37,6 +124,10 @@ const renderCartProducts = () => {
     );
 
     const cartProductContainer = createElement("div", "class", "cart__product");
+    cartProductContainer.setAttribute(
+      "data-id",
+      localStorageCartProduct.productID
+    );
     appendElement(cartProductContainer, cartProductsContainer);
 
     const productImg = createElement(
@@ -61,19 +152,22 @@ const renderCartProducts = () => {
     appendElement(rangeHeader, productRange);
 
     const rangeNumber = createElement("span", "class", "number");
-    rangeNumber.innerHTML = "1";
+    rangeNumber.innerHTML = localStorageCartProduct.productQuantity;
     appendElement(rangeNumber, rangeHeader);
 
     const caretDown = createElement("i", "class", "fa fa-caret-down");
-    appendElement(caretDown, rangeNumber);
-
-    const rangeUnit = createElement("span", null, null);
-    appendElement(rangeUnit, rangeHeader);
+    appendElement(caretDown, rangeHeader);
 
     const numberList = createElement("ul", "class", "numbers");
     for (let i = 0; i < 10; i++) {
       const numberItem = createElement("li", null, null);
       numberItem.innerHTML = i + 1;
+
+      if (numberItem.innerHTML.trim() == rangeNumber.innerHTML.trim()) {
+        addCssClass(numberItem, "active");
+      } else {
+        removeCssClass(numberItem, "active");
+      }
       appendElement(numberItem, numberList);
     }
     appendElement(numberList, productRange);
@@ -107,7 +201,11 @@ const renderCartProducts = () => {
       appendElement(oldPrice, productPrice);
 
       const oldFullPrice = createElement("span", "class", "oldFullPrice");
-      oldFullPrice.innerHTML = localStorageCartProduct.productOldFullPrice;
+      if (localStorageCartProduct.oldWholePrice != undefined) {
+        oldFullPrice.innerHTML = localStorageCartProduct.oldWholePrice;
+      } else {
+        oldFullPrice.innerHTML = localStorageCartProduct.productOldFullPrice;
+      }
       appendElement(oldFullPrice, oldPrice);
 
       const oldFullPriceDecimal = createElement(
@@ -115,8 +213,13 @@ const renderCartProducts = () => {
         "class",
         "oldFullPriceDecimal"
       );
-      oldFullPriceDecimal.innerHTML =
-        localStorageCartProduct.productOldFullPriceDecimal;
+
+      if (localStorageCartProduct.oldDecimalPrice != undefined) {
+        oldFullPriceDecimal.innerHTML = localStorageCartProduct.oldDecimalPrice;
+      } else {
+        oldFullPriceDecimal.innerHTML =
+          localStorageCartProduct.productOldFullPriceDecimal;
+      }
       appendElement(oldFullPriceDecimal, oldPrice);
 
       const oldFullPriceCurr = createElement("span", null, null);
@@ -128,7 +231,11 @@ const renderCartProducts = () => {
     appendElement(newPrice, productPrice);
 
     const newFullPrice = createElement("span", "class", "newFullPrice");
-    newFullPrice.innerHTML = localStorageCartProduct.productNewFullPrice;
+    if (localStorageCartProduct.newWholePrice != undefined) {
+      newFullPrice.innerHTML = localStorageCartProduct.newWholePrice;
+    } else {
+      newFullPrice.innerHTML = localStorageCartProduct.productNewFullPrice;
+    }
     appendElement(newFullPrice, newPrice);
 
     const newFullPriceDecimal = createElement(
@@ -136,27 +243,122 @@ const renderCartProducts = () => {
       "class",
       "newFullPriceDecimal"
     );
-    newFullPriceDecimal.innerHTML =
-      localStorageCartProduct.productNewFullPriceDecimal;
+    if (localStorageCartProduct.newDecimalPrice != undefined) {
+      newFullPriceDecimal.innerHTML = localStorageCartProduct.newDecimalPrice;
+    } else {
+      newFullPriceDecimal.innerHTML =
+        localStorageCartProduct.productNewFullPriceDecimal;
+    }
     appendElement(newFullPriceDecimal, newPrice);
 
     const newFullPriceCurr = createElement("span", null, null);
     newFullPriceCurr.innerHTML = "Lei";
     appendElement(newFullPriceCurr, newPrice);
+
+    cartSummary(localStorageCartProducts);
   });
 };
-
 renderCartProducts();
 
-const rangeNumbers = document.querySelectorAll(".range .number");
-const rangeNumberLists = document.querySelectorAll(".range > ul");
+const updateProduct = (product, newQuantity) => {
+  const productID = product.dataset.id;
+  const currentProductInfo = JSON.parse(
+    localStorage.getItem(`cartProductId${productID}`)
+  );
+
+  currentProductInfo.productQuantity = 0;
+  currentProductInfo.productQuantity = newQuantity;
+
+  let newWholePrice = 0;
+  newWholePrice = currentProductInfo.productNewFullPrice * newQuantity;
+
+  let newDecimalPrice = 0;
+  newDecimalPrice = currentProductInfo.productNewFullPriceDecimal * newQuantity;
+
+  let oldWholePrice = 0;
+  oldWholePrice = currentProductInfo.productOldFullPrice * newQuantity;
+
+  let oldDecimalPrice = 0;
+  oldDecimalPrice = currentProductInfo.productOldFullPriceDecimal * newQuantity;
+
+  if (newDecimalPrice > 99 || oldDecimalPrice > 99) {
+    for (let i = 100; i < newDecimalPrice || i < oldDecimalPrice; i++) {
+      newDecimalPrice -= i;
+      oldDecimalPrice -= i;
+
+      newWholePrice++;
+      oldWholePrice++;
+    }
+  }
+
+  currentProductInfo["newWholePrice"] = newWholePrice;
+  currentProductInfo["newDecimalPrice"] = newDecimalPrice;
+  currentProductInfo["oldWholePrice"] = oldWholePrice;
+  currentProductInfo["oldDecimalPrice"] = oldDecimalPrice;
+
+  const productNewFullPrice = product.querySelector(".newFullPrice");
+  const productNewPriceDecimal = product.querySelector(".newFullPriceDecimal");
+  const productOldFullPrice = product.querySelector(".oldFullPrice");
+  const productOldPriceDecimal = product.querySelector(".oldFullPriceDecimal");
+
+  productNewFullPrice.innerHTML = newWholePrice;
+  productNewPriceDecimal.innerHTML = newDecimalPrice;
+  productOldFullPrice.innerHTML = oldWholePrice;
+  productOldPriceDecimal.innerHTML = oldDecimalPrice;
+
+  localStorage.setItem(
+    `cartProductId${productID}`,
+    JSON.stringify(currentProductInfo)
+  );
+
+  renderCartProducts();
+  renderLocalProducts(cartItemsCounter, "cartProducts");
+};
 
 const cartFunctionalities = () => {
-  rangeNumbers.forEach((rangeNumber, index) => {
-    rangeNumber.addEventListener("click", () => {
-      toggleCssClass(rangeNumberLists[index], "active");
-      toggleCssClass(rangeNumber, "activeNumbers");
-    });
+  // Show Product Quantities
+  cartProductsContainer.addEventListener("click", (e) => {
+    const rangeHeader = e.target;
+
+    if (
+      rangeHeader.classList.contains("range-header") ||
+      rangeHeader.classList.contains("number") ||
+      rangeHeader.classList.contains("fa-caret-down")
+    ) {
+      const rangeNumberList =
+        rangeHeader.parentElement.querySelector(".range > ul") ||
+        rangeHeader.parentElement.parentElement.querySelector(".range > ul");
+
+      if (
+        rangeHeader.classList.contains("number") ||
+        rangeHeader.classList.contains("fa-caret-down")
+      ) {
+        console.log(rangeHeader.parentElement);
+        toggleCssClass(rangeHeader.parentElement, "activeNumbers");
+      } else {
+        toggleCssClass(rangeHeader, "activeNumbers");
+      }
+
+      toggleCssClass(rangeNumberList, "active");
+
+      // Choose Product Quantity
+      rangeNumberList.addEventListener("click", (e) => {
+        const spanNumber =
+          rangeHeader.querySelector(".number") || rangeHeader.parentElement;
+        const clickTarget = e.target;
+
+        if (clickTarget.nodeName == "LI") {
+          spanNumber.innerHTML = clickTarget.innerHTML;
+
+          removeCssClass(rangeNumberList, "active");
+          removeCssClass(rangeHeader, "activeNumbers");
+
+          const quantity = Number(clickTarget.innerHTML.trim());
+          const product = rangeNumberList.parentElement.parentElement;
+          updateProduct(product, quantity);
+        }
+      });
+    }
   });
 };
 cartFunctionalities();

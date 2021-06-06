@@ -278,7 +278,7 @@ const cartLink = cartTab.querySelector("a");
 const cartLinkIcon = cartLink.querySelector("i");
 const cartLinkSpan = cartLink.querySelector("span");
 const cartLinkCounter = cartLink.querySelector("div.counter");
-const cartItemsCounter = cartLinkCounter.querySelector("span");
+export const cartItemsCounter = cartLinkCounter.querySelector("span");
 const cartPanelProductList = cartPanel.querySelector("ul");
 
 const productSlides = document.querySelectorAll(
@@ -550,25 +550,37 @@ const removeProduct = debounce((removeBtns, productList) => {
 
 const insertProduct = debounce((btn, index, productList) => {
   const asignmentOperator = productSlides[index].href.indexOf("=");
-  const productID = productSlides[index].href.slice(asignmentOperator + 1);
+  const productID = parseInt(
+    productSlides[index].href.slice(asignmentOperator + 1)
+  );
 
-  const productName =
-    productSlides[index].querySelector(".productName > p").innerHTML;
+  const productName = productSlides[index]
+    .querySelector(".productName > p")
+    .innerHTML.trim()
+    .slice(0, 50);
   const productImage = productSlides[index].querySelector(
     ".productImage > img"
   ).src;
-  const productOldFullPrice = productSlides[index].querySelector(
-    ".productPrice .oldFullPrice"
-  ).innerHTML;
-  const productOldFullPriceDecimal = productSlides[index].querySelector(
-    ".productPrice .oldFullPriceDecimal"
-  ).innerHTML;
-  const productNewFullPrice = productSlides[index].querySelector(
-    ".productPrice .newFullPrice"
-  ).innerHTML;
-  const productNewFullPriceDecimal = productSlides[index].querySelector(
-    ".productPrice .newFullPriceDecimal"
-  ).innerHTML;
+  const productOldFullPrice = parseInt(
+    productSlides[index]
+      .querySelector(".productPrice .oldFullPrice")
+      .innerHTML.trim()
+  );
+  const productOldFullPriceDecimal = parseInt(
+    productSlides[index]
+      .querySelector(".productPrice .oldFullPriceDecimal")
+      .innerHTML.trim()
+  );
+  const productNewFullPrice = parseInt(
+    productSlides[index]
+      .querySelector(".productPrice .newFullPrice")
+      .innerHTML.trim()
+  );
+  const productNewFullPriceDecimal = parseInt(
+    productSlides[index]
+      .querySelector(".productPrice .newFullPriceDecimal")
+      .innerHTML.trim()
+  );
 
   let productInfo = null;
   if (productOldFullPrice == "" && productOldFullPriceDecimal == "") {
@@ -576,6 +588,7 @@ const insertProduct = debounce((btn, index, productList) => {
       productID: productID,
       productName: productName,
       productImage: productImage,
+      productQuantity: 1,
       productNewFullPrice: productNewFullPrice,
       productNewFullPriceDecimal: productNewFullPriceDecimal,
     };
@@ -584,6 +597,7 @@ const insertProduct = debounce((btn, index, productList) => {
       productID: productID,
       productName: productName,
       productImage: productImage,
+      productQuantity: 1,
       productOldFullPrice: productOldFullPrice,
       productOldFullPriceDecimal: productOldFullPriceDecimal,
       productNewFullPrice: productNewFullPrice,
@@ -745,7 +759,7 @@ const insertProduct = debounce((btn, index, productList) => {
   }
 }, 100);
 
-const renderLocalProducts = (productCounter, productList) => {
+export const renderLocalProducts = (productCounter, productList) => {
   productCounter.innerHTML = "";
 
   // Favorite Products VS Cart Products
@@ -947,6 +961,10 @@ const renderLocalProducts = (productCounter, productList) => {
       productInfoName.innerHTML = `${localCartProduct.productName}`;
       appendElement(productInfoName, productInfoContainer);
 
+      const productQuantity = createElement("p", "class", "quantity");
+      productQuantity.innerHTML = `${localCartProduct.productQuantity}x`;
+      appendElement(productQuantity, productInfoContainer);
+
       const productInfoPrices = createElement("div", "class", "prices");
       appendElement(productInfoPrices, productInfoContainer);
 
@@ -959,16 +977,29 @@ const renderLocalProducts = (productCounter, productList) => {
           "class",
           "oldFullPrice"
         );
-        productInfoOldFullPrice.innerHTML = `${localCartProduct.productOldFullPrice}`;
         appendElement(productInfoOldFullPrice, productInfoOldPrice);
+
+        if (localCartProduct.oldWholePrice != undefined) {
+          productInfoOldFullPrice.innerHTML = localCartProduct.oldWholePrice;
+        } else {
+          productInfoOldFullPrice.innerHTML =
+            localCartProduct.productOldFullPrice;
+        }
 
         const productInfoOldFullPriceDecimal = createElement(
           "sup",
           "class",
           "oldFullPriceDecimal"
         );
-        productInfoOldFullPriceDecimal.innerHTML = `${localCartProduct.productOldFullPriceDecimal}`;
         appendElement(productInfoOldFullPriceDecimal, productInfoOldPrice);
+
+        if (localCartProduct.oldDecimalPrice != undefined) {
+          productInfoOldFullPriceDecimal.innerHTML =
+            localCartProduct.oldDecimalPrice;
+        } else {
+          productInfoOldFullPriceDecimal.innerHTML =
+            localCartProduct.productOldFullPriceDecimal;
+        }
 
         const productInfoOldPriceCurr = createElement("span", null, null);
         productInfoOldPriceCurr.innerHTML = "Lei";
@@ -983,16 +1014,29 @@ const renderLocalProducts = (productCounter, productList) => {
         "class",
         "newFullPrice"
       );
-      productInfoNewFullPrice.innerHTML = `${localCartProduct.productNewFullPrice}`;
       appendElement(productInfoNewFullPrice, productInfoNewPrice);
+
+      if (localCartProduct.newWholePrice != undefined) {
+        productInfoNewFullPrice.innerHTML = localCartProduct.newWholePrice;
+      } else {
+        productInfoNewFullPrice.innerHTML =
+          localCartProduct.productNewFullPrice;
+      }
 
       const productInfoNewFullPriceDecimal = createElement(
         "sup",
         "class",
         "newFullPriceDecimal"
       );
-      productInfoNewFullPriceDecimal.innerHTML = `${localCartProduct.productNewFullPriceDecimal}`;
       appendElement(productInfoNewFullPriceDecimal, productInfoNewPrice);
+
+      if (localCartProduct.newDecimalPrice != undefined) {
+        productInfoNewFullPriceDecimal.innerHTML =
+          localCartProduct.newDecimalPrice;
+      } else {
+        productInfoNewFullPriceDecimal.innerHTML =
+          localCartProduct.productNewFullPriceDecimal;
+      }
 
       const productInfoNewPriceCurr = createElement("span", null, null);
       productInfoNewPriceCurr.innerHTML = "Lei";
@@ -1036,10 +1080,16 @@ const renderLocalProducts = (productCounter, productList) => {
         ".summary .totalCounter"
       );
 
+      let totalQuantity = 0;
+      localStorageCartProducts.forEach((cartProduct) => {
+        const product = JSON.parse(localStorage.getItem(cartProduct));
+        totalQuantity += product.productQuantity;
+      });
+
       cartTotalProducts.innerHTML = `${
-        localStorageCartProducts.length == 1
-          ? localStorageCartProducts.length + " produs"
-          : localStorageCartProducts.length + " produse"
+        totalQuantity == 1
+          ? `${totalQuantity} produs`
+          : `${totalQuantity} produse`
       }`;
 
       const cartTotalWholePrice = cartPanel.querySelector(
@@ -1065,10 +1115,8 @@ const renderLocalProducts = (productCounter, productList) => {
         finalDecimalPrice += decimal;
 
         if (finalDecimalPrice > 99) {
-          finalDecimalPrice = finalDecimalPrice - 100;
+          finalDecimalPrice -= 100;
           finalWholePrice++;
-        } else if (finalDecimalPrice === 0) {
-          finalDecimalPrice = "00";
         }
       });
 
