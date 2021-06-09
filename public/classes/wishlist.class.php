@@ -2,7 +2,7 @@
 require_once("./database.class.php");
 require_once("./cart.class.php");
 
-class Wishlists extends Database
+class Wishlist extends Database
 {
     private $userId;
     private $productId;
@@ -73,7 +73,7 @@ if (isset($_POST["userID"]) && isset($_POST["favProducts"])) {
     $favProducts = explode(",", htmlentities($_POST["favProducts"]));
 
     foreach ($favProducts as $favProduct) {
-        $wishListHandler = new Wishlists($userID, $favProduct);
+        $wishListHandler = new Wishlist($userID, $favProduct);
         $insertResponse = $wishListHandler->insertLocalFavProducts();
         echo json_encode(array("isInserted" => $insertResponse));
     }
@@ -87,7 +87,7 @@ if (isset($_POST["productID"]) && isset($_POST["userID"]) && isset($_POST["favIn
         $productID = htmlentities($_POST["productID"]);
         $userID = htmlentities($_POST["userID"]);
 
-        $wishlistsHandler = new Wishlists($userID, $productID);
+        $wishlistsHandler = new Wishlist($userID, $productID);
         $insertionResponse = $wishlistsHandler->insertWishlistProduct();
         echo json_encode(array("isInserted" => $insertionResponse));
     }
@@ -101,7 +101,7 @@ if (isset($_POST["productID"]) && isset($_POST["userID"]) && isset($_POST["favDe
         $productID = htmlentities($_POST["productID"]);
         $userID = htmlentities($_POST["userID"]);
 
-        $wishlistsHandler = new Wishlists($userID, $productID);
+        $wishlistsHandler = new Wishlist($userID, $productID);
         $deleteResponse = $wishlistsHandler->deleteWishlistProduct();
         echo json_encode(array("isDeleted" => $deleteResponse));
     }
@@ -120,7 +120,7 @@ if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["toCar
             echo json_encode(array("isInserted" => true));
         }
 
-        $wishListHandler = new Wishlists($userID, $productID);
+        $wishListHandler = new Wishlist($userID, $productID);
         $wishListHandler->deleteWishlistProduct();
     }
 }

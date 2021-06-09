@@ -1,0 +1,192 @@
+.favProducts {
+  width: 95%;
+  margin: 1rem auto;
+
+  @include mq(medium) {
+    width: calc(100% - 18rem);
+    margin: 2rem 0 0 16rem;
+    padding: 0 2rem;
+  }
+
+  @include mq(large) {
+    width: calc(100% - 25rem);
+    padding: 0 5rem;
+    margin-left: 25rem;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: static;
+    transition: getMap($transitions, visibility), getMap($transitions, z-index),
+      getMap($transitions, opacity);
+
+    @include mq(large) {
+      height: 100%;
+      min-height: 21.5rem;
+    }
+
+    & > h3,
+    & > p {
+      padding: 0.7rem;
+    }
+
+    & > a {
+      margin-top: 0.5rem;
+      padding: 0.7rem;
+      background-color: getMap($colors, primary-color);
+      color: #fff;
+      border-radius: $border-radius;
+      transition: getMap($transitions, bg-color);
+
+      &:hover {
+        background-color: getMap($colors, secondary-color);
+      }
+    }
+
+    &.hidden {
+      opacity: 0;
+      visibility: hidden;
+      z-index: -1;
+      position: absolute;
+      left: 0;
+    }
+  }
+
+  &__header {
+    width: 100%;
+    height: 2rem;
+    padding: 0 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__products {
+    margin: 1rem 0;
+
+    &__product {
+      width: 100%;
+      height: 10rem;
+      display: grid;
+      margin: 0.5rem 0;
+      grid-template-columns: 0.3fr 0.2fr 0.5fr;
+      grid-template-areas: "img info info" "img actions actions" "img price price";
+      border: 1px solid getMap($colors, text-color-light);
+      border-radius: $border-radius;
+      transition: getMap($transitions, box-shadow);
+
+      &:hover {
+        box-shadow: 0 0 0.7rem rgba(getMap($colors, text-color-light), 0.7);
+      }
+
+      &:hover > img {
+        transform: scale(1.05);
+      }
+
+      & > img {
+        grid-area: img;
+        width: 100%;
+        height: 10rem;
+        padding: 1rem;
+        object-fit: contain;
+        transition: getMap($transitions, transform);
+      }
+
+      & > a {
+        grid-area: info;
+        font-weight: 1000;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+      }
+
+      & > .actions {
+        grid-area: actions;
+        height: 2rem;
+        display: flex;
+
+        & > button {
+          margin: 0 0.5rem;
+          padding: 0.5rem;
+          display: flex;
+          align-items: center;
+          border-radius: $border-radius;
+          cursor: pointer;
+
+          & span {
+            color: #fff;
+            font-size: 0.8rem;
+          }
+
+          & i {
+            color: #fff;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+          }
+
+          &.addToCart {
+            background-color: rgba(getMap($colors, primary-color), 0.7);
+            transition: getMap($transitions, bg-color);
+
+            &:hover {
+              background-color: getMap($colors, primary-color);
+            }
+          }
+
+          &.removeFromFav {
+            background-color: rgba(getMap($colors, danger-color), 0.7);
+            transition: getMap($transitions, bg-color);
+
+            &:hover {
+              background-color: getMap($colors, danger-color);
+            }
+          }
+        }
+      }
+
+      & > .price {
+        grid-area: price;
+        display: flex;
+        align-items: center;
+        margin: 0.7rem 0;
+
+        & > p {
+          display: flex;
+          align-items: flex-start;
+          margin: 0 0.5rem;
+
+          &.oldPrice {
+            text-decoration: line-through;
+
+            & > span {
+              font-size: 0.85rem;
+            }
+
+            &.hidden {
+              display: none;
+            }
+          }
+
+          &.newPrice {
+            color: getMap($colors, danger-color);
+
+            & > span {
+              font-size: 1.05rem;
+              font-weight: 1000;
+            }
+          }
+
+          & > span {
+            font-size: 0.75rem;
+          }
+
+          & > sup {
+            font-size: 0.65rem;
+          }
+        }
+      }
+    }
+  }
+}

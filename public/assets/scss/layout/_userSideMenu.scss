@@ -1,0 +1,114 @@
+.userPanel {
+  width: 95%;
+  height: 100%;
+  margin: 1rem auto;
+
+  @include mq(medium) {
+    width: 18rem;
+    padding: 0 2rem;
+    position: fixed;
+    top: 3rem;
+    left: 0;
+    margin: 2rem 0;
+  }
+
+  @include mq(large) {
+    width: 25rem;
+    padding: 0 5rem;
+  }
+
+  &__noUser {
+    display: flex;
+    flex-direction: column;
+    transition: getMap($transitions, box-shadow);
+    border-radius: $border-radius;
+    border: 1px solid rgba(getMap($colors, text-color-light), 0.7);
+
+    @include mq(large) {
+      grid-area: user;
+    }
+
+    &:hover {
+      box-shadow: 0 0 0.7rem rgba(getMap($colors, text-color-light), 0.7);
+    }
+
+    & > i {
+      width: 100%;
+      margin: 0.5rem 0;
+      font-size: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    & > h3 {
+      width: 100%;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    & > p {
+      padding: 0.5rem;
+      line-height: 1.75;
+      text-align: center;
+    }
+
+    &__actions {
+      display: flex;
+      flex-direction: column;
+
+      & > a {
+        width: 75%;
+        margin: 0.3rem auto;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        position: relative;
+        background-color: getMap($colors, primary-color);
+        border-radius: $border-radius;
+        transition: getMap($transitions, bg-color);
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 2.5rem;
+          height: 100%;
+          background-color: getMap($colors, secondary-color);
+          border-bottom-right-radius: 65%;
+          border-top-left-radius: $border-radius;
+          border-bottom-left-radius: $border-radius;
+          transition: getMap($transitions, bg-color);
+        }
+
+        &:hover {
+          background-color: getMap($colors, secondary-color);
+        }
+
+        &:hover::before {
+          background-color: getMap($colors, primary-color);
+        }
+
+        & > i {
+          position: absolute;
+          height: 100%;
+          width: 3rem;
+          display: flex;
+          align-items: center;
+          left: 0.5rem;
+          font-size: 1.3rem;
+          color: #fff;
+        }
+
+        & > span {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          color: #fff;
+        }
+      }
+    }
+  }
+}

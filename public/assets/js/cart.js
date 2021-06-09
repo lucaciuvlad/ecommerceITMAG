@@ -4,17 +4,30 @@ import {
   toggleCssClass,
   serverRequest,
   showNotification,
+  debounce,
   appendElement,
   createElement,
 } from "./global.js";
 
-import { renderLocalProducts, cartItemsCounter } from "./navigationBar.js";
+import {
+  renderLocalProducts,
+  removeProduct,
+  addToFavFromCart,
+  favItemsCounter,
+  cartItemsCounter,
+} from "./navigationBar.js";
 
 const cart = document.querySelector("#cart");
+toggleCssClass(cart, "active");
+
 const cartContainer = cart.querySelector(".cart");
 const emtpyCart = cartContainer.querySelector(".cart__empty");
 const cartInfo = cart.querySelector(".cartInfo");
-toggleCssClass(cart, "active");
+
+let userID = null;
+if (document.querySelector("#userId")) {
+  userID = document.querySelector("#userId").dataset.user;
+}
 
 const cartProductsContainer = document.querySelector(".cart__products");
 
@@ -49,12 +62,19 @@ const cartSummary = (cartProducts) => {
     const wholePrice = parseInt(productWholePrice.innerHTML.trim());
     totalWholeFinalPrice += wholePrice;
   });
-  wholeFinalPriceSpan.innerHTML = totalWholeFinalPrice;
 
   productDecimalPrices.forEach((productDecimalPrice) => {
     const decimalPrice = parseInt(productDecimalPrice.innerHTML.trim());
     totalDecimalFinalPrice += decimalPrice;
   });
+
+  if (totalDecimalFinalPrice > 99) {
+    for (let i = 100; i < totalDecimalFinalPrice; i++) {
+      totalDecimalFinalPrice -= i;
+      totalWholeFinalPrice++;
+    }
+  }
+  wholeFinalPriceSpan.innerHTML = totalWholeFinalPrice;
   decimalFinalPriceSup.innerHTML = totalDecimalFinalPrice;
 
   if (totalWholeFinalPrice > 2500) {
@@ -83,14 +103,105 @@ const cartSummary = (cartProducts) => {
   if (finalDecimalPrice > 99) {
     finalDecimalPrice -= 100;
     finalWholePrice++;
-
-    totalCartPriceSpan.innerHTML = finalWholePrice;
-    totalCartPriceSup.innerHTML = finalDecimalPrice;
   }
+
+  totalCartPriceSpan.innerHTML = finalWholePrice;
+  totalCartPriceSup.innerHTML = finalDecimalPrice;
 };
 
+const deleteCartProduct = debounce((removeBtns) => {
+  removeBtns.forEach((removeBtn) => {
+    removeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const productID = removeBtn.dataset.productId;
+
+      if (userID != null) {
+        const request = serverRequest();
+
+        const formData = new FormData();
+        formData.append("productID", productID);
+        formData.append("userID", userID);
+        formData.append("cartDelete", true);
+
+        request.onreadystatechange = () => {
+          if (request.readyState === 4 && request.status === 200) {
+            const response = JSON.parse(request.response);
+
+            if (!response.isDeleted) {
+              console.error("EROARE SERVER");
+            }
+          }
+        };
+
+        request.open("POST", "classes/cart.class.php");
+        request.send(formData);
+      }
+
+      localStorage.removeItem(`cartProductId${productID}`);
+      showNotification("Produsul a fost sters din cos!", null, 1500, "error");
+      removeProduct(removeBtn, "cartProducts");
+
+      renderCartProducts();
+      renderLocalProducts(cartItemsCounter, "cartProducts");
+    });
+  });
+}, 100);
+
+const addToFav = debounce((addToFavBtns) => {
+  addToFavBtns.forEach((addToFavBtn) => {
+    addToFavBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const productID = addToFavBtn.dataset.productId;
+      const actualCartProduct = JSON.parse(
+        localStorage.getItem(`cartProductId${productID}`)
+      );
+
+      if (userID != null) {
+        const request = serverRequest();
+
+        const formData = new FormData();
+        formData.append("userID", userID);
+        formData.append("productID", productID);
+        formData.append("toWishlist", true);
+
+        request.onreadystatechange = () => {
+          if (request.readyState === 4 && request.status === 200) {
+            const response = JSON.parse(request.response);
+
+            if (!response.isInserted) {
+              console.error("EROARE SERVER");
+            }
+          }
+        };
+
+        request.open("POST", "classes/cart.class.php");
+        request.send(formData);
+      }
+
+      localStorage.setItem(
+        `favProductId${productID}`,
+        JSON.stringify(actualCartProduct)
+      );
+      localStorage.removeItem(`cartProductId${productID}`);
+
+      showNotification(
+        "Produsul a fost adaugat la favorite!",
+        null,
+        1500,
+        null
+      );
+      addToFavFromCart(addToFavBtns);
+      renderCartProducts();
+      renderLocalProducts(cartItemsCounter, "cartProducts");
+      renderLocalProducts(favItemsCounter, "favProducts");
+    });
+  });
+}, 100);
+
 // Render Local Storage Cart Products
-const renderCartProducts = () => {
+export const renderCartProducts = () => {
   const localStorageLength = localStorage.length;
   const localStorageProducts = [];
   const localStorageCartProducts = [];
@@ -181,8 +292,14 @@ const renderCartProducts = () => {
       "data-product-id",
       localStorageCartProduct.productID
     );
-    addToFavBtn.innerHTML = "Adauga la favorite";
     appendElement(addToFavBtn, cartActions);
+
+    const favIcon = createElement("i", "class", "fa fa-heart-o");
+    appendElement(favIcon, addToFavBtn);
+
+    const addToFavMsg = createElement("span", null, null);
+    addToFavMsg.innerHTML = "Adauga la favorite";
+    appendElement(addToFavMsg, addToFavBtn);
 
     const removeBtn = createElement("button", "type", "button");
     removeBtn.setAttribute("class", "removeFromCart");
@@ -190,8 +307,14 @@ const renderCartProducts = () => {
       "data-product-id",
       localStorageCartProduct.productID
     );
-    removeBtn.innerHTML = "Sterge";
     appendElement(removeBtn, cartActions);
+
+    const removeIcon = createElement("i", "class", "fa fa-trash");
+    appendElement(removeIcon, removeBtn);
+
+    const removeFromCartMsg = createElement("span", null, null);
+    removeFromCartMsg.innerHTML = "Sterge";
+    appendElement(removeFromCartMsg, removeBtn);
 
     const productPrice = createElement("div", "class", "price");
     appendElement(productPrice, cartProductContainer);
@@ -256,6 +379,14 @@ const renderCartProducts = () => {
     appendElement(newFullPriceCurr, newPrice);
 
     cartSummary(localStorageCartProducts);
+
+    const deleteProductBtns = Array.from(
+      cartProductsContainer.querySelectorAll(".removeFromCart")
+    );
+    deleteCartProduct(deleteProductBtns);
+
+    const addToFavBtns = cartProductsContainer.querySelectorAll(".addToFav");
+    addToFav(addToFavBtns);
   });
 };
 renderCartProducts();
@@ -306,6 +437,28 @@ const updateProduct = (product, newQuantity) => {
   productOldFullPrice.innerHTML = oldWholePrice;
   productOldPriceDecimal.innerHTML = oldDecimalPrice;
 
+  if (userID != null) {
+    const request = serverRequest();
+
+    const formData = new FormData();
+    formData.append("newQuantity", newQuantity);
+    formData.append("userId", userID);
+    formData.append("productId", productID);
+
+    request.onreadystatechange = () => {
+      if (request.readyState === 4 && request.status == 200) {
+        const response = JSON.parse(request.response);
+
+        if (!response.isUpdated) {
+          console.error("EROARE SERVER");
+        }
+      }
+    };
+
+    request.open("POST", "classes/cart.class.php");
+    request.send(formData);
+  }
+
   localStorage.setItem(
     `cartProductId${productID}`,
     JSON.stringify(currentProductInfo)
@@ -333,7 +486,6 @@ const cartFunctionalities = () => {
         rangeHeader.classList.contains("number") ||
         rangeHeader.classList.contains("fa-caret-down")
       ) {
-        console.log(rangeHeader.parentElement);
         toggleCssClass(rangeHeader.parentElement, "activeNumbers");
       } else {
         toggleCssClass(rangeHeader, "activeNumbers");

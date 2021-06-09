@@ -22,6 +22,10 @@ session_start();
     require_once("./includes/navigationBar.inc.php");
     require_once("./includes/loader.inc.php");
     require_once("./includes/notification.inc.php");
+
+    if (isset($_SESSION["userID"])) {
+        echo "<div id='userId' style='display: none;'data-user='$_SESSION[userID]'></div>";
+    }
     ?>
 
     <main class="cart">

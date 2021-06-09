@@ -9,6 +9,9 @@ import {
   showNotification,
 } from "./global.js";
 
+const currentPageName = document.URL.lastIndexOf("/");
+const currentURL = document.URL.slice(currentPageName + 1);
+
 // Navigation Bar
 const navigationBar = document.querySelector(".navbar");
 
@@ -80,8 +83,6 @@ const searchEngine = () => {
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const response = JSON.parse(request.response);
-
-      console.log(response);
 
       searchSuggestionsList.innerHTML = "";
 
@@ -211,10 +212,7 @@ const navigationBarFunctionalities = () => {
     }, 150)
   );
 
-  // Show User Panel
   userContainer.addEventListener("mouseenter", showUserPanel);
-
-  // Hide User Panel
   userContainer.addEventListener("mouseleave", hideUserPanel);
 
   // Logout Request
@@ -268,7 +266,7 @@ const favLink = favTab.querySelector("a");
 const favLinkIcon = favLink.querySelector("i");
 const favLinkSpan = favLink.querySelector("span");
 const favLinkCounter = favLink.querySelector("div.counter");
-const favItemsCounter = favLinkCounter.querySelector("span");
+export const favItemsCounter = favLinkCounter.querySelector("span");
 const favPanelProductList = favPanel.querySelector("ul");
 
 const cartTab = document.querySelector(".navbar__right__shoppingCart");
@@ -292,7 +290,7 @@ if (document.querySelector("#userId")) {
   userID = document.querySelector("#userId").dataset.user;
 }
 
-const addToCartFromFav = (addToCartBtns) => {
+export const addToCartFromFav = (addToCartBtns) => {
   addToCartBtns.forEach((addToCartBtn) => {
     addToCartBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -306,7 +304,7 @@ const addToCartFromFav = (addToCartBtns) => {
         actualProductObject !== null &&
         actualProductID == actualProductObject.productID
       ) {
-        if (userId !== null) {
+        if (userID !== null) {
           const request = serverRequest();
 
           const formData = new FormData();
@@ -324,7 +322,7 @@ const addToCartFromFav = (addToCartBtns) => {
             }
           };
 
-          request.open("POST", "classes/wishlists.class.php");
+          request.open("POST", "classes/wishlist.class.php");
           request.send(formData);
         }
 
@@ -332,11 +330,29 @@ const addToCartFromFav = (addToCartBtns) => {
           `cartProductId${actualProductID}`,
           JSON.stringify(actualProductObject)
         );
+
         renderLocalProducts(cartItemsCounter, "cartProducts");
+
+        if (currentURL == "favoriteProducts.php") {
+          import("./favProducts.js").then((favProductsModule) => {
+            favProductsModule.renderFavProducts();
+          });
+        }
+
         showNotification("Produsul a fost adaugat in cos!", null, 1500, null);
 
         localStorage.removeItem(`favProductId${actualProductID}`);
         renderLocalProducts(favItemsCounter, "favProducts");
+
+        if (currentURL == "cart.php") {
+          import("./cart.js").then((cartModule) => {
+            cartModule.renderCartProducts();
+          });
+        } else if (currentURL == "favProducts.php") {
+          import("./favProducts.js").then((favProductsModule) => {
+            favProductsModule.renderFavProducts();
+          });
+        }
 
         const cartBtns = document.querySelectorAll(".addToCart");
         cartBtns.forEach((cartBtn) => {
@@ -363,7 +379,7 @@ const addToCartFromFav = (addToCartBtns) => {
   });
 };
 
-const addToFavFromCart = (addToFavBtns) => {
+export const addToFavFromCart = (addToFavBtns) => {
   addToFavBtns.forEach((addToFavBtn) => {
     addToFavBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -377,7 +393,7 @@ const addToFavFromCart = (addToFavBtns) => {
         actualProductObject !== null &&
         actualProductID == actualProductObject.productID
       ) {
-        if (userId !== null) {
+        if (userID !== null) {
           const request = serverRequest();
 
           const formData = new FormData();
@@ -415,6 +431,16 @@ const addToFavFromCart = (addToFavBtns) => {
         localStorage.removeItem(`cartProductId${actualProductID}`);
         renderLocalProducts(cartItemsCounter, "cartProducts");
 
+        if (currentURL == "cart.php") {
+          import("./cart.js").then((cartModule) => {
+            cartModule.renderCartProducts();
+          });
+        } else if (currentURL == "favProducts.php") {
+          import("./favProducts.js").then((favProductsModule) => {
+            favProductsModule.renderFavProducts();
+          });
+        }
+
         const cartBtns = document.querySelectorAll(".addToCart");
         cartBtns.forEach((cartBtn) => {
           const cartBtnProductId = cartBtn.dataset.productId;
@@ -440,10 +466,11 @@ const addToFavFromCart = (addToFavBtns) => {
   });
 };
 
-const removeProduct = debounce((removeBtns, productList) => {
+export const removeProduct = debounce((removeBtns, productList) => {
   removeBtns.forEach((removeBtn) => {
     removeBtn.addEventListener("click", (e) => {
       e.preventDefault();
+
       const productID = removeBtn.dataset.deleteId;
 
       if (productList === "favProducts") {
@@ -470,11 +497,18 @@ const removeProduct = debounce((removeBtns, productList) => {
               }
             };
 
-            request.open("POST", "classes/wishlists.class.php");
+            request.open("POST", "classes/wishlist.class.php");
             request.send(formData);
           }
 
           localStorage.removeItem(`favProductId${productID}`);
+
+          if (currentURL == "favoriteProducts.php") {
+            import("./favProducts.js").then((favProductsModule) => {
+              favProductsModule.renderFavProducts();
+            });
+          }
+
           showNotification(
             "Produsul a fost sters din lista de favorite!",
             null,
@@ -526,6 +560,13 @@ const removeProduct = debounce((removeBtns, productList) => {
           }
 
           localStorage.removeItem(`cartProductId${productID}`);
+
+          if (currentURL == "cart.php") {
+            import("./cart.js").then((cartModule) => {
+              cartModule.renderCartProducts();
+            });
+          }
+
           showNotification(
             "Produsul a fost sters din cosul de cumparaturi!",
             null,
@@ -533,6 +574,11 @@ const removeProduct = debounce((removeBtns, productList) => {
             "error"
           );
           renderLocalProducts(cartItemsCounter, "cartProducts");
+          if (currentURL == "cart.php") {
+            import("./cart.js").then((cartModule) => {
+              cartModule.renderCartProducts();
+            });
+          }
 
           const cartBtns = document.querySelectorAll(".addToCart");
           cartBtns.forEach((cartBtn) => {
@@ -554,10 +600,8 @@ const insertProduct = debounce((btn, index, productList) => {
     productSlides[index].href.slice(asignmentOperator + 1)
   );
 
-  const productName = productSlides[index]
-    .querySelector(".productName > p")
-    .innerHTML.trim()
-    .slice(0, 50);
+  const productName =
+    productSlides[index].querySelector(".productName > p").innerHTML;
   const productImage = productSlides[index].querySelector(
     ".productImage > img"
   ).src;
@@ -625,6 +669,7 @@ const insertProduct = debounce((btn, index, productList) => {
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {
             const response = JSON.parse(request.response);
+            console.log(response);
 
             if (!response.isInserted) {
               console.error("EROARE SERVER");
@@ -632,7 +677,7 @@ const insertProduct = debounce((btn, index, productList) => {
           }
         };
 
-        request.open("POST", "classes/wishlists.class.php");
+        request.open("POST", "classes/wishlist.class.php");
         request.send(formData);
       }
 
@@ -670,7 +715,7 @@ const insertProduct = debounce((btn, index, productList) => {
           }
         };
 
-        request.open("POST", "classes/wishlists.class.php");
+        request.open("POST", "classes/wishlist.class.php");
         request.send(formData);
       }
 
@@ -1237,7 +1282,7 @@ if (userID !== null) {
         if (request.readyState === 4 && request.status === 200) {
         }
       };
-      request.open("POST", "classes/wishlists.class.php");
+      request.open("POST", "classes/wishlist.class.php");
       request.send(formData);
     }
   };

@@ -201,17 +201,29 @@
       grid-area: actions;
       height: 2rem;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
 
       & > button {
         margin: 0 0.5rem;
         padding: 0.5rem;
+        display: flex;
+        align-items: center;
         border-radius: $border-radius;
         cursor: pointer;
 
+        & span {
+          color: #fff;
+          font-size: 0.8rem;
+        }
+
+        & i {
+          color: #fff;
+          font-size: 1rem;
+          margin-right: 0.5rem;
+        }
+
         &.addToFav {
           background-color: rgba(getMap($colors, primary-color), 0.7);
-          color: #fff;
           transition: getMap($transitions, bg-color);
 
           &:hover {
@@ -221,7 +233,6 @@
 
         &.removeFromCart {
           background-color: rgba(getMap($colors, danger-color), 0.7);
-          color: #fff;
           transition: getMap($transitions, bg-color);
 
           &:hover {
@@ -287,7 +298,7 @@
     grid-area: cartInfo;
     align-self: flex-start;
     position: sticky;
-    top: 4rem;
+    top: 5rem;
     left: 100%;
   }
 

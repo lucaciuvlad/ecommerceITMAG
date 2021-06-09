@@ -51,6 +51,11 @@
           background-color: getMap($colors, danger-color);
           border-top-left-radius: $border-radius;
 
+          &.hidden {
+            opacity: 0;
+            visibility: hidden;
+          }
+
           & > span {
             color: #fff;
             font-size: 0.8rem;

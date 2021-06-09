@@ -48,9 +48,12 @@ session_start();
 
                 <a class="productSection__carousel__slider__slide"
                     href="product.php?productID=<?php echo $product["productID"] ?>">
-                    <div class="promoIndicator">
+
+
+                    <div class="promoIndicator <?php if ($product["product_old_price"] == 0) echo "hidden"; ?>">
                         <span> <?php echo $promoPercent; ?>% </span>
                     </div>
+
 
                     <button type="button" class="addToFav" data-product-id="<?php echo $product["productID"]; ?>">
                         <i class="fa fa-heart-o" aria-hidden="true"></i>
@@ -134,7 +137,8 @@ session_start();
 
                 <a class="productSection__carousel__slider__slide"
                     href="product.php?productID=<?php echo $product["productID"] ?>">
-                    <div class="promoIndicator">
+
+                    <div class="promoIndicator <?php if ($product["product_old_price"] == 0) echo "hidden"; ?>">
                         <span> <?php echo $promoPercent; ?>% </span>
                     </div>
 

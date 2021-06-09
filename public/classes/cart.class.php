@@ -1,6 +1,6 @@
 <?php
 require_once("database.class.php");
-require_once("wishlists.class.php");
+require_once("wishlist.class.php");
 
 class Cart extends Database
 {
@@ -55,6 +55,20 @@ class Cart extends Database
 
         $insertStmt->close();
         $this->connect()->close();
+    }
+
+    public function updateCartQuantity()
+    {
+        $updateSql =
+            "   UPDATE  carts 
+                SET     cart_quantity = $this->quantity 
+                WHERE   product_id = $this->productId AND user_id = $this->userId
+            ";
+        if ($this->connect()->query($updateSql)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function deleteCartProduct()
@@ -132,5 +146,20 @@ if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["toWis
         $cartHandler = new Cart($userID, $productID);
         $cartHandler->deleteCartProduct();
     }
+}
+?>
+
+<?php
+// Update Cart Quantity
+if (isset($_POST["newQuantity"]) && isset($_POST["productId"]) && isset($_POST["userId"])) {
+    $newQuantity = htmlentities($_POST["newQuantity"]);
+    $productId = htmlentities($_POST["productId"]);
+    $userId = htmlentities($_POST["userId"]);
+
+    $cartHandler = new Cart($userId, $productId);
+    $cartHandler->setQuantity($newQuantity);
+    $updateResponse = $cartHandler->updateCartQuantity();
+
+    echo json_encode(array("isUpdated" => $updateResponse));
 }
 ?>

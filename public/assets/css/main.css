@@ -1873,7 +1873,8 @@ footer > a:hover {
 
 #homepage,
 #product,
-#cart {
+#cart,
+#favProducts {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -1883,9 +1884,116 @@ footer > a:hover {
 }
 #homepage.active,
 #product.active,
-#cart.active {
+#cart.active,
+#favProducts.active {
   opacity: 1;
   transform: scale(1);
+}
+
+.userPanel {
+  width: 95%;
+  height: 100%;
+  margin: 1rem auto;
+}
+@media only screen and (min-width: 768px) {
+  .userPanel {
+    width: 18rem;
+    padding: 0 2rem;
+    position: fixed;
+    top: 3rem;
+    left: 0;
+    margin: 2rem 0;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .userPanel {
+    width: 25rem;
+    padding: 0 5rem;
+  }
+}
+.userPanel__noUser {
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.15s ease-in;
+  border-radius: 0.3rem;
+  border: 1px solid rgba(80, 92, 96, 0.7);
+}
+@media only screen and (min-width: 992px) {
+  .userPanel__noUser {
+    grid-area: user;
+  }
+}
+.userPanel__noUser:hover {
+  box-shadow: 0 0 0.7rem rgba(80, 92, 96, 0.7);
+}
+.userPanel__noUser > i {
+  width: 100%;
+  margin: 0.5rem 0;
+  font-size: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.userPanel__noUser > h3 {
+  width: 100%;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.userPanel__noUser > p {
+  padding: 0.5rem;
+  line-height: 1.75;
+  text-align: center;
+}
+.userPanel__noUser__actions {
+  display: flex;
+  flex-direction: column;
+}
+.userPanel__noUser__actions > a {
+  width: 75%;
+  margin: 0.3rem auto;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: #1289a7;
+  border-radius: 0.3rem;
+  transition: background-color 0.15s ease-in;
+}
+.userPanel__noUser__actions > a::before {
+  content: "";
+  position: absolute;
+  width: 2.5rem;
+  height: 100%;
+  background-color: #6f1e51;
+  border-bottom-right-radius: 65%;
+  border-top-left-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+  transition: background-color 0.15s ease-in;
+}
+.userPanel__noUser__actions > a:hover {
+  background-color: #6f1e51;
+}
+.userPanel__noUser__actions > a:hover::before {
+  background-color: #1289a7;
+}
+.userPanel__noUser__actions > a > i {
+  position: absolute;
+  height: 100%;
+  width: 3rem;
+  display: flex;
+  align-items: center;
+  left: 0.5rem;
+  font-size: 1.3rem;
+  color: #fff;
+}
+.userPanel__noUser__actions > a > span {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
 }
 
 .product {
@@ -2276,6 +2384,10 @@ footer > a:hover {
   background-color: #ea2027;
   border-top-left-radius: 0.3rem;
 }
+.productSection__carousel__slider__slide > .promoIndicator.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
 .productSection__carousel__slider__slide > .promoIndicator > span {
   color: #fff;
   font-size: 0.8rem;
@@ -2616,17 +2728,27 @@ footer > a:hover {
   grid-area: actions;
   height: 2rem;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 .cart__product > .actions > button {
   margin: 0 0.5rem;
   padding: 0.5rem;
+  display: flex;
+  align-items: center;
   border-radius: 0.3rem;
   cursor: pointer;
 }
+.cart__product > .actions > button span {
+  color: #fff;
+  font-size: 0.8rem;
+}
+.cart__product > .actions > button i {
+  color: #fff;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
 .cart__product > .actions > button.addToFav {
   background-color: rgba(18, 137, 167, 0.7);
-  color: #fff;
   transition: background-color 0.15s ease-in;
 }
 .cart__product > .actions > button.addToFav:hover {
@@ -2634,7 +2756,6 @@ footer > a:hover {
 }
 .cart__product > .actions > button.removeFromCart {
   background-color: rgba(234, 32, 39, 0.7);
-  color: #fff;
   transition: background-color 0.15s ease-in;
 }
 .cart__product > .actions > button.removeFromCart:hover {
@@ -2687,7 +2808,7 @@ footer > a:hover {
     grid-area: cartInfo;
     align-self: flex-start;
     position: sticky;
-    top: 4rem;
+    top: 5rem;
     left: 100%;
   }
 }
@@ -2779,6 +2900,171 @@ footer > a:hover {
 }
 .cartInfo > .cartTotal > .checkoutBtn:hover {
   background-color: #6f1e51;
+}
+
+.favProducts {
+  width: 95%;
+  margin: 1rem auto;
+}
+@media only screen and (min-width: 768px) {
+  .favProducts {
+    width: calc(100% - 18rem);
+    margin: 2rem 0 0 16rem;
+    padding: 0 2rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .favProducts {
+    width: calc(100% - 25rem);
+    padding: 0 5rem;
+    margin-left: 25rem;
+  }
+}
+.favProducts__empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: static;
+  transition: visibility 0.15s ease-in, z-index 0.15s ease-in, opacity 0.15s ease-in;
+}
+@media only screen and (min-width: 992px) {
+  .favProducts__empty {
+    height: 100%;
+    min-height: 21.5rem;
+  }
+}
+.favProducts__empty > h3, .favProducts__empty > p {
+  padding: 0.7rem;
+}
+.favProducts__empty > a {
+  margin-top: 0.5rem;
+  padding: 0.7rem;
+  background-color: #1289a7;
+  color: #fff;
+  border-radius: 0.3rem;
+  transition: background-color 0.15s ease-in;
+}
+.favProducts__empty > a:hover {
+  background-color: #6f1e51;
+}
+.favProducts__empty.hidden {
+  opacity: 0;
+  visibility: hidden;
+  z-index: -1;
+  position: absolute;
+  left: 0;
+}
+.favProducts__header {
+  width: 100%;
+  height: 2rem;
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.favProducts__products {
+  margin: 1rem 0;
+}
+.favProducts__products__product {
+  width: 100%;
+  height: 10rem;
+  display: grid;
+  margin: 0.5rem 0;
+  grid-template-columns: 0.3fr 0.2fr 0.5fr;
+  grid-template-areas: "img info info" "img actions actions" "img price price";
+  border: 1px solid #505c60;
+  border-radius: 0.3rem;
+  transition: box-shadow 0.15s ease-in;
+}
+.favProducts__products__product:hover {
+  box-shadow: 0 0 0.7rem rgba(80, 92, 96, 0.7);
+}
+.favProducts__products__product:hover > img {
+  transform: scale(1.05);
+}
+.favProducts__products__product > img {
+  grid-area: img;
+  width: 100%;
+  height: 10rem;
+  padding: 1rem;
+  object-fit: contain;
+  transition: transform 0.15s ease-in;
+}
+.favProducts__products__product > a {
+  grid-area: info;
+  font-weight: 1000;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+.favProducts__products__product > .actions {
+  grid-area: actions;
+  height: 2rem;
+  display: flex;
+}
+.favProducts__products__product > .actions > button {
+  margin: 0 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+.favProducts__products__product > .actions > button span {
+  color: #fff;
+  font-size: 0.8rem;
+}
+.favProducts__products__product > .actions > button i {
+  color: #fff;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+.favProducts__products__product > .actions > button.addToCart {
+  background-color: rgba(18, 137, 167, 0.7);
+  transition: background-color 0.15s ease-in;
+}
+.favProducts__products__product > .actions > button.addToCart:hover {
+  background-color: #1289a7;
+}
+.favProducts__products__product > .actions > button.removeFromFav {
+  background-color: rgba(234, 32, 39, 0.7);
+  transition: background-color 0.15s ease-in;
+}
+.favProducts__products__product > .actions > button.removeFromFav:hover {
+  background-color: #ea2027;
+}
+.favProducts__products__product > .price {
+  grid-area: price;
+  display: flex;
+  align-items: center;
+  margin: 0.7rem 0;
+}
+.favProducts__products__product > .price > p {
+  display: flex;
+  align-items: flex-start;
+  margin: 0 0.5rem;
+}
+.favProducts__products__product > .price > p.oldPrice {
+  text-decoration: line-through;
+}
+.favProducts__products__product > .price > p.oldPrice > span {
+  font-size: 0.85rem;
+}
+.favProducts__products__product > .price > p.oldPrice.hidden {
+  display: none;
+}
+.favProducts__products__product > .price > p.newPrice {
+  color: #ea2027;
+}
+.favProducts__products__product > .price > p.newPrice > span {
+  font-size: 1.05rem;
+  font-weight: 1000;
+}
+.favProducts__products__product > .price > p > span {
+  font-size: 0.75rem;
+}
+.favProducts__products__product > .price > p > sup {
+  font-size: 0.65rem;
 }
 
 /*# sourceMappingURL=main.css.map */
