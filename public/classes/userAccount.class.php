@@ -81,3 +81,12 @@ if (isset($_POST["oldPassword"]) && isset($_POST["newPassword"]) && isset($_POST
     echo json_encode(array("isUpdated" => $updatePasswordResponse));
 }
 ?>
+
+<?php
+if (isset($_POST["userId"]) && isset($_POST["checkUserAddress"]) && $_POST["checkUserAddress"]) {
+    $userId = htmlentities($_POST["userId"]);
+    $userAccountHandler = new UserAccount($userId);
+
+    echo json_encode(array("userAddress" => $userAccountHandler->getUserAddress()));
+}
+?>

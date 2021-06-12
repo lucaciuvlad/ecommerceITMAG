@@ -514,3 +514,27 @@ const cartFunctionalities = () => {
   });
 };
 cartFunctionalities();
+
+const checkoutBtn = document.querySelector(".checkoutBtn");
+
+const checkUserAddress = () => {
+  const request = serverRequest();
+
+  const formData = new FormData();
+  formData.append("userId", userID);
+  formData.append("checkUserAddress", true);
+
+  request.onreadystatechange = () => {
+    if (request.readyState === 4 && request.status === 200) {
+      const response = request.response;
+      console.log(response);
+    }
+  };
+
+  request.open("POST", "classes/userAccount.class.php");
+  request.send(formData);
+};
+
+checkoutBtn.addEventListener("click", () => {
+  checkUserAddress();
+});
