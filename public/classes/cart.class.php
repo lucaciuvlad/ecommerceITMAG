@@ -138,7 +138,7 @@ if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["toWis
         $productID = htmlentities($_POST["productID"]);
         $userID = htmlentities($_POST["userID"]);
 
-        $wishlistHandler = new Wishlists($userID, $productID);
+        $wishlistHandler = new Wishlist($userID, $productID);
         if ($wishlistHandler->insertWishlistProduct()) {
             echo json_encode(array("isInserted" => true));
         }

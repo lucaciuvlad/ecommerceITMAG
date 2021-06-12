@@ -139,6 +139,34 @@ const toggleStickyNavigationBar = () => {
   }
 };
 
+export const userLogout = (e) => {
+  e.preventDefault();
+
+  const request = serverRequest();
+  console.log("RUNNING");
+
+  const formData = new FormData();
+  formData.append("logout", true);
+
+  const loader = document.querySelector(".loader");
+  addCssClass(loader, "active");
+
+  request.onreadystatechange = () => {
+    if (request.readyState === 4 && request.status === 200) {
+      removeCssClass(loader, "active");
+
+      const response = JSON.parse(request.response);
+
+      if (response.isLoggedOut) {
+        showNotification("Te mai asteptam!", "index.php", 1500, null);
+      }
+    }
+  };
+
+  request.open("POST", "logout.php", true);
+  request.send(formData);
+};
+
 const navigationBarFunctionalities = () => {
   // Sticky Navigation Bar
   window.addEventListener("scroll", toggleStickyNavigationBar);
@@ -216,41 +244,13 @@ const navigationBarFunctionalities = () => {
   userContainer.addEventListener("mouseleave", hideUserPanel);
 
   // Logout Request
-  let logout = false;
   let logoutBtn = null;
 
   if (document.querySelector(".logout")) {
     logoutBtn = document.querySelector(".logout");
 
     logoutBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-
-      logout = true;
-
-      const request = serverRequest();
-
-      const formData = new FormData();
-      formData.append("logout", logout);
-
-      const loader = document.querySelector(".loader");
-      addCssClass(loader, "active");
-
-      request.onreadystatechange = () => {
-        if (request.readyState === 4 && request.status === 200) {
-          removeCssClass(loader, "active");
-
-          const response = JSON.parse(request.response);
-
-          console.log("Index");
-
-          if (response.isLoggedOut) {
-            showNotification("Te mai asteptam!", "index.php", 1500, null);
-          }
-        }
-      };
-
-      request.open("POST", "logout.php", true);
-      request.send(formData);
+      userLogout(e);
     });
   }
 };
@@ -300,81 +300,76 @@ export const addToCartFromFav = (addToCartBtns) => {
         localStorage.getItem(`favProductId${actualProductID}`)
       );
 
-      if (
-        actualProductObject !== null &&
-        actualProductID == actualProductObject.productID
-      ) {
-        if (userID !== null) {
-          const request = serverRequest();
+      if (userID !== null) {
+        const request = serverRequest();
 
-          const formData = new FormData();
-          formData.append("userID", userID);
-          formData.append("productID", actualProductID);
-          formData.append("toCart", true);
+        const formData = new FormData();
+        formData.append("userID", userID);
+        formData.append("productID", actualProductID);
+        formData.append("toCart", true);
 
-          request.onreadystatechange = () => {
-            if (request.readyState === 4 && request.status === 200) {
-              const response = JSON.parse(request.response);
+        request.onreadystatechange = () => {
+          if (request.readyState === 4 && request.status === 200) {
+            const response = JSON.parse(request.response);
 
-              if (!response.isInserted) {
-                console.error("EROARE SERVER");
-              }
+            if (!response.isInserted) {
+              console.error("EROARE SERVER");
             }
-          };
-
-          request.open("POST", "classes/wishlist.class.php");
-          request.send(formData);
-        }
-
-        localStorage.setItem(
-          `cartProductId${actualProductID}`,
-          JSON.stringify(actualProductObject)
-        );
-
-        renderLocalProducts(cartItemsCounter, "cartProducts");
-
-        if (currentURL == "favoriteProducts.php") {
-          import("./favProducts.js").then((favProductsModule) => {
-            favProductsModule.renderFavProducts();
-          });
-        }
-
-        showNotification("Produsul a fost adaugat in cos!", null, 1500, null);
-
-        localStorage.removeItem(`favProductId${actualProductID}`);
-        renderLocalProducts(favItemsCounter, "favProducts");
-
-        if (currentURL == "cart.php") {
-          import("./cart.js").then((cartModule) => {
-            cartModule.renderCartProducts();
-          });
-        } else if (currentURL == "favProducts.php") {
-          import("./favProducts.js").then((favProductsModule) => {
-            favProductsModule.renderFavProducts();
-          });
-        }
-
-        const cartBtns = document.querySelectorAll(".addToCart");
-        cartBtns.forEach((cartBtn) => {
-          const cartBtnProductId = cartBtn.dataset.productId;
-
-          if (actualProductID == cartBtnProductId) {
-            addCssClass(cartBtn, "active");
           }
-        });
+        };
 
-        const favBtns = document.querySelectorAll(".addToFav");
-        favBtns.forEach((favBtn) => {
-          const favBtnProductId = favBtn.dataset.productId;
+        request.open("POST", "classes/wishlist.class.php");
+        request.send(formData);
+      }
 
-          if (actualProductID == favBtnProductId) {
-            favBtn.children[0].setAttribute("class", "fa fa-heart-o");
+      localStorage.setItem(
+        `cartProductId${actualProductID}`,
+        JSON.stringify(actualProductObject)
+      );
 
-            const favToolTip = favBtn.querySelector(".tooltip > p");
-            favToolTip.innerHTML = "Adauga la favorite";
-          }
+      renderLocalProducts(cartItemsCounter, "cartProducts");
+
+      if (currentURL == "favoriteProducts.php") {
+        import("./favProducts.js").then((favProductsModule) => {
+          favProductsModule.renderFavProducts();
         });
       }
+
+      showNotification("Produsul a fost adaugat in cos!", null, 1500, null);
+
+      localStorage.removeItem(`favProductId${actualProductID}`);
+      renderLocalProducts(favItemsCounter, "favProducts");
+
+      if (currentURL == "cart.php") {
+        import("./cart.js").then((cartModule) => {
+          cartModule.renderCartProducts();
+        });
+      } else if (currentURL == "favProducts.php") {
+        import("./favProducts.js").then((favProductsModule) => {
+          favProductsModule.renderFavProducts();
+        });
+      }
+
+      const cartBtns = document.querySelectorAll(".addToCart");
+      cartBtns.forEach((cartBtn) => {
+        const cartBtnProductId = cartBtn.dataset.productId;
+
+        if (actualProductID == cartBtnProductId) {
+          addCssClass(cartBtn, "active");
+        }
+      });
+
+      const favBtns = document.querySelectorAll(".addToFav");
+      favBtns.forEach((favBtn) => {
+        const favBtnProductId = favBtn.dataset.productId;
+
+        if (actualProductID == favBtnProductId) {
+          favBtn.children[0].setAttribute("class", "fa fa-heart-o");
+
+          const favToolTip = favBtn.querySelector(".tooltip > p");
+          favToolTip.innerHTML = "Adauga la favorite";
+        }
+      });
     });
   });
 };
@@ -389,79 +384,74 @@ export const addToFavFromCart = (addToFavBtns) => {
         localStorage.getItem(`cartProductId${actualProductID}`)
       );
 
-      if (
-        actualProductObject !== null &&
-        actualProductID == actualProductObject.productID
-      ) {
-        if (userID !== null) {
-          const request = serverRequest();
+      if (userID !== null) {
+        const request = serverRequest();
 
-          const formData = new FormData();
-          formData.append("userID", userID);
-          formData.append("productID", actualProductID);
-          formData.append("toWishlist", true);
+        const formData = new FormData();
+        formData.append("userID", userID);
+        formData.append("productID", actualProductID);
+        formData.append("toWishlist", true);
 
-          request.onreadystatechange = () => {
-            if (request.readyState === 4 && request.status === 200) {
-              const response = JSON.parse(request.response);
+        request.onreadystatechange = () => {
+          if (request.readyState === 4 && request.status === 200) {
+            const response = JSON.parse(request.response);
 
-              if (!response.isInserted) {
-                console.error("EROARE SERVER");
-              }
+            if (!response.isInserted) {
+              console.error("EROARE SERVER");
             }
-          };
-
-          request.open("POST", "classes/cart.class.php");
-          request.send(formData);
-        }
-
-        localStorage.setItem(
-          `favProductId${actualProductID}`,
-          JSON.stringify(actualProductObject)
-        );
-        renderLocalProducts(favItemsCounter, "favProducts");
-
-        showNotification(
-          "Produsul a fost adaugat la favorite!",
-          null,
-          1500,
-          null
-        );
-
-        localStorage.removeItem(`cartProductId${actualProductID}`);
-        renderLocalProducts(cartItemsCounter, "cartProducts");
-
-        if (currentURL == "cart.php") {
-          import("./cart.js").then((cartModule) => {
-            cartModule.renderCartProducts();
-          });
-        } else if (currentURL == "favProducts.php") {
-          import("./favProducts.js").then((favProductsModule) => {
-            favProductsModule.renderFavProducts();
-          });
-        }
-
-        const cartBtns = document.querySelectorAll(".addToCart");
-        cartBtns.forEach((cartBtn) => {
-          const cartBtnProductId = cartBtn.dataset.productId;
-
-          if (actualProductID == cartBtnProductId) {
-            removeCssClass(cartBtn, "active");
           }
+        };
+
+        request.open("POST", "classes/cart.class.php");
+        request.send(formData);
+      }
+
+      localStorage.setItem(
+        `favProductId${actualProductID}`,
+        JSON.stringify(actualProductObject)
+      );
+      renderLocalProducts(favItemsCounter, "favProducts");
+
+      showNotification(
+        "Produsul a fost adaugat la favorite!",
+        null,
+        1500,
+        null
+      );
+
+      localStorage.removeItem(`cartProductId${actualProductID}`);
+      renderLocalProducts(cartItemsCounter, "cartProducts");
+
+      if (currentURL == "cart.php") {
+        import("./cart.js").then((cartModule) => {
+          cartModule.renderCartProducts();
         });
-
-        const favBtns = document.querySelectorAll(".addToFav");
-        favBtns.forEach((favBtn) => {
-          const favBtnProductId = favBtn.dataset.productId;
-
-          if (actualProductID == favBtnProductId) {
-            favBtn.children[0].setAttribute("class", "fa fa-heart");
-
-            const favToolTip = favBtn.querySelector(".tooltip > p");
-            favToolTip.innerHTML = "Adaugat la favorite";
-          }
+      } else if (currentURL == "favProducts.php") {
+        import("./favProducts.js").then((favProductsModule) => {
+          favProductsModule.renderFavProducts();
         });
       }
+
+      const cartBtns = document.querySelectorAll(".addToCart");
+      cartBtns.forEach((cartBtn) => {
+        const cartBtnProductId = cartBtn.dataset.productId;
+
+        if (actualProductID == cartBtnProductId) {
+          removeCssClass(cartBtn, "active");
+        }
+      });
+
+      const favBtns = document.querySelectorAll(".addToFav");
+      favBtns.forEach((favBtn) => {
+        const favBtnProductId = favBtn.dataset.productId;
+
+        if (actualProductID == favBtnProductId) {
+          favBtn.children[0].setAttribute("class", "fa fa-heart");
+
+          const favToolTip = favBtn.querySelector(".tooltip > p");
+          favToolTip.innerHTML = "Adaugat la favorite";
+        }
+      });
     });
   });
 };

@@ -1,10 +1,12 @@
 #homepage,
 #product,
 #cart,
-#favProducts {
+#favProducts,
+#myAccount,
+#accountInfo {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 9.1rem);
   transform: scale(0.8);
   opacity: 0;
   transition: getMap($transitions, transform), getMap($transitions, opacity);

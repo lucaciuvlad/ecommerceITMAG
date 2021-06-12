@@ -111,4 +111,89 @@
       }
     }
   }
+
+  &__user {
+    display: flex;
+    flex-direction: column;
+    transition: getMap($transitions, box-shadow);
+    border-radius: $border-radius;
+    border: 1px solid rgba(getMap($colors, text-color-light), 0.7);
+
+    @include mq(large) {
+      grid-area: user;
+    }
+
+    &:hover {
+      box-shadow: 0 0 0.7rem rgba(getMap($colors, text-color-light), 0.7);
+    }
+
+    &__header {
+      & > i {
+        width: 100%;
+        margin: 0.5rem 0;
+        font-size: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      & > h3 {
+        width: 100%;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      flex-direction: column;
+
+      & > a,
+      & > button {
+        width: 11rem;
+        margin: 0 auto;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        padding: 0 0.5rem;
+        transition: getMap($transitions, color);
+        transition: getMap($transitions, transform);
+        background-color: transparent;
+        cursor: pointer;
+
+        &.active {
+          transform: translateX(0.2rem);
+        }
+
+        & > i {
+          margin-right: 0.5rem;
+          font-size: 1.2rem;
+
+          &.active {
+            color: getMap($colors, secondary-color);
+          }
+        }
+
+        & > span {
+          color: getMap($colors, text-color-light);
+
+          &.active {
+            color: getMap($colors, secondary-color);
+          }
+        }
+
+        &:hover {
+          transform: translateX(0.2rem);
+        }
+
+        &:hover > i,
+        &:hover > span {
+          color: getMap($colors, secondary-color);
+        }
+      }
+    }
+  }
 }

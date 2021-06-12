@@ -12,32 +12,10 @@ import {
   isEmpty,
   hasSpecifiedLength,
   matchSpecifiedRegExp,
-  emailValidation,
 } from "./validations.js";
 
-const register = document.querySelector("#register");
-toggleCssClass(register, "active");
-
-// First Name
-const firstNameField = document.querySelector(".firstName");
-const firstNameLabel = firstNameField.querySelector("label");
-const firstNameInput = firstNameField.querySelector("input");
-const firstNameErrorMsg = firstNameField.querySelector("p.error");
-const firstNameArr = [firstNameField, firstNameLabel, firstNameInput];
-
-// Last Name
-const lastNameField = document.querySelector(".lastName");
-const lastNameLabel = lastNameField.querySelector("label");
-const lastNameInput = lastNameField.querySelector("input");
-const lastNameErrorMsg = lastNameField.querySelector("p.error");
-const lastNameArr = [lastNameField, lastNameLabel, lastNameInput];
-
-// Email
-const emailField = document.querySelector(".email");
-const emailLabel = emailField.querySelector("label");
-const emailInput = emailField.querySelector("input");
-const emailErrorMsg = emailField.querySelector("p.error");
-const emailArr = [emailField, emailLabel, emailInput];
+const resetAccountContainer = document.querySelector("#resetAccount");
+toggleCssClass(resetAccountContainer, "active");
 
 // Password
 const passwordField = document.querySelector(".password");
@@ -87,79 +65,7 @@ const passwordSpecialCharsArr = [
   specialCharsItem,
 ];
 
-// Register Form
-const form = document.querySelector(".form");
-const registerBtn = form.querySelector(".save");
-
-// Register User Request
-const registerUser = () => {
-  const request = serverRequest();
-
-  const formData = new FormData(form);
-
-  const loader = document.querySelector(".loader");
-  addCssClass(loader, "active");
-
-  request.onreadystatechange = () => {
-    if (request.readyState === 4 && request.status === 200) {
-      removeCssClass(loader, "active");
-
-      const response = JSON.parse(request.response);
-
-      if (response.isRegistered) {
-        showNotification(
-          "Te-ai inregistrat cu succes! Un email de confirmare a contului fost trimis!",
-          "login.php",
-          3000,
-          null
-        );
-      }
-
-      if (response.firstName != null) {
-        showError(firstNameArr, firstNameErrorMsg, response.firstName);
-      } else {
-        hideError(firstNameArr, firstNameErrorMsg);
-      }
-
-      if (response.lastName != null) {
-        showError(lastNameArr, lastNameErrorMsg, response.lastName);
-      } else {
-        hideError(lastNameArr, lastNameErrorMsg);
-      }
-
-      if (response.email != null) {
-        showError(emailArr, emailErrorMsg, response.email);
-      } else {
-        hideError(emailArr, emailErrorMsg);
-      }
-
-      if (response.password != null) {
-        showError(passwordArr, passwordErrorMsg, response.password);
-      } else {
-        hideError(passwordArr, passwordErrorMsg);
-      }
-    }
-  };
-
-  request.open("POST", "classes/register.class.php", true);
-  request.send(formData);
-};
-
-// Full Name Validation
-const nameValidation = (input, label, errorMessage) => {
-  const numbers = /[0-9]/g;
-  const nameArr = [input, label];
-
-  if (isEmpty(input)) {
-    showError(nameArr, errorMessage, "Campul este obligatoriu!");
-  } else if (!hasSpecifiedLength(input, 3, null)) {
-    showError(nameArr, errorMessage, "Nume incorect!");
-  } else if (matchSpecifiedRegExp(input, numbers)) {
-    showError(nameArr, errorMessage, "Campul nu poate contine numere!");
-  } else {
-    hideError(nameArr, errorMessage);
-  }
-};
+const resetAccountBtn = document.querySelector(".save");
 
 const passwordValidation = () => {
   const capitalLetters = /[A-Z]+/g;
@@ -217,23 +123,41 @@ const passwordValidation = () => {
   }
 };
 
-const registerFunctionalities = () => {
-  // First Name Validation
-  firstNameInput.addEventListener("keyup", () => {
-    nameValidation(firstNameInput, firstNameLabel, firstNameErrorMsg);
-  });
+const resetAccount = () => {
+  const request = serverRequest();
 
-  // Last Name Validation
-  lastNameInput.addEventListener("keyup", () => {
-    nameValidation(lastNameInput, lastNameLabel, lastNameErrorMsg);
-  });
+  const queryParam = document.URL.indexOf("=");
+  const userId = document.URL.slice(queryParam + 1);
 
-  // Email Validation
-  emailInput.addEventListener("keyup", () => {
-    emailValidation(emailInput, emailArr, emailErrorMsg);
-  });
+  const formData = new FormData();
+  formData.append("newPassword", passwordInput.value);
+  formData.append("userId", userId);
 
-  // Password
+  const loader = document.querySelector(".loader");
+  addCssClass(loader, "active");
+
+  request.onreadystatechange = () => {
+    if (request.readyState === 4 && request.status === 200) {
+      removeCssClass(loader, "active");
+
+      const response = JSON.parse(request.response);
+
+      if (response.isUpdated) {
+        showNotification(
+          "Parola a fost modificata cu succes!",
+          "login.php",
+          3000,
+          null
+        );
+      }
+    }
+  };
+
+  request.open("POST", "classes/login.class.php", true);
+  request.send(formData);
+};
+
+const resetAccountFunctionalities = () => {
   passwordLabel.addEventListener("click", () => {
     addCssClass(passwordInputWrapper, "active");
   });
@@ -274,23 +198,10 @@ const registerFunctionalities = () => {
     passwordInput.setAttribute("type", "password");
   });
 
-  // Register User
-  registerBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    nameValidation(firstNameInput, firstNameLabel, firstNameErrorMsg);
-    nameValidation(lastNameInput, lastNameLabel, lastNameErrorMsg);
-    emailValidation(emailInput, emailArr, emailErrorMsg);
-    passwordValidation();
-
-    if (
-      firstNameErrorMsg.innerHTML == "" &&
-      lastNameErrorMsg.innerHTML == "" &&
-      emailErrorMsg.innerHTML == "" &&
-      passwordErrorMsg.innerHTML == ""
-    ) {
-      registerUser();
+  resetAccountBtn.addEventListener("click", () => {
+    if (passwordErrorMsg.innerHTML == "") {
+      resetAccount();
     }
   });
 };
-registerFunctionalities();
+resetAccountFunctionalities();

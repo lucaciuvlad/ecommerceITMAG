@@ -6,20 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/main.css">
-    <title> Acces cont </title>
+    <title> Resetare cont </title>
 
     <?php
     require_once("./includes/fonts.inc.php");
     ?>
 </head>
 
-<body id="login">
+<body id="resetAccount">
     <?php
-    require_once("./includes/loader.inc.php");
-    require_once("./includes/notification.inc.php");
+    require("./includes/loader.inc.php");
+    require("./includes/notification.inc.php");
     ?>
 
-    <main class="login">
+    <main class="resetAccount">
         <header>
             <h1> Bun venit! </h1>
             <a href="index.php">
@@ -27,23 +27,15 @@
             </a>
         </header>
 
+
         <section>
-            <h2> Acces cont </h2>
-            <p> Introdu datele pentru a-ti accesa contul. </p>
+            <h2> Resetare cont </h2>
+            <p> Introdu noua parola pentru a-ti recupera contul. </p>
         </section>
 
-        <form action="" class="form" method="POST">
-            <div class="form__field email">
-                <label for="email"> Email </label>
-                <input type="text" id="email" name="email">
-                <p class="error"> </p>
-            </div>
-
+        <form action="classes/register.class.php" class="form" method="POST">
             <div class="form__group password">
-                <div class="form__wrapper">
-                    <label for="password"> Parola </label>
-                    <a href="resetPassword.php"> Ai uitat parola? </a>
-                </div>
+                <label for="password"> Parola </label>
 
                 <div class="form__field">
                     <div class="form__field__wrapper pw">
@@ -52,22 +44,29 @@
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     </div>
 
+                    <div class="form__field__helper">
+                        <p> Pentru o parola sigura, va rugam, revedeti sa aveti: </p>
+
+                        <ul>
+                            <li> mai multe litere mici </li>
+                            <li> minim o litera mare </li>
+                            <li> minim 8 caractere </li>
+                            <li> minim un numar </li>
+                            <li> minim un caracter special (!, @, #, $, etc.) </li>
+                        </ul>
+                    </div>
+
                     <p class="error"> </p>
                 </div>
             </div>
 
             <div class="form__footer">
-                <button type="button" class="save"> Logare </button>
+                <button type="button" class="save"> Recuperare cont </button>
             </div>
         </form>
-
-        <div class="login__option">
-            <p> Nu ai inca un cont? </p>
-            <a href="register.php"> Inregistreaza-te </a>
-        </div>
     </main>
 
-    <script src="./assets/js/login.js" type="module"> </script>
+    <script src="./assets/js/resetAccount.js" type="module"> </script>
 </body>
 
 </html>

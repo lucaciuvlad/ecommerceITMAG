@@ -142,6 +142,7 @@ require_once("classes/brands.class.php");
                     </div>
                 </form>
             </div>
+
             <div class="modal__footer">
                 <button type="button" class="save"> Adauga </button>
                 <button type="button" class="close"> Anuleaza </button>

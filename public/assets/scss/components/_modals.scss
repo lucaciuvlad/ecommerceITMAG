@@ -1,12 +1,12 @@
 .modal {
   width: 100%;
-  min-height: 100%;
+  height: calc(100vh - 3rem);
   position: fixed;
   top: -100%;
   left: 0;
   display: flex;
   flex-direction: column;
-  z-index: 9;
+  z-index: 5;
   background-color: rgba(getMap($colors, text-color), 0.3);
   visibility: hidden;
   opacity: 0;
@@ -19,7 +19,7 @@
     transform: scale(1);
     visibility: visible;
     opacity: 1;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(5px);
   }
 
   &.delete {
@@ -52,6 +52,11 @@
   &__content {
     width: 100%;
     margin: 2rem 0;
+
+    & .form {
+      width: 35%;
+      margin: 0 auto;
+    }
   }
 
   &__confirmation {
@@ -100,6 +105,9 @@
   }
 
   &__footer {
+    position: fixed;
+    top: 100%;
+    left: 0;
     width: 100%;
     height: 3rem;
     display: flex;

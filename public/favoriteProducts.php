@@ -20,7 +20,6 @@ session_start();
 <body id="favProducts">
     <?php
     require_once("./includes/navigationBar.inc.php");
-    require_once("./includes/loader.inc.php");
     require_once("./includes/notification.inc.php");
     require_once("./includes/userSideMenu.inc.php");
 
@@ -71,7 +70,6 @@ session_start();
     <?php
     require_once("./includes/footer.inc.php");
     ?>
-
 
     <script src="./assets/js/navigationBar.js" type="module"></script>
     <script src="./assets/js/favProducts.js" type="module"></script>

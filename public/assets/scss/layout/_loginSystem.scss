@@ -1,5 +1,7 @@
 #login,
-#register {
+#register,
+#resetPassword,
+#resetAccount {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -17,7 +19,9 @@
 }
 
 .login,
-.register {
+.register,
+.resetPassword,
+.resetAccount {
   width: 90%;
   height: 100%;
   margin: 0 auto;

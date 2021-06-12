@@ -87,7 +87,8 @@ label,
 textarea,
 span,
 li,
-td {
+td,
+button {
   font-family: "Roboto", sans-serif;
   font-size: 0.85rem;
   letter-spacing: 0.5px;
@@ -464,13 +465,13 @@ a:hover {
 
 .modal {
   width: 100%;
-  min-height: 100%;
+  height: calc(100vh - 3rem);
   position: fixed;
   top: -100%;
   left: 0;
   display: flex;
   flex-direction: column;
-  z-index: 9;
+  z-index: 5;
   background-color: rgba(45, 52, 54, 0.3);
   visibility: hidden;
   opacity: 0;
@@ -482,7 +483,7 @@ a:hover {
   transform: scale(1);
   visibility: visible;
   opacity: 1;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(5px);
 }
 .modal.delete {
   display: flex;
@@ -510,6 +511,10 @@ a:hover {
 .modal__content {
   width: 100%;
   margin: 2rem 0;
+}
+.modal__content .form {
+  width: 35%;
+  margin: 0 auto;
 }
 .modal__confirmation {
   width: 75%;
@@ -552,6 +557,9 @@ a:hover {
   color: #fff;
 }
 .modal__footer {
+  position: fixed;
+  top: 100%;
+  left: 0;
   width: 100%;
   height: 3rem;
   display: flex;
@@ -594,7 +602,6 @@ a:hover {
 .notificationContainer.active {
   visibility: visible;
   opacity: 1;
-  z-index: 9;
 }
 .notificationContainer__notification {
   position: sticky;
@@ -1688,7 +1695,9 @@ footer > a:hover {
 }
 
 #login,
-#register {
+#register,
+#resetPassword,
+#resetAccount {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -1700,31 +1709,41 @@ footer > a:hover {
   transition: transform 0.15s ease-in, opacity 0.15s ease-in;
 }
 #login.active,
-#register.active {
+#register.active,
+#resetPassword.active,
+#resetAccount.active {
   opacity: 1;
   transform: scale(1);
 }
 
 .login,
-.register {
+.register,
+.resetPassword,
+.resetAccount {
   width: 90%;
   height: 100%;
   margin: 0 auto;
 }
 @media only screen and (min-width: 768px) {
   .login,
-.register {
+.register,
+.resetPassword,
+.resetAccount {
     width: 50%;
   }
 }
 @media only screen and (min-width: 992px) {
   .login,
-.register {
+.register,
+.resetPassword,
+.resetAccount {
     width: 40%;
   }
 }
 .login > header,
-.register > header {
+.register > header,
+.resetPassword > header,
+.resetAccount > header {
   width: 100%;
   height: 3rem;
   display: flex;
@@ -1732,19 +1751,25 @@ footer > a:hover {
   justify-content: space-between;
 }
 .login > header > a,
-.register > header > a {
+.register > header > a,
+.resetPassword > header > a,
+.resetAccount > header > a {
   width: 3rem;
   height: 100%;
   position: relative;
 }
 .login > header > a > img,
-.register > header > a > img {
+.register > header > a > img,
+.resetPassword > header > a > img,
+.resetAccount > header > a > img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 .login > section,
-.register > section {
+.register > section,
+.resetPassword > section,
+.resetAccount > section {
   width: 100%;
   height: 5rem;
   display: flex;
@@ -1752,13 +1777,17 @@ footer > a:hover {
   justify-content: space-around;
 }
 .login__option,
-.register__option {
+.register__option,
+.resetPassword__option,
+.resetAccount__option {
   width: 100%;
   display: flex;
   align-items: center;
 }
 .login__option > a,
-.register__option > a {
+.register__option > a,
+.resetPassword__option > a,
+.resetAccount__option > a {
   margin-left: 0.5rem;
 }
 
@@ -1874,10 +1903,12 @@ footer > a:hover {
 #homepage,
 #product,
 #cart,
-#favProducts {
+#favProducts,
+#myAccount,
+#accountInfo {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 9.1rem);
   transform: scale(0.8);
   opacity: 0;
   transition: transform 0.15s ease-in, opacity 0.15s ease-in;
@@ -1885,7 +1916,9 @@ footer > a:hover {
 #homepage.active,
 #product.active,
 #cart.active,
-#favProducts.active {
+#favProducts.active,
+#myAccount.active,
+#accountInfo.active {
   opacity: 1;
   transform: scale(1);
 }
@@ -1994,6 +2027,75 @@ footer > a:hover {
   left: 50%;
   transform: translateX(-50%);
   color: #fff;
+}
+.userPanel__user {
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.15s ease-in;
+  border-radius: 0.3rem;
+  border: 1px solid rgba(80, 92, 96, 0.7);
+}
+@media only screen and (min-width: 992px) {
+  .userPanel__user {
+    grid-area: user;
+  }
+}
+.userPanel__user:hover {
+  box-shadow: 0 0 0.7rem rgba(80, 92, 96, 0.7);
+}
+.userPanel__user__header > i {
+  width: 100%;
+  margin: 0.5rem 0;
+  font-size: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.userPanel__user__header > h3 {
+  width: 100%;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.userPanel__user__actions {
+  display: flex;
+  flex-direction: column;
+}
+.userPanel__user__actions > a, .userPanel__user__actions > button {
+  width: 11rem;
+  margin: 0 auto;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  transition: color 0.15s ease-in;
+  transition: transform 0.15s ease-in;
+  background-color: transparent;
+  cursor: pointer;
+}
+.userPanel__user__actions > a.active, .userPanel__user__actions > button.active {
+  transform: translateX(0.2rem);
+}
+.userPanel__user__actions > a > i, .userPanel__user__actions > button > i {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+.userPanel__user__actions > a > i.active, .userPanel__user__actions > button > i.active {
+  color: #6f1e51;
+}
+.userPanel__user__actions > a > span, .userPanel__user__actions > button > span {
+  color: #505c60;
+}
+.userPanel__user__actions > a > span.active, .userPanel__user__actions > button > span.active {
+  color: #6f1e51;
+}
+.userPanel__user__actions > a:hover, .userPanel__user__actions > button:hover {
+  transform: translateX(0.2rem);
+}
+.userPanel__user__actions > a:hover > i, .userPanel__user__actions > a:hover > span, .userPanel__user__actions > button:hover > i, .userPanel__user__actions > button:hover > span {
+  color: #6f1e51;
 }
 
 .product {
@@ -2486,6 +2588,7 @@ footer > a:hover {
   height: 10%;
   position: relative;
   background-color: rgba(18, 137, 167, 0.8);
+  border-radius: 0 0 0.3rem 0.3rem;
   cursor: pointer;
   transition: background-color 0.15s ease-in;
 }
@@ -2581,7 +2684,7 @@ footer > a:hover {
 @media only screen and (min-width: 992px) {
   .cart__empty {
     width: 85%;
-    height: calc(100vh - 12rem);
+    height: 45vh;
     margin: 0 auto;
     grid-area: emptyCart;
   }
@@ -2892,6 +2995,7 @@ footer > a:hover {
 .cartInfo > .cartTotal > .checkoutBtn {
   padding: 0.5rem;
   margin: 0.5rem 0;
+  text-align: center;
   background-color: rgba(18, 137, 167, 0.7);
   color: #fff;
   border-radius: 0.3rem;
@@ -3065,6 +3169,181 @@ footer > a:hover {
 }
 .favProducts__products__product > .price > p > sup {
   font-size: 0.65rem;
+}
+
+.dashboard {
+  width: 100%;
+  margin-top: 2rem;
+  transition: transform 0.15s ease-in, opacity 0.15s ease-in;
+}
+@media only screen and (min-width: 992px) {
+  .dashboard {
+    margin-left: 25rem;
+    width: calc(100% - 25rem);
+  }
+}
+.dashboard__header {
+  width: 100%;
+  padding: 0 1rem;
+}
+.dashboard__cards {
+  width: 100%;
+  padding: 1rem 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  place-items: center;
+}
+@media only screen and (min-width: 768px) {
+  .dashboard__cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .dashboard__cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.dashboard__cards__card {
+  width: 12rem;
+  height: 7rem;
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  background: #1289a7;
+  border-radius: 0.3rem;
+}
+@media only screen and (min-width: 768px) {
+  .dashboard__cards__card {
+    width: 13rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .dashboard__cards__card {
+    width: 15rem;
+  }
+}
+.dashboard__cards__card > .info {
+  width: 65%;
+  height: 100%;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.dashboard__cards__card > .info > p, .dashboard__cards__card > .info > span {
+  color: #fff;
+  text-transform: uppercase;
+}
+.dashboard__cards__card > .info > span {
+  margin-top: 1rem;
+}
+.dashboard__cards__card > .icon {
+  width: 25%;
+  height: 35%;
+  margin: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard__cards__card > .icon > i {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #1289a7;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.accountInfo {
+  width: 95%;
+  margin: 2rem auto;
+  transition: transform 0.15s ease-in, opacity 0.15s ease-in;
+}
+@media only screen and (min-width: 992px) {
+  .accountInfo {
+    margin-left: 25rem;
+    width: calc(100% - 25rem);
+  }
+}
+.accountInfo__card {
+  width: max-content;
+  margin: 1rem 0;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #1289a7;
+  border-radius: 0.3rem;
+}
+.accountInfo__card span {
+  margin-left: 0.3rem;
+}
+.accountInfo__card.email {
+  width: 15rem;
+}
+.accountInfo__card.email > p {
+  display: flex;
+  flex-direction: column;
+}
+.accountInfo__card.email > p > span {
+  margin-top: 0.5rem;
+}
+.accountInfo__card.email > button {
+  width: 75%;
+  margin: 0.5rem auto;
+  padding: 0.5rem;
+  background-color: #1289a7;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in;
+  color: #fff;
+}
+.accountInfo__card.email > button:hover {
+  background-color: #6f1e51;
+}
+.accountInfo__card.address > button {
+  width: max-content;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  background-color: #1289a7;
+  border-radius: 0.3rem;
+  transition: background-color 0.15s ease-in;
+  cursor: pointer;
+  color: #fff;
+}
+.accountInfo__card.address > button:hover {
+  background-color: #6f1e51;
+}
+.accountInfo > .newAddress > button {
+  padding: 0.5rem;
+  background-color: #1289a7;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.15s ease-in;
+}
+.accountInfo > .newAddress > button:hover {
+  background-color: #6f1e51;
+}
+.accountInfo > .newAddress > button > i {
+  color: #fff;
+  margin-right: 0.2rem;
+}
+.accountInfo > button {
+  width: max-content;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  background-color: #1289a7;
+  border-radius: 0.3rem;
+  transition: background-color 0.15s ease-in;
+  cursor: pointer;
+  color: #fff;
+}
+.accountInfo > button:hover {
+  background-color: #6f1e51;
 }
 
 /*# sourceMappingURL=main.css.map */

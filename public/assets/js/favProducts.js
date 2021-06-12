@@ -7,7 +7,6 @@ import {
   debounce,
   appendElement,
   createElement,
-  insertBeforeElement,
 } from "./global.js";
 
 import {
@@ -20,6 +19,19 @@ import {
 
 const favProducts = document.querySelector("#favProducts");
 toggleCssClass(favProducts, "active");
+
+const userPanelActions = document.querySelector(".userPanel__user__actions");
+const userActions = Array.from(userPanelActions.children);
+
+userActions.forEach((userAction) => {
+  if (userAction.classList.contains("favoriteProducts")) {
+    const spanText = userAction.querySelector("span");
+    const icon = userAction.querySelector("i");
+    addCssClass(userAction, "active");
+    addCssClass(spanText, "active");
+    addCssClass(icon, "active");
+  }
+});
 
 const favProductsContainer = document.querySelector(".favProducts__products");
 const emptyFavProducts = document.querySelector(".favProducts__empty");

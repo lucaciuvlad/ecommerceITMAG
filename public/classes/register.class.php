@@ -125,7 +125,7 @@ class Register extends Database
             $email->send();
             return "Email-ul a fost trimis cu succes!";
         } catch (Exception $e) {
-            return "A aparut o eroare la trimiterea email-ului!";
+            return "A aparut o eroare la trimiterea email-ului!" . $e->getMessage();
         }
     }
 }

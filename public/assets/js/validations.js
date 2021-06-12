@@ -14,6 +14,18 @@ const isEmpty = (field) => {
   return emptyField;
 };
 
+const notNumeric = (field) => {
+  let numeric = null;
+
+  if (!field.value.match(/[0-9]+/g) || field.value.match(/[a-zA-Z]+/g)) {
+    numeric = false;
+  } else {
+    numeric = true;
+  }
+
+  return numeric;
+};
+
 const hasSpecifiedLength = (field, minLength, maxLength) => {
   let hasLength = null;
 
@@ -83,6 +95,7 @@ const hideError = (errItems, errMsg) => {
 
 export {
   isEmpty,
+  notNumeric,
   hasSpecifiedLength,
   matchSpecifiedRegExp,
   emailValidation,

@@ -78,7 +78,7 @@ session_start();
                     </p>
                 </div>
 
-                <button type="button" class="checkoutBtn"> Continua </button>
+                <button type="button" class="checkoutBtn"> Plaseaza comanda </button>
             </div>
         </section>
     </main>

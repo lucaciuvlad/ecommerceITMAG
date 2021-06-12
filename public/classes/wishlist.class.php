@@ -122,6 +122,8 @@ if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["toCar
 
         $wishListHandler = new Wishlist($userID, $productID);
         $wishListHandler->deleteWishlistProduct();
+    } else {
+        echo "EROARE";
     }
 }
 ?>
