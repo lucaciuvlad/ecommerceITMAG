@@ -12,10 +12,8 @@ import {
 const currentPageName = document.URL.lastIndexOf("/");
 const currentURL = document.URL.slice(currentPageName + 1);
 
-// Navigation Bar
 const navigationBar = document.querySelector(".navbar");
 
-// Left Navigation Bar
 const leftMenu = document.querySelector(".navbar__left__menu");
 const hamburgerBtn = leftMenu.querySelector(".hamburger");
 const hamburgerIcon = hamburgerBtn.querySelector("i");
@@ -23,7 +21,6 @@ const leftMenuCategories = leftMenu.querySelector(
   ".navbar__left__menu__categories"
 );
 
-// Serach Navigation Bar
 const searchBar = document.querySelector(".navbar__search");
 const searchBarInput = searchBar.querySelector(".navbar__search__input");
 const searchInput = searchBar.querySelector(".navbar__search__input > input");
@@ -41,16 +38,13 @@ const searchBackBtn = searchSuggestions.querySelector(
   ".navbar__search__suggestions__back"
 );
 
-// Right Navigation Bar
 const searchToolBtn = document.querySelector(".navbar__right > button");
 
-// User
 const userContainer = document.querySelector(".navbar__right__user");
 const userLink = userContainer.querySelector("a");
 const userIcon = userLink.querySelector("i");
 const userPanel = userContainer.querySelector(".navbar__right__user__panel");
 
-// FUNCTIONALITIES
 const showLeftMenuCategories = () => {
   addCssClass(leftMenuCategories, "active");
   addCssClass(hamburgerBtn, "active");
@@ -143,7 +137,6 @@ export const userLogout = (e) => {
   e.preventDefault();
 
   const request = serverRequest();
-  console.log("RUNNING");
 
   const formData = new FormData();
   formData.append("logout", true);
@@ -256,7 +249,7 @@ const navigationBarFunctionalities = () => {
 };
 navigationBarFunctionalities();
 
-// Favorite Products + Cart Products
+// Database | Localstoarge Work
 const favTab = document.querySelector(".navbar__right__favoriteProducts");
 const favPanel = document.querySelector(
   ".navbar__right__favoriteProducts__panel"
@@ -279,13 +272,7 @@ const cartLinkCounter = cartLink.querySelector("div.counter");
 export const cartItemsCounter = cartLinkCounter.querySelector("span");
 const cartPanelProductList = cartPanel.querySelector("ul");
 
-const productSlides = document.querySelectorAll(
-  ".productSection__carousel__slider__slide"
-);
-const addToFavBtns = document.querySelectorAll(".addToFav");
-const addToCartBtns = document.querySelectorAll(".addToCart");
-
-let userID = null;
+export let userID = null;
 if (document.querySelector("#userId")) {
   userID = document.querySelector("#userId").dataset.user;
 }
@@ -306,7 +293,7 @@ export const addToCartFromFav = (addToCartBtns) => {
         const formData = new FormData();
         formData.append("userID", userID);
         formData.append("productID", actualProductID);
-        formData.append("toCart", true);
+        formData.append("action", "toCart");
 
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {
@@ -390,7 +377,7 @@ export const addToFavFromCart = (addToFavBtns) => {
         const formData = new FormData();
         formData.append("userID", userID);
         formData.append("productID", actualProductID);
-        formData.append("toWishlist", true);
+        formData.append("action", "toWishlist");
 
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {
@@ -582,216 +569,6 @@ export const removeProduct = debounce((removeBtns, productList) => {
       }
     });
   });
-}, 100);
-
-const insertProduct = debounce((btn, index, productList) => {
-  const asignmentOperator = productSlides[index].href.indexOf("=");
-  const productID = parseInt(
-    productSlides[index].href.slice(asignmentOperator + 1)
-  );
-
-  const productName =
-    productSlides[index].querySelector(".productName > p").innerHTML;
-  const productImage = productSlides[index].querySelector(
-    ".productImage > img"
-  ).src;
-  const productOldFullPrice = parseInt(
-    productSlides[index]
-      .querySelector(".productPrice .oldFullPrice")
-      .innerHTML.trim()
-  );
-  const productOldFullPriceDecimal = parseInt(
-    productSlides[index]
-      .querySelector(".productPrice .oldFullPriceDecimal")
-      .innerHTML.trim()
-  );
-  const productNewFullPrice = parseInt(
-    productSlides[index]
-      .querySelector(".productPrice .newFullPrice")
-      .innerHTML.trim()
-  );
-  const productNewFullPriceDecimal = parseInt(
-    productSlides[index]
-      .querySelector(".productPrice .newFullPriceDecimal")
-      .innerHTML.trim()
-  );
-
-  let productInfo = null;
-  if (productOldFullPrice == "" && productOldFullPriceDecimal == "") {
-    productInfo = {
-      productID: productID,
-      productName: productName,
-      productImage: productImage,
-      productQuantity: 1,
-      productNewFullPrice: productNewFullPrice,
-      productNewFullPriceDecimal: productNewFullPriceDecimal,
-    };
-  } else {
-    productInfo = {
-      productID: productID,
-      productName: productName,
-      productImage: productImage,
-      productQuantity: 1,
-      productOldFullPrice: productOldFullPrice,
-      productOldFullPriceDecimal: productOldFullPriceDecimal,
-      productNewFullPrice: productNewFullPrice,
-      productNewFullPriceDecimal: productNewFullPriceDecimal,
-    };
-  }
-
-  if (productList == "favProducts") {
-    const actualFavIcon = btn.querySelector("i");
-    const actualFavToolTip = productSlides[index].querySelector(".tooltip > p");
-
-    const localStorageFavProductId = JSON.parse(
-      localStorage.getItem(`favProductId${productID}`)
-    );
-
-    if (localStorageFavProductId == null) {
-      if (userID !== null) {
-        const request = serverRequest();
-
-        const formData = new FormData();
-        formData.append("productID", productID);
-        formData.append("userID", userID);
-        formData.append("favInsert", true);
-
-        request.onreadystatechange = () => {
-          if (request.readyState === 4 && request.status === 200) {
-            const response = JSON.parse(request.response);
-            console.log(response);
-
-            if (!response.isInserted) {
-              console.error("EROARE SERVER");
-            }
-          }
-        };
-
-        request.open("POST", "classes/wishlist.class.php");
-        request.send(formData);
-      }
-
-      localStorage.setItem(
-        `favProductId${productID}`,
-        JSON.stringify(productInfo)
-      );
-
-      showNotification(
-        "Produsul a fost adaugat la favorite!",
-        null,
-        1500,
-        null
-      );
-      renderLocalProducts(favItemsCounter, "favProducts");
-
-      actualFavIcon.setAttribute("class", "fa fa-heart");
-      actualFavToolTip.innerHTML = "Adaugat la favorite";
-    } else {
-      if (userID !== null) {
-        const request = serverRequest();
-
-        const formData = new FormData();
-        formData.append("productID", productID);
-        formData.append("userID", userID);
-        formData.append("favDelete", true);
-
-        request.onreadystatechange = () => {
-          if (request.readyState === 4 && request.status === 200) {
-            const response = JSON.parse(request.response);
-
-            if (!response.isDeleted) {
-              console.error("EROARE SERVER");
-            }
-          }
-        };
-
-        request.open("POST", "classes/wishlist.class.php");
-        request.send(formData);
-      }
-
-      localStorage.removeItem(`favProductId${productID}`);
-      showNotification(
-        "Produsul a fost sters de la favorite!",
-        null,
-        1500,
-        "error"
-      );
-      renderLocalProducts(favItemsCounter, "favProducts");
-
-      actualFavIcon.setAttribute("class", "fa fa-heart-o");
-      actualFavToolTip.innerHTML = "Adauga la favorite";
-    }
-  }
-
-  if (productList == "cartProducts") {
-    const localStorageCartProductId = JSON.parse(
-      localStorage.getItem(`cartProductId${productID}`)
-    );
-
-    if (localStorageCartProductId === null) {
-      if (userID !== null) {
-        const request = serverRequest();
-
-        const formData = new FormData();
-        formData.append("productID", productID);
-        formData.append("userID", userID);
-        formData.append("cartInsert", true);
-
-        request.onreadystatechange = () => {
-          if (request.readyState === 4 && request.status === 200) {
-            const response = JSON.parse(request.response);
-
-            if (!response.isInserted) {
-              console.error("EROARE SERVER");
-            }
-          }
-        };
-
-        request.open("POST", "classes/cart.class.php");
-        request.send(formData);
-      }
-
-      localStorage.setItem(
-        `cartProductId${productID}`,
-        JSON.stringify(productInfo)
-      );
-
-      showNotification("Produsul a fost adaugat in cos!", null, 1500, null);
-      renderLocalProducts(cartItemsCounter, "cartProducts");
-
-      addCssClass(btn, "active");
-      btn.querySelector("span").innerHTML = "Adaugat in cos";
-    } else {
-      if (userID !== null) {
-        const request = serverRequest();
-
-        const formData = new FormData();
-        formData.append("productID", productID);
-        formData.append("userID", userID);
-        formData.append("cartDelete", true);
-
-        request.onreadystatechange = () => {
-          if (request.readyState === 4 && request.status === 200) {
-            const response = JSON.parse(request.response);
-
-            if (!response.isDeleted) {
-              console.error("EROARE SERVER");
-            }
-          }
-        };
-
-        request.open("POST", "classes/cart.class.php");
-        request.send(formData);
-      }
-
-      localStorage.removeItem(`cartProductId${productID}`);
-      showNotification("Produsul a fost sters din cos!", null, 1500, "error");
-      renderLocalProducts(cartItemsCounter, "cartProducts");
-
-      removeCssClass(btn, "active");
-      btn.querySelector("span").innerHTML = "Adauga in cos";
-    }
-  }
 }, 100);
 
 export const renderLocalProducts = (productCounter, productList) => {
@@ -1163,8 +940,7 @@ export const renderLocalProducts = (productCounter, productList) => {
 renderLocalProducts(cartItemsCounter, "cartProducts");
 renderLocalProducts(favItemsCounter, "favProducts");
 
-const localStorageProductsFunctionalities = () => {
-  // FAVORITE PRODUCTS
+const dynamicBarFunctionalities = () => {
   // Toggle Favorite Panel
   favTab.addEventListener("mouseenter", () => {
     addCssClass(favPanel, "active");
@@ -1182,15 +958,6 @@ const localStorageProductsFunctionalities = () => {
     removeCssClass(favLinkCounter, "active");
   });
 
-  // Add Current Product To Favorite LocalStorage
-  addToFavBtns.forEach((addToFavBtn, index) => {
-    addToFavBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      insertProduct(addToFavBtn, index, "favProducts");
-    });
-  });
-
-  // CART PRODUCTS
   // Toggle Cart Panel
   cartTab.addEventListener("mouseenter", () => {
     addCssClass(cartPanel, "active");
@@ -1207,16 +974,8 @@ const localStorageProductsFunctionalities = () => {
     removeCssClass(cartLinkSpan, "active");
     removeCssClass(cartLinkCounter, "active");
   });
-
-  // Add Current Product To Cart LocalStorage
-  addToCartBtns.forEach((addToCartBtn, index) => {
-    addToCartBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      insertProduct(addToCartBtn, index, "cartProducts");
-    });
-  });
 };
-localStorageProductsFunctionalities();
+dynamicBarFunctionalities();
 
 // Insert Into MySQL Current Local Storage Products
 const localStorageLength = localStorage.length;
@@ -1230,9 +989,9 @@ for (let i = 0; i <= localStorageLength - 1; i++) {
 }
 
 localStorageProducts.forEach((product) => {
-  if (product.startsWith("fav")) {
+  if (product.startsWith("favProduct")) {
     localStorageFavProducts.push(product);
-  } else if (product.startsWith("cart")) {
+  } else if (product.startsWith("cartProduct")) {
     localStorageCartProducts.push(product);
   }
 });
@@ -1255,6 +1014,11 @@ if (userID !== null) {
 
       request.onreadystatechange = () => {
         if (request.readyState === 4 && request.status === 200) {
+          const response = JSON.parse(request.response);
+
+          if (!response.isInserted) {
+            console.error("EROARE SERVER");
+          }
         }
       };
       request.open("POST", "classes/cart.class.php");
@@ -1270,6 +1034,11 @@ if (userID !== null) {
 
       request.onreadystatechange = () => {
         if (request.readyState === 4 && request.status === 200) {
+          const response = JSON.parse(request.response);
+
+          if (!response.isInserted) {
+            console.error("EROARE SERVER");
+          }
         }
       };
       request.open("POST", "classes/wishlist.class.php");

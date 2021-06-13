@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if (!isset($_SESSION["userID"])) {
+    header("location: login.php");
+}
+
 require_once("classes/userAccount.class.php");
 ?>
 
@@ -57,7 +62,8 @@ require_once("classes/userAccount.class.php");
             <div class="modal__content">
                 <form class="form">
                     <div class="form__field address">
-                        <label for="address"> Adresa completa (Strada, Numar, Etaj, Localitate, Judet) </label>
+                        <label for="address"> Adresa completa (Strada, Numar, Apartament, Etaj, Localitate, Judet)
+                        </label>
                         <input type="text" id="address" />
                         <p class="error"></p>
                     </div>

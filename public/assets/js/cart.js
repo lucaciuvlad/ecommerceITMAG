@@ -109,6 +109,30 @@ const cartSummary = (cartProducts) => {
   totalCartPriceSup.innerHTML = finalDecimalPrice;
 };
 
+const deleteFromCartSql = (productID) => {
+  if (userID != null) {
+    const request = serverRequest();
+
+    const formData = new FormData();
+    formData.append("productID", productID);
+    formData.append("userID", userID);
+    formData.append("action", "deleteProduct");
+
+    request.onreadystatechange = () => {
+      if (request.readyState === 4 && request.status === 200) {
+        const response = JSON.parse(request.response);
+
+        if (!response.isDeleted) {
+          console.error("EROARE SERVER");
+        }
+      }
+    };
+
+    request.open("POST", "classes/cart.class.php");
+    request.send(formData);
+  }
+};
+
 const deleteCartProduct = debounce((removeBtns) => {
   removeBtns.forEach((removeBtn) => {
     removeBtn.addEventListener("click", (e) => {
@@ -116,27 +140,7 @@ const deleteCartProduct = debounce((removeBtns) => {
 
       const productID = removeBtn.dataset.productId;
 
-      if (userID != null) {
-        const request = serverRequest();
-
-        const formData = new FormData();
-        formData.append("productID", productID);
-        formData.append("userID", userID);
-        formData.append("cartDelete", true);
-
-        request.onreadystatechange = () => {
-          if (request.readyState === 4 && request.status === 200) {
-            const response = JSON.parse(request.response);
-
-            if (!response.isDeleted) {
-              console.error("EROARE SERVER");
-            }
-          }
-        };
-
-        request.open("POST", "classes/cart.class.php");
-        request.send(formData);
-      }
+      deleteFromCartSql(productID);
 
       localStorage.removeItem(`cartProductId${productID}`);
       showNotification("Produsul a fost sters din cos!", null, 1500, "error");
@@ -164,7 +168,7 @@ const addToFav = debounce((addToFavBtns) => {
         const formData = new FormData();
         formData.append("userID", userID);
         formData.append("productID", productID);
-        formData.append("toWishlist", true);
+        formData.append("action", "toWishlist");
 
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {
@@ -526,12 +530,80 @@ const checkUserAddress = () => {
 
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
-      const response = request.response;
-      console.log(response);
+      const response = JSON.parse(request.response);
+
+      if (response.userAddress == null) {
+        showNotification(
+          "Trebuie sa introduceti o adresa pentru a putea plasa o comanda!",
+          "accountInfo.php",
+          2500,
+          "error"
+        );
+      } else {
+        placeOrder();
+      }
     }
   };
 
   request.open("POST", "classes/userAccount.class.php");
+  request.send(formData);
+};
+
+const placeOrder = () => {
+  const request = serverRequest();
+
+  const formData = new FormData();
+  formData.append("userId", userID);
+
+  const cartProductCards = Array.from(
+    document.querySelectorAll(".cart__product")
+  );
+
+  const loader = document.querySelector(".loader");
+  addCssClass(loader, "active");
+
+  request.onreadystatechange = () => {
+    if (request.readyState === 4 && request.status === 200) {
+      removeCssClass(loader, "active");
+      const response = JSON.parse(request.response);
+
+      if (response.orderId) {
+        showNotification(
+          `Comanda cu numarul ${response.orderId} a fost plasata cu succes!`,
+          "index.php",
+          2500,
+          null
+        );
+
+        cartProductCards.forEach((productCard) => {
+          const productId = productCard.dataset.id;
+          deleteFromCartSql(productId);
+          localStorage.removeItem(`cartProductId${productId}`);
+        });
+      }
+    }
+  };
+
+  const productDetails = [];
+
+  cartProductCards.forEach((productCard) => {
+    const productId = productCard.dataset.id;
+    const productQuantity = productCard.querySelector(
+      ".range-header > .number"
+    ).innerHTML;
+
+    const productInfo = {
+      productId: productId,
+      productQuantity: productQuantity,
+    };
+    productDetails.push(JSON.stringify(productInfo));
+  });
+
+  productDetails.forEach((product) => {
+    formData.append("product[]", product);
+  });
+
+  request.open("POST", "classes/orders.class.php");
   request.send(formData);
 };
 

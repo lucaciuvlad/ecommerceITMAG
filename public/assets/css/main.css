@@ -2547,6 +2547,7 @@ footer > a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
 }
 .productSection__carousel__slider__slide > .productRating > i {
   margin: 0 0.3rem;

@@ -2,9 +2,17 @@ import {
   addCssClass,
   removeCssClass,
   toggleCssClass,
+  debounce,
   serverRequest,
   showNotification,
 } from "./global.js";
+
+import {
+  renderLocalProducts,
+  favItemsCounter,
+  cartItemsCounter,
+  userID,
+} from "./navigationBar.js";
 
 const homepage = document.querySelector("#homepage");
 toggleCssClass(homepage, "active");
@@ -211,7 +219,7 @@ const productSlides = document.querySelectorAll(
   ".productSection__carousel__slider__slide"
 );
 
-// Local Product Persistent State
+// Local Products Persistent State
 productSlides.forEach((productSlide) => {
   const productFavBtn = productSlide.querySelector(".addToFav > i");
   const productFavBtnTooltipMessage = productSlide.querySelector(
@@ -225,7 +233,7 @@ productSlides.forEach((productSlide) => {
   for (let i = 0; i <= localStorageLength - 1; i++) {
     const actualProduct = localStorage.key(i);
 
-    if (actualProduct.startsWith("fav")) {
+    if (actualProduct.startsWith("favProduct")) {
       const localStorageObject = JSON.parse(
         localStorage.getItem(actualProduct)
       );
@@ -235,7 +243,7 @@ productSlides.forEach((productSlide) => {
         productFavBtn.setAttribute("class", "fa fa-heart");
         productFavBtnTooltipMessage.innerHTML = "Adaugat la favorite";
       }
-    } else if (actualProduct.startsWith("cart")) {
+    } else if (actualProduct.startsWith("cartProduct")) {
       const localStorageObject = JSON.parse(
         localStorage.getItem(actualProduct)
       );
@@ -249,3 +257,235 @@ productSlides.forEach((productSlide) => {
     }
   }
 });
+
+const addToFavBtns = document.querySelectorAll(".addToFav");
+const addToCartBtns = document.querySelectorAll(".addToCart");
+
+const insertProduct = debounce((btn, index, productList) => {
+  const asignmentOperator = productSlides[index].href.indexOf("=");
+  const productID = parseInt(
+    productSlides[index].href.slice(asignmentOperator + 1)
+  );
+
+  const productName =
+    productSlides[index].querySelector(".productName > p").innerHTML;
+  const productImage = productSlides[index].querySelector(
+    ".productImage > img"
+  ).src;
+  const productOldFullPrice = parseInt(
+    productSlides[index]
+      .querySelector(".productPrice .oldFullPrice")
+      .innerHTML.trim()
+  );
+  const productOldFullPriceDecimal = parseInt(
+    productSlides[index]
+      .querySelector(".productPrice .oldFullPriceDecimal")
+      .innerHTML.trim()
+  );
+  const productNewFullPrice = parseInt(
+    productSlides[index]
+      .querySelector(".productPrice .newFullPrice")
+      .innerHTML.trim()
+  );
+  const productNewFullPriceDecimal = parseInt(
+    productSlides[index]
+      .querySelector(".productPrice .newFullPriceDecimal")
+      .innerHTML.trim()
+  );
+
+  let productInfo = null;
+
+  if (productOldFullPrice == "" && productOldFullPriceDecimal == "") {
+    productInfo = {
+      productID: productID,
+      productName: productName,
+      productImage: productImage,
+      productQuantity: 1,
+      productNewFullPrice: productNewFullPrice,
+      productNewFullPriceDecimal: productNewFullPriceDecimal,
+    };
+  } else {
+    productInfo = {
+      productID: productID,
+      productName: productName,
+      productImage: productImage,
+      productQuantity: 1,
+      productOldFullPrice: productOldFullPrice,
+      productOldFullPriceDecimal: productOldFullPriceDecimal,
+      productNewFullPrice: productNewFullPrice,
+      productNewFullPriceDecimal: productNewFullPriceDecimal,
+    };
+  }
+
+  if (productList == "favProducts") {
+    const actualFavIcon = btn.querySelector("i");
+    const actualFavToolTip = productSlides[index].querySelector(".tooltip > p");
+
+    const localStorageFavProductId = JSON.parse(
+      localStorage.getItem(`favProductId${productID}`)
+    );
+
+    if (localStorageFavProductId == null) {
+      if (userID !== null) {
+        const request = serverRequest();
+
+        const formData = new FormData();
+        formData.append("productId", productID);
+        formData.append("userId", userID);
+        formData.append("action", "insertProduct");
+
+        request.onreadystatechange = () => {
+          if (request.readyState === 4 && request.status === 200) {
+            const response = JSON.parse(request.response);
+
+            if (!response.isInserted) {
+              console.error("EROARE SERVER");
+            }
+          }
+        };
+
+        request.open("POST", "classes/wishlist.class.php");
+        request.send(formData);
+      }
+
+      localStorage.setItem(
+        `favProductId${productID}`,
+        JSON.stringify(productInfo)
+      );
+
+      showNotification(
+        "Produsul a fost adaugat la favorite!",
+        null,
+        1500,
+        null
+      );
+      renderLocalProducts(favItemsCounter, "favProducts");
+
+      actualFavIcon.setAttribute("class", "fa fa-heart");
+      actualFavToolTip.innerHTML = "Adaugat la favorite";
+    } else {
+      if (userID !== null) {
+        const request = serverRequest();
+
+        const formData = new FormData();
+        formData.append("productId", productID);
+        formData.append("userId", userID);
+        formData.append("action", "deleteProduct");
+
+        request.onreadystatechange = () => {
+          if (request.readyState === 4 && request.status === 200) {
+            const response = JSON.parse(request.response);
+
+            if (!response.isDeleted) {
+              console.error("EROARE SERVER");
+            }
+          }
+        };
+
+        request.open("POST", "classes/wishlist.class.php");
+        request.send(formData);
+      }
+
+      localStorage.removeItem(`favProductId${productID}`);
+      showNotification(
+        "Produsul a fost sters de la favorite!",
+        null,
+        1500,
+        "error"
+      );
+      renderLocalProducts(favItemsCounter, "favProducts");
+
+      actualFavIcon.setAttribute("class", "fa fa-heart-o");
+      actualFavToolTip.innerHTML = "Adauga la favorite";
+    }
+  }
+
+  if (productList == "cartProducts") {
+    const localStorageCartProductId = JSON.parse(
+      localStorage.getItem(`cartProductId${productID}`)
+    );
+
+    if (localStorageCartProductId === null) {
+      if (userID !== null) {
+        const request = serverRequest();
+
+        const formData = new FormData();
+        formData.append("productID", productID);
+        formData.append("userID", userID);
+        formData.append("action", "insertProduct");
+
+        request.onreadystatechange = () => {
+          if (request.readyState === 4 && request.status === 200) {
+            const response = JSON.parse(request.response);
+
+            if (!response.isInserted) {
+              console.error("EROARE SERVER");
+            }
+          }
+        };
+
+        request.open("POST", "classes/cart.class.php");
+        request.send(formData);
+      }
+
+      localStorage.setItem(
+        `cartProductId${productID}`,
+        JSON.stringify(productInfo)
+      );
+
+      showNotification("Produsul a fost adaugat in cos!", null, 1500, null);
+      renderLocalProducts(cartItemsCounter, "cartProducts");
+
+      addCssClass(btn, "active");
+      btn.querySelector("span").innerHTML = "Adaugat in cos";
+    } else {
+      if (userID !== null) {
+        const request = serverRequest();
+
+        const formData = new FormData();
+        formData.append("productID", productID);
+        formData.append("userID", userID);
+        formData.append("action", "deleteProduct");
+
+        request.onreadystatechange = () => {
+          if (request.readyState === 4 && request.status === 200) {
+            const response = JSON.parse(request.response);
+
+            if (!response.isDeleted) {
+              console.error("EROARE SERVER");
+            }
+          }
+        };
+
+        request.open("POST", "classes/cart.class.php");
+        request.send(formData);
+      }
+
+      localStorage.removeItem(`cartProductId${productID}`);
+      showNotification("Produsul a fost sters din cos!", null, 1500, "error");
+      renderLocalProducts(cartItemsCounter, "cartProducts");
+
+      removeCssClass(btn, "active");
+      btn.querySelector("span").innerHTML = "Adauga in cos";
+    }
+  }
+}, 100);
+
+const indexPageFunctionalities = () => {
+  // Add Current Product To Favorite LocalStorage And wishlists MySQL
+  addToFavBtns.forEach((addToFavBtn, index) => {
+    addToFavBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      insertProduct(addToFavBtn, index, "favProducts");
+    });
+  });
+
+  // Add Current Product To Cart LocalStorage And MySQL
+  addToCartBtns.forEach((addToCartBtn, index) => {
+    addToCartBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      insertProduct(addToCartBtn, index, "cartProducts");
+    });
+  });
+};
+indexPageFunctionalities();

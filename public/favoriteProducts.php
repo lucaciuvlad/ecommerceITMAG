@@ -41,29 +41,6 @@ session_start();
         </div>
 
         <div class="favProducts__products">
-
-            <div class="favProducts__products__product">
-                <img src="./assets/imgs/itmag-logo.png" />
-                <a href="#"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis perspiciatis veritatis
-                    soluta!
-                </a>
-                <div class="actions">
-                    <button type="button" class="addToCart"> Adauga in cos </button>
-                    <button type="button" class="removeFromFav"> Sterge </button>
-                </div>
-                <div class="price">
-                    <p class="oldPrice">
-                        <span class="oldFullPrice"> 255 </span>
-                        <sup class="oldFullPriceDecimal"> 99 </sup>
-                        <span> Lei </span>
-                    </p>
-                    <p class="newPrice">
-                        <span class="newFullPrice"> 205 </span>
-                        <sup class="newFullPriceDecimal"> 99 </sup>
-                        <span> Lei </span>
-                    </p>
-                </div>
-            </div>
         </div>
     </main>
 

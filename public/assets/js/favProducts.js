@@ -55,9 +55,9 @@ const deleteFavProduct = debounce((removeBtns) => {
         const request = serverRequest();
 
         const formData = new FormData();
-        formData.append("productID", productID);
-        formData.append("userID", userID);
-        formData.append("favDelete", true);
+        formData.append("productId", productID);
+        formData.append("userId", userID);
+        formData.append("action", "deleteProduct");
 
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {
@@ -99,7 +99,7 @@ const addToCart = debounce((addToCartBtns) => {
         const formData = new FormData();
         formData.append("userID", userID);
         formData.append("productID", productID);
-        formData.append("toCart", true);
+        formData.append("action", "toCart");
 
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {
