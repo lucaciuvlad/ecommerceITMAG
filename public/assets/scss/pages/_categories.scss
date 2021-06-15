@@ -122,9 +122,10 @@
 
     & > .filters {
       position: absolute;
-      left: 80%;
+      left: calc(100% + 0.5rem);
       bottom: 0;
       border: 1px solid getMap($colors, text-color);
+      background-color: #fff;
       border-radius: $border-radius;
       transform: translateX(-1rem);
       opacity: 0;
@@ -132,6 +133,14 @@
       transition: getMap($transitions, box-shadow),
         getMap($transitions, transform), getMap($transitions, opacity),
         getMap($transitions, visibility);
+
+      @include mq(medium) {
+        left: 90%;
+      }
+
+      @include mq(desktop) {
+        left: 80%;
+      }
 
       &:hover {
         box-shadow: 0 0 0.5rem rgba(getMap($colors, text-color), 0.5);

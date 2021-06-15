@@ -13,10 +13,12 @@ class Product extends Database
     public function getProductInfo()
     {
         $selectProductInfo =
-            "   SELECT  product_name, product_price, product_old_price, product_stock, brand_name, category_name,
-                        brands.id as brandID, categories.id as categoryID
+            "   SELECT  products.id AS productID, product_name, product_price, product_old_price, product_stock, 
+                        brands.id AS brandID, brand_name, categories.id AS categoryID, category_name
                 FROM    products, brands, categories
-                WHERE   products.id = $this->productId;    
+                WHERE   products.id = $this->productId AND 
+                        products.brand_id = brands.id AND products.category_id = categories.id
+                GROUP BY products.id;    
             ";
 
         $productInfo = $this->connect()->query($selectProductInfo)->fetch_assoc();
@@ -45,5 +47,18 @@ class Product extends Database
         $this->connect()->close();
 
         return $productDescriptions;
+    }
+
+    public function getProductSpecifications()
+    {
+        $selectProductSpecifications =
+            "   SELECT  product_specification_key, product_specification_value
+                FROM    product_specifications
+                WHERE   product_id = $this->productId
+            ";
+        $productSpecifications = $this->connect()->query($selectProductSpecifications);
+        $this->connect()->close();
+
+        return $productSpecifications;
     }
 }

@@ -22,6 +22,7 @@ session_start();
     require_once("./includes/navigationBar.inc.php");
     require_once("./includes/loader.inc.php");
     require_once("./includes/notification.inc.php");
+    require_once("./includes/stickyTopBtn.inc.php");
 
     if (isset($_SESSION["userID"])) {
         echo "<div id='userId' style='display: none; position: absolute; top: 0; left: 0;'data-user='$_SESSION[userID]'></div>";

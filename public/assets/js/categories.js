@@ -63,7 +63,6 @@ const filterRequest = (filterName) => {
 
   const formData = new FormData();
   formData.append("filterName", filterName);
-  formData.append("categoryID", categoryId);
 
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
@@ -251,12 +250,24 @@ const filterRequest = (filterName) => {
     }
   };
 
-  request.open("POST", "classes/category.class.php");
+  const lastURLForwardSlash = document.URL.lastIndexOf("/");
+  const pageName = document.URL.slice(lastURLForwardSlash + 1);
+
+  if (pageName.startsWith("category.php")) {
+    formData.append("categoryID", categoryId);
+
+    request.open("POST", "classes/category.class.php");
+  } else if (pageName.startsWith("search.php")) {
+    const equalOperator = document.URL.indexOf("=");
+    const queryString = document.URL.slice(equalOperator + 1);
+
+    formData.append("queryString", queryString);
+
+    request.open("POST", "classes/searchEngine.class.php");
+  }
+
   request.send(formData);
 };
-
-const addToFavBtns = document.querySelectorAll(".addToFav");
-const addToCartBtns = document.querySelectorAll(".addToCart");
 
 const categoriesFunctionalities = () => {
   commonFiltersBtn.addEventListener("click", () => {

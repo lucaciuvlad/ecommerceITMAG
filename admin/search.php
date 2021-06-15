@@ -129,10 +129,17 @@ if (isset($_GET["searchString"])) {
                                     </a>
                                 </li>
                                 <li>
-                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     <a
                                         href="productDescriptions.php?productID=<?php echo $searchSuggestion["productID"]; ?>">
                                         Descrieri
+                                    </a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <a
+                                        href="productSpecifications.php?productID=<?php echo $searchSuggestion["productID"]; ?>">
+                                        Specificatii
                                     </a>
                                 </li>
                             </ul>

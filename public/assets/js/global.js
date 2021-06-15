@@ -1,4 +1,3 @@
-// Working With CSS Classes
 const toggleCssClass = (item, cssClass) => {
   item.classList.toggle(`${cssClass}`);
 };
@@ -11,7 +10,6 @@ const removeCssClass = (item, cssClass) => {
   item.classList.remove(`${cssClass}`);
 };
 
-// Working With DOM
 const createElement = (item, attrName, attrValue) => {
   const newItem = document.createElement(`${item}`);
 
@@ -28,7 +26,6 @@ const insertBeforeElement = (createdElement, parentElement, beforeElement) => {
   parentElement.insertBefore(createdElement, beforeElement);
 };
 
-// Limit The Queries
 const debounce = (fn, delay) => {
   let timer;
 
@@ -43,7 +40,6 @@ const debounce = (fn, delay) => {
   };
 };
 
-// Working With Server Side
 const serverRequest = () => {
   const http = new XMLHttpRequest();
   return http;
@@ -86,13 +82,10 @@ const showNotification = (msg, page, delay, error) => {
   }
 };
 
-// Sticky Top Button Component
 const stickyTopButton = document.querySelector(".stickyTopBtn");
 const toggleStickyTopBtn = () => {
   const scrolledY = window.scrollY;
   const halfBodyHeight = document.body.clientHeight / 6;
-
-  console.log(scrolledY, halfBodyHeight);
 
   if (scrolledY > halfBodyHeight) {
     addCssClass(stickyTopButton, "active");
@@ -112,4 +105,5 @@ export {
   serverRequest,
   showNotification,
   toggleStickyTopBtn,
+  stickyTopButton,
 };

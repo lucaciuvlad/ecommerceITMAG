@@ -91,7 +91,7 @@
     padding: 0 0.5vw;
 
     & > h1 {
-      padding: 0.5rem;
+      padding: 0.5rem 0;
       font-size: 1.1rem;
       letter-spacing: 0.15rem;
 
@@ -117,6 +117,8 @@
     margin: 0.5rem 0;
     display: flex;
     align-items: center;
+    opacity: 0;
+    visibility: hidden;
 
     @include mq(medium) {
       justify-content: center;
@@ -248,12 +250,12 @@
           z-index: 9;
         }
 
-        &.cart::before {
+        &.addToCart::before {
           content: "\f07a";
           color: #fff;
         }
 
-        &.favorite::before {
+        &.addToFav::before {
           content: "\f08a";
           color: getMap($colors, danger-color);
           font-weight: 1000;
@@ -262,6 +264,7 @@
         &::after {
           content: "";
           position: absolute;
+          top: 0;
           left: 0;
           width: 2.5rem;
           height: 100%;
@@ -277,6 +280,9 @@
 
         & > span {
           color: #fff;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
         }
       }
     }
@@ -377,6 +383,57 @@
       padding: 0.5rem 0;
       line-height: 1.5;
       letter-spacing: 0.05rem;
+    }
+  }
+}
+
+.productSpecifications {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+
+  @include mq(medium) {
+    padding: 0 2rem;
+  }
+
+  @include mq(desktop) {
+    width: 75%;
+    padding: 0 5rem;
+  }
+
+  & > a {
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    color: getMap($colors, text-color);
+
+    &:hover {
+      color: getMap($colors, text-color);
+    }
+  }
+
+  & > table {
+    border: 1px solid rgba(getMap($colors, text-color-light), 0.3);
+    border-collapse: collapse;
+    width: 95%;
+    margin: 0 auto;
+
+    & tr {
+      border-bottom: 1px solid rgba(getMap($colors, text-color-light), 0.3);
+
+      &:nth-child(even) {
+        background-color: rgba(getMap($colors, text-color-light), 0.3);
+      }
+    }
+
+    & td {
+      width: 50%;
+      padding: 0.5rem;
+      border-right: 1px solid rgba(getMap($colors, text-color-light), 0.3);
     }
   }
 }

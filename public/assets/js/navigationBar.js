@@ -161,10 +161,8 @@ export const userLogout = (e) => {
 };
 
 const navigationBarFunctionalities = () => {
-  // Sticky Navigation Bar
   window.addEventListener("scroll", toggleStickyNavigationBar);
 
-  // Toggle Left Menu Categories
   hamburgerBtn.addEventListener("click", () => {
     if (!leftMenuCategories.classList.contains("active")) {
       showLeftMenuCategories();
@@ -183,13 +181,11 @@ const navigationBarFunctionalities = () => {
     leftMenu.addEventListener("mouseleave", hideLeftMenuCategories);
   }
 
-  // Toggle Search Bar
   searchToolBtn.addEventListener("click", () => {
     toggleCssClass(searchBar, "active");
     hideLeftMenuCategories();
   });
 
-  // Hide Search Bar
   searchCloseIcon.addEventListener("click", () => {
     if (searchInput.value.length != "") {
       searchInput.value = "";
@@ -210,7 +206,6 @@ const navigationBarFunctionalities = () => {
     searchInput.value = "";
   });
 
-  // Search Engine
   searchInput.addEventListener(
     "keyup",
     debounce(() => {
@@ -232,6 +227,11 @@ const navigationBarFunctionalities = () => {
       }
     }, 150)
   );
+
+  searchBtn.addEventListener("click", () => {
+    const queryString = `?queryString=${searchInput.value}`;
+    window.location.assign(`search.php${queryString}`);
+  });
 
   userContainer.addEventListener("mouseenter", showUserPanel);
   userContainer.addEventListener("mouseleave", hideUserPanel);
@@ -458,7 +458,7 @@ let productSlides = null;
 const lastURLForwardSlash = document.URL.lastIndexOf("/");
 const pageName = document.URL.slice(lastURLForwardSlash + 1);
 
-if (pageName.startsWith("category.php")) {
+if (pageName.startsWith("category.php") || pageName.startsWith("search.php")) {
   productSlides = document.querySelectorAll(".categories__products__product");
 } else if (pageName.startsWith("index.php")) {
   productSlides = document.querySelectorAll(
@@ -699,12 +699,11 @@ export const removeProduct = debounce((removeBtns, productList) => {
             const formData = new FormData();
             formData.append("productID", productID);
             formData.append("userID", userID);
-            formData.append("action", "deleteProduct");
+            formData.append("action", "deleteFavProduct");
 
             request.onreadystatechange = () => {
               if (request.readyState === 4 && request.status === 200) {
                 const response = request.response;
-                console.log(response);
 
                 if (!response.isDeleted) {
                   console.error("Eroare");
@@ -758,7 +757,7 @@ export const removeProduct = debounce((removeBtns, productList) => {
             const formData = new FormData();
             formData.append("productID", productID);
             formData.append("userID", userID);
-            formData.append("cartDelete", true);
+            formData.append("action", "deleteCartProduct");
 
             request.onreadystatechange = () => {
               if (request.readyState === 4 && request.status === 200) {
@@ -1213,7 +1212,6 @@ const dynamicBarFunctionalities = () => {
     removeCssClass(cartLinkCounter, "active");
   });
 
-  // Add Current Product To Favorite LocalStorage And wishlists MySQL
   addToFavBtns.forEach((addToFavBtn, index) => {
     addToFavBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -1221,7 +1219,6 @@ const dynamicBarFunctionalities = () => {
     });
   });
 
-  // Add Current Product To Cart LocalStorage And MySQL
   addToCartBtns.forEach((addToCartBtn, index) => {
     addToCartBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -1231,7 +1228,6 @@ const dynamicBarFunctionalities = () => {
 };
 dynamicBarFunctionalities();
 
-// Insert Into MySQL Current Local Storage Products
 const localStorageLength = localStorage.length;
 const localStorageProducts = [];
 const localStorageFavProducts = [];

@@ -15,7 +15,7 @@ const resetPassword = () => {
   const request = serverRequest();
 
   const formData = new FormData();
-  formData.append("userEmail", emailInput.value);
+  formData.append("adminEmail", emailInput.value);
   formData.append("resetAccount", true);
 
   const loader = document.querySelector(".loader");
@@ -30,7 +30,7 @@ const resetPassword = () => {
       if (response.resetStatus === "Email-ul a fost trimis cu succes!") {
         showNotification(
           "Un email de resetare a contului fost trimis! Urmeaza pasii din email!",
-          "index.php",
+          "login.php",
           3000,
           null
         );

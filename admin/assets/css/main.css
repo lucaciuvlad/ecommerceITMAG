@@ -464,7 +464,7 @@ a:hover {
   color: #2d3436;
 }
 .table tr td.dropdown .dropdown__actions > ul > li > i {
-  width: 25%;
+  width: 20%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -472,7 +472,7 @@ a:hover {
   color: #fff;
 }
 .table tr td.dropdown .dropdown__actions > ul > li > a, .table tr td.dropdown .dropdown__actions > ul > li > span {
-  width: 75%;
+  width: 80%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -555,7 +555,7 @@ a:hover {
 
 .modal {
   width: 100%;
-  min-height: calc(100vh - 3rem);
+  min-height: 100%;
   position: fixed;
   top: -100%;
   left: 0;
@@ -607,6 +607,25 @@ a:hover {
   width: 100%;
   height: 100%;
   margin: 2rem 0;
+}
+.modal__content .form {
+  width: 85%;
+  margin: 0 auto;
+}
+@media only screen and (min-width: 768px) {
+  .modal__content .form {
+    width: 50%;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .modal__content .form {
+    width: 35%;
+  }
+}
+.modal__content .form .form__field__helper {
+  width: 75%;
+  padding: 0.5rem;
+  bottom: 0;
 }
 .modal__content > img {
   width: 50%;
@@ -721,7 +740,9 @@ a:hover {
 }
 
 #login,
-#register {
+#register,
+#resetPassword,
+#resetAccount {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -734,31 +755,41 @@ a:hover {
   transition: transform 0.15s ease-in, opacity 0.15s ease-in;
 }
 #login.active,
-#register.active {
+#register.active,
+#resetPassword.active,
+#resetAccount.active {
   opacity: 1;
   transform: scale(1);
 }
 
 .login,
-.register {
+.register,
+.resetPassword,
+.resetAccount {
   width: 80%;
   height: 100%;
   margin: 0.5rem auto;
 }
 @media only screen and (min-width: 768px) {
   .login,
-.register {
+.register,
+.resetPassword,
+.resetAccount {
     width: 50%;
   }
 }
 @media only screen and (min-width: 992px) {
   .login,
-.register {
+.register,
+.resetPassword,
+.resetAccount {
     width: 40%;
   }
 }
 .login > header,
-.register > header {
+.register > header,
+.resetPassword > header,
+.resetAccount > header {
   width: 100%;
   height: 3rem;
   display: flex;
@@ -766,13 +797,17 @@ a:hover {
   justify-content: space-between;
 }
 .login > header > img,
-.register > header > img {
+.register > header > img,
+.resetPassword > header > img,
+.resetAccount > header > img {
   height: 100%;
   padding: 0.5rem;
   object-fit: contain;
 }
 .login > section,
-.register > section {
+.register > section,
+.resetPassword > section,
+.resetAccount > section {
   width: 100%;
   height: 5rem;
   padding: 0.5rem;
@@ -781,14 +816,18 @@ a:hover {
   justify-content: space-around;
 }
 .login__option,
-.register__option {
+.register__option,
+.resetPassword__option,
+.resetAccount__option {
   width: 100%;
   display: flex;
   align-items: center;
   padding: 0.5rem;
 }
 .login__option > a,
-.register__option > a {
+.register__option > a,
+.resetPassword__option > a,
+.resetAccount__option > a {
   margin-left: 0.5rem;
 }
 
@@ -1344,9 +1383,11 @@ a:hover {
 }
 
 .dashboard,
+.accountInfo,
 .products,
 .productImages,
 .productDescriptions,
+.productSpecifications,
 .categories,
 .brands {
   width: 100%;
@@ -1360,9 +1401,11 @@ a:hover {
 }
 @media only screen and (min-width: 992px) {
   .dashboard,
+.accountInfo,
 .products,
 .productImages,
 .productDescriptions,
+.productSpecifications,
 .categories,
 .brands {
     margin-left: 12.5rem;
@@ -1370,18 +1413,22 @@ a:hover {
   }
 }
 .dashboard.active,
+.accountInfo.active,
 .products.active,
 .productImages.active,
 .productDescriptions.active,
+.productSpecifications.active,
 .categories.active,
 .brands.active {
   opacity: 1;
   transform: scale(1);
 }
 .dashboard > h1,
+.accountInfo > h1,
 .products > h1,
 .productImages > h1,
 .productDescriptions > h1,
+.productSpecifications > h1,
 .categories > h1,
 .brands > h1 {
   padding: 1rem;
@@ -1390,17 +1437,21 @@ a:hover {
   color: #505c60;
 }
 .dashboard > p,
+.accountInfo > p,
 .products > p,
 .productImages > p,
 .productDescriptions > p,
+.productSpecifications > p,
 .categories > p,
 .brands > p {
   margin: 0 1rem;
 }
 .dashboard .addBtn,
+.accountInfo .addBtn,
 .products .addBtn,
 .productImages .addBtn,
 .productDescriptions .addBtn,
+.productSpecifications .addBtn,
 .categories .addBtn,
 .brands .addBtn {
   margin: 1rem;
@@ -1411,20 +1462,26 @@ a:hover {
   transition: background-color 0.15s ease-in;
 }
 .dashboard .addBtn:hover,
+.accountInfo .addBtn:hover,
 .products .addBtn:hover,
 .productImages .addBtn:hover,
 .productDescriptions .addBtn:hover,
+.productSpecifications .addBtn:hover,
 .categories .addBtn:hover,
 .brands .addBtn:hover {
   background-color: #6f1e51;
 }
 .dashboard .addBtn > i, .dashboard .addBtn > span,
+.accountInfo .addBtn > i,
+.accountInfo .addBtn > span,
 .products .addBtn > i,
 .products .addBtn > span,
 .productImages .addBtn > i,
 .productImages .addBtn > span,
 .productDescriptions .addBtn > i,
 .productDescriptions .addBtn > span,
+.productSpecifications .addBtn > i,
+.productSpecifications .addBtn > span,
 .categories .addBtn > i,
 .categories .addBtn > span,
 .brands .addBtn > i,
@@ -1764,24 +1821,28 @@ a:hover {
 
 @media only screen and (min-width: 992px) {
   .productImages .table,
-.productDescriptions .table {
+.productDescriptions .table,
+.productSpecifications .table {
     width: 50%;
     margin: 0 auto;
   }
 }
 .productImages .form,
-.productDescriptions .form {
+.productDescriptions .form,
+.productSpecifications .form {
   width: 75%;
   margin: 0 auto;
 }
 @media only screen and (min-width: 992px) {
   .productImages .form,
-.productDescriptions .form {
+.productDescriptions .form,
+.productSpecifications .form {
     width: 50%;
   }
 }
 .productImages .form__group,
-.productDescriptions .form__group {
+.productDescriptions .form__group,
+.productSpecifications .form__group {
   padding: 0.5rem;
   margin: 0.5rem 0;
   background-color: #fff;
@@ -1824,6 +1885,62 @@ a:hover {
 .brands .form__field > label .tooltip > i {
   color: rgba(45, 52, 54, 0.9);
   left: -0.3rem;
+}
+
+.accountInfo {
+  padding: 0.5rem;
+}
+.accountInfo > h1 {
+  padding: 0;
+}
+.accountInfo__card {
+  width: max-content;
+  margin: 1rem 0;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #1289a7;
+  border-radius: 0.3rem;
+}
+.accountInfo__card span {
+  margin-left: 0.3rem;
+}
+.accountInfo__card.email {
+  width: 15rem;
+}
+.accountInfo__card.email > p {
+  display: flex;
+  flex-direction: column;
+}
+.accountInfo__card.email > p > span {
+  margin-top: 0.5rem;
+}
+.accountInfo__card.email > button {
+  width: 75%;
+  margin: 0.5rem auto;
+  padding: 0.5rem;
+  background-color: #1289a7;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in;
+  color: #fff;
+}
+.accountInfo__card.email > button:hover {
+  background-color: #6f1e51;
+}
+.accountInfo > button {
+  width: max-content;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  background-color: #1289a7;
+  border-radius: 0.3rem;
+  transition: background-color 0.15s ease-in;
+  cursor: pointer;
+  color: #fff;
+}
+.accountInfo > button:hover {
+  background-color: #6f1e51;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -123,9 +123,15 @@ require_once("classes/categories.class.php");
                                     </a>
                                 </li>
                                 <li>
-                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     <a href="productDescriptions.php?productID=<?php echo $product["productID"]; ?>">
                                         Descrieri
+                                    </a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <a href="productSpecifications.php?productID=<?php echo $product["productID"]; ?>">
+                                        Specificatii
                                     </a>
                                 </li>
                             </ul>

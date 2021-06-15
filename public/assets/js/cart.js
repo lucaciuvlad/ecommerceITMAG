@@ -7,6 +7,8 @@ import {
   debounce,
   appendElement,
   createElement,
+  stickyTopButton,
+  toggleStickyTopBtn,
 } from "./global.js";
 
 import {
@@ -19,6 +21,9 @@ import {
 
 const cart = document.querySelector("#cart");
 toggleCssClass(cart, "active");
+
+stickyTopButton.setAttribute("href", "#cart");
+window.addEventListener("scroll", toggleStickyTopBtn);
 
 const cartContainer = cart.querySelector(".cart");
 const emtpyCart = cartContainer.querySelector(".cart__empty");
@@ -116,7 +121,7 @@ const deleteFromCartSql = (productID) => {
     const formData = new FormData();
     formData.append("productID", productID);
     formData.append("userID", userID);
-    formData.append("action", "deleteProduct");
+    formData.append("action", "deleteCartProduct");
 
     request.onreadystatechange = () => {
       if (request.readyState === 4 && request.status === 200) {
@@ -205,7 +210,6 @@ const addToFav = debounce((addToFavBtns) => {
   });
 }, 100);
 
-// Render Local Storage Cart Products
 export const renderCartProducts = () => {
   const localStorageLength = localStorage.length;
   const localStorageProducts = [];
@@ -474,7 +478,6 @@ const updateProduct = (product, newQuantity) => {
 };
 
 const cartFunctionalities = () => {
-  // Show Product Quantities
   cartProductsContainer.addEventListener("click", (e) => {
     const rangeHeader = e.target;
 
@@ -498,7 +501,6 @@ const cartFunctionalities = () => {
 
       toggleCssClass(rangeNumberList, "active");
 
-      // Choose Product Quantity
       rangeNumberList.addEventListener("click", (e) => {
         const spanNumber =
           rangeHeader.querySelector(".number") || rangeHeader.parentElement;

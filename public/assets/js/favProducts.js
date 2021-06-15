@@ -7,6 +7,8 @@ import {
   debounce,
   appendElement,
   createElement,
+  toggleStickyTopBtn,
+  stickyTopButton,
 } from "./global.js";
 
 import {
@@ -19,6 +21,9 @@ import {
 
 const favProducts = document.querySelector("#favProducts");
 toggleCssClass(favProducts, "active");
+
+stickyTopButton.setAttribute("href", "#favProducts");
+window.addEventListener("scroll", toggleStickyTopBtn);
 
 const userPanelActions = document.querySelector(".userPanel__user__actions");
 const userActions = Array.from(userPanelActions.children);
@@ -55,9 +60,9 @@ const deleteFavProduct = debounce((removeBtns) => {
         const request = serverRequest();
 
         const formData = new FormData();
-        formData.append("productId", productID);
-        formData.append("userId", userID);
-        formData.append("action", "deleteProduct");
+        formData.append("productID", productID);
+        formData.append("userID", userID);
+        formData.append("action", "deleteFavProduct");
 
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {

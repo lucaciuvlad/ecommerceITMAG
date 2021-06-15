@@ -9,6 +9,7 @@ $productHandler->setProductId($productId);
 $productInfo = $productHandler->getProductInfo();
 $productImages = $productHandler->getProductImages();
 $productDescriptions = $productHandler->getProductDescriptions();
+$productSpecifications = $productHandler->getProductSpecifications();
 ?>
 
 <!DOCTYPE html>
@@ -143,13 +144,13 @@ $productDescriptions = $productHandler->getProductDescriptions();
 
         <div class="product__actions">
             <div class="product__actions__cartBtn">
-                <button type="button" class="cart">
+                <button type="button" class="addToCart" data-product-id="<?php echo $productInfo["productID"]; ?>">
                     <span> Adauga in cos </span>
                 </button>
             </div>
 
             <div class="product__actions__favoriteBtn">
-                <button type="button" class="favorite">
+                <button type="button" class="addToFav" data-product-id="<?php echo $productInfo["productID"]; ?>">
                     <span> Adauga la favorite </span>
                 </button>
             </div>
@@ -180,19 +181,34 @@ $productDescriptions = $productHandler->getProductDescriptions();
         <?php endforeach; ?>
     </section>
 
+    <section class="productSpecifications">
+        <a id="productSpecifications">
+            <h2> Specificatii </h2>
+        </a>
+
+        <table>
+
+            <?php
+            foreach ($productSpecifications as $productSpecification) :
+            ?>
+            <tr>
+                <td> <?php echo $productSpecification["product_specification_key"]; ?> </td>
+                <td> <?php echo $productSpecification["product_specification_value"]; ?> </td>
+            </tr>
+
+            <?php endforeach;
+            ?>
+
+        </table>
+    </section>
+
     <div class="productFixedNavigation">
         <ul>
             <li>
                 <a href="#productDescription"> Descriere </a>
             </li>
             <li>
-                <a href="#productSpecs"> Specificatii </a>
-            </li>
-            <li>
-                <a href="#">
-                    <span> Recenzii </span>
-                    <span> (25) </span>
-                </a>
+                <a href="#productSpecifications"> Specificatii </a>
             </li>
         </ul>
     </div>

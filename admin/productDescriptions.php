@@ -147,7 +147,7 @@ if (!isset($_GET["productID"])) {
                         </div>
 
                         <div class="form__field updateProductTitleDescription">
-                            <label for="roductTitle<?php echo $indexId; ?>"> Titlu descriere </label>
+                            <label for="productTitle<?php echo $indexId; ?>"> Titlu descriere </label>
                             <textarea id="productTitle<?php echo $indexId; ?>"
                                 name="updateProductDescTitle"><?php echo $productDescription["product_description_title"]; ?></textarea>
                             <p class="error"></p>

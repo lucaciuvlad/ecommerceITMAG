@@ -40,7 +40,7 @@
             <div class="form__group password">
                 <div class="form__wrapper">
                     <label for="password"> Parola </label>
-                    <a href="#"> Ai uitat parola? </a>
+                    <a href="resetPassword.php"> Ai uitat parola? </a>
                 </div>
 
                 <div class="form__field">

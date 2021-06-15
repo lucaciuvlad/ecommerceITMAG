@@ -1,5 +1,7 @@
 #login,
-#register {
+#register,
+#resetPassword,
+#resetAccount {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -18,7 +20,9 @@
 }
 
 .login,
-.register {
+.register,
+.resetPassword,
+.resetAccount {
   width: 80%;
   height: 100%;
   margin: 0.5rem auto;
@@ -75,7 +79,6 @@
   }
 
   &__field {
-    // For Register Password Field
     &__wrapper {
       &.pw {
         width: 100%;
@@ -185,7 +188,6 @@
     }
   }
 
-  // For Login Password Field
   &__wrapper {
     width: 100%;
     display: flex;

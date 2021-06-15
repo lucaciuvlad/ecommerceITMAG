@@ -56,7 +56,7 @@
                 ?>
                 !
             </p>
-            <a href=""> Informatii personale </a>
+            <a href="myAccount.php"> Informatii personale </a>
             <a href="" class="logout"> Iesire </a>
         </div>
     </div>

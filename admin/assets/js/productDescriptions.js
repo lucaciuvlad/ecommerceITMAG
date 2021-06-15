@@ -11,7 +11,6 @@ import {
 
 import { visibleOperations, opItems } from "./navigationBar.js";
 
-// Self-Active Current Side Menu Link - Not A Visible Link
 (function () {
   visibleOperations();
 
@@ -25,20 +24,16 @@ import { visibleOperations, opItems } from "./navigationBar.js";
   delayShowingMainContainer(productDescriptionsContainer);
 })();
 
-// PRODUCT DESCRIPTIONS VIEW
-// Image Peek Modal
 const tableProductImages = document.querySelectorAll(".image > img");
 const peekImageModals = document.querySelectorAll(".modal.peek");
 const peekModalCloseIcons = document.querySelectorAll(
   ".modal.peek .modal__close"
 );
 
-// Table Data Options
 const optionsToggles = document.querySelectorAll(".dropdown__tab");
 const actionDropdowns = document.querySelectorAll(".dropdown__actions");
 
 const productDescriptionFunctionalities = () => {
-  // Toggle Table Data Dropdowns
   optionsToggles.forEach((optionToggle, index) => {
     optionToggle.addEventListener("click", () => {
       if (!actionDropdowns[index].classList.contains("active")) {
@@ -49,13 +44,11 @@ const productDescriptionFunctionalities = () => {
     });
   });
 
-  // Show Peek Product Image Modal
   tableProductImages.forEach((ProductImage, Index) => {
     ProductImage.addEventListener("click", () => {
       addCssClass(peekImageModals[Index], "active");
     });
 
-    // Hide Peek Product Image Modal
     peekModalCloseIcons[Index].addEventListener("click", () => {
       removeCssClass(peekImageModals[Index], "active");
     });
@@ -63,12 +56,9 @@ const productDescriptionFunctionalities = () => {
 };
 productDescriptionFunctionalities();
 
-// INSERT PRODUCT DESCRIPTION
-// Add Image Btn
 const productDescriptionAddBtn = document.querySelector(".addBtn");
 const productId = productDescriptionAddBtn.dataset.productId;
 
-// Insert Product Description Form Modal
 const insertFormModal = document.querySelector(".modal.insert");
 const insertFormModalCloseIcon = insertFormModal.querySelector(
   ".modal__close .fa-times"
@@ -77,7 +67,6 @@ const insertForm = document.querySelector(".insertProductDescription");
 const insertFormSaveBtn = insertFormModal.querySelector(".save");
 const insertFormCloseBtn = insertFormModal.querySelector(".close");
 
-// Product Description Title Field
 const productTitleDescField = document.querySelector(
   ".productTitleDescription"
 );
@@ -91,7 +80,6 @@ const productTitleDescArr = [
   productTitleDescInput,
 ];
 
-// Product Description Body Field
 const productBodyDescField = document.querySelector(".productBodyDescription");
 const productBodyDescLabel = productBodyDescField.querySelector("label");
 const productBodyDescInput = productBodyDescField.querySelector("textarea");
@@ -103,7 +91,6 @@ const productBodyDescArr = [
   productBodyDescInput,
 ];
 
-// Product Description Image Field
 const productDescImgsField = insertFormModal.querySelector(
   ".productDescImgFile"
 );
@@ -114,7 +101,6 @@ const productUploadedDescImgsBox = productDescImgsField.querySelector(
 const productDescImgsInput = productDescImgsField.querySelector("input#file");
 const productDescImgsErrMsg = productDescImgsField.querySelector("p.error");
 
-// Upload Product Description Request
 const uploadProductDescImage = (input, uploadedDescImgsBox) => {
   const image = input.files[0];
 
@@ -130,7 +116,6 @@ const uploadProductDescImage = (input, uploadedDescImgsBox) => {
 
       uploadedDescImgsBox.innerHTML = "";
 
-      // Create Uploaded Images Container
       const uploadedImageContainer = createElement(
         "div",
         "class",
@@ -138,14 +123,12 @@ const uploadProductDescImage = (input, uploadedDescImgsBox) => {
       );
       appendElement(uploadedImageContainer, uploadedDescImgsBox);
 
-      // Create Delete Btn
       const imageDeleteBtn = createElement("button", "type", "button");
       imageDeleteBtn.setAttribute("data-purpose", "delete");
       appendElement(imageDeleteBtn, uploadedImageContainer);
       const imageDeleteIcon = createElement("i", "class", "fa fa-trash-o");
       appendElement(imageDeleteIcon, imageDeleteBtn);
 
-      // Create The Uploaded Image
       const uploadedImage = createElement(
         "img",
         "src",
@@ -153,7 +136,6 @@ const uploadProductDescImage = (input, uploadedDescImgsBox) => {
       );
       appendElement(uploadedImage, uploadedImageContainer);
 
-      // Create The Uploaded Image Name
       const uploadedimageName = createElement("span", null, null);
       uploadedimageName.innerHTML = `${response.productDescImage}`;
       appendElement(uploadedimageName, uploadedImageContainer);
@@ -164,7 +146,6 @@ const uploadProductDescImage = (input, uploadedDescImgsBox) => {
   request.send(formData);
 };
 
-// Insert Product Description Request
 const insertProductDescription = () => {
   const image = productDescImgsInput.files[0];
 
@@ -177,8 +158,6 @@ const insertProductDescription = () => {
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const response = JSON.parse(request.response);
-
-      console.log(response);
 
       if (response.isInserted) {
         showNotification(
@@ -209,13 +188,11 @@ const insertProductDescription = () => {
   request.send(formData);
 };
 
-const insertProductDescriptionFunctionalities = () => {
-  // Show Add New Product Description Modal
+const insertProductDescFunctionalities = () => {
   productDescriptionAddBtn.addEventListener("click", () => {
     addCssClass(insertFormModal, "active");
   });
 
-  // Hide Add New Product Description Modal
   insertFormModalCloseIcon.addEventListener("click", () => {
     removeCssClass(insertFormModal, "active");
 
@@ -238,12 +215,10 @@ const insertProductDescriptionFunctionalities = () => {
     removeCssClass(productDescImgsErrMsg, "active");
   });
 
-  // Upload Product Image
   productDescImgsInput.addEventListener("input", () => {
     uploadProductDescImage(productDescImgsInput, productUploadedDescImgsBox);
   });
 
-  // Delete Uploaded Product Image
   productUploadedDescImgsBox.addEventListener("click", (e) => {
     const clickedElement = e.target;
 
@@ -256,11 +231,9 @@ const insertProductDescriptionFunctionalities = () => {
     }
   });
 
-  // Insert Product Description
   insertFormSaveBtn.addEventListener("click", (e) => {
     e.preventDefault();
 
-    // Product Description Title Validation
     if (isEmpty(productTitleDescInput)) {
       showError(
         productTitleDescArr,
@@ -271,7 +244,6 @@ const insertProductDescriptionFunctionalities = () => {
       hideError(productTitleDescArr, productTitleDescErrMsg);
     }
 
-    // Product Description Body Validation
     if (isEmpty(productBodyDescInput)) {
       showError(
         productBodyDescArr,
@@ -282,7 +254,6 @@ const insertProductDescriptionFunctionalities = () => {
       hideError(productBodyDescArr, productBodyDescErrMsg);
     }
 
-    // Product Description Image Validation
     if (isEmpty(productDescImgsInput)) {
       productDescImgsLabels.forEach((imgsLabel) => {
         addCssClass(imgsLabel, "error");
@@ -306,15 +277,12 @@ const insertProductDescriptionFunctionalities = () => {
     }
   });
 };
-insertProductDescriptionFunctionalities();
+insertProductDescFunctionalities();
 
-// UPDATE PRODUCT DESCRIPTION
-// Table Update Btns
 const updateProductBtns = document.querySelectorAll(
   ".productDescriptionUpdateBtn"
 );
 
-// Update Modal Form
 let updateFormModals = null;
 let updateForms = null;
 
@@ -325,19 +293,15 @@ if (document.querySelectorAll(".updateProductDescription")) {
   );
 }
 
-const updateProductDescriptionFunctionalities = () => {
-  // Functionalities For Each Update Modal Form
+const updateProductDescFunctionalities = () => {
   updateProductBtns.forEach((updateProductBtn, index) => {
     updateProductBtn.addEventListener("click", () => {
-      // Show Update Modal Form
       addCssClass(updateFormModals[index], "active");
 
-      // Hide Table Action Dropdown
       actionDropdowns.forEach((actionDropdown) => {
         removeCssClass(actionDropdown, "active");
       });
 
-      // Hide Update Modal Form
       const updateFormCloseBtn =
         updateFormModals[index].querySelector(".modal__close");
       updateFormCloseBtn.addEventListener("click", () => {
@@ -350,7 +314,6 @@ const updateProductDescriptionFunctionalities = () => {
         removeCssClass(updateFormModals[index], "active");
       });
 
-      // Update Product Description Title Field
       const updateProductTitleDescField = updateForms[index].querySelector(
         ".updateProductTitleDescription"
       );
@@ -367,7 +330,6 @@ const updateProductDescriptionFunctionalities = () => {
         updateProductTitleDescInput,
       ];
 
-      // Update Product Description Body Field
       const updateProductBodyDescField = updateForms[index].querySelector(
         ".updateProductBodyDescription"
       );
@@ -384,7 +346,6 @@ const updateProductDescriptionFunctionalities = () => {
         updateProductBodyDescInput,
       ];
 
-      // Update Product Description Image Field
       const updateProductDescImgsField = updateForms[index].querySelector(
         ".updateProductDescImgFile"
       );
@@ -397,7 +358,6 @@ const updateProductDescriptionFunctionalities = () => {
       const updateProductDescImgsErrMsg =
         updateProductDescImgsField.querySelector("p.error");
 
-      // Upload Product Image
       updateProductDescImgsInput.addEventListener("input", () => {
         uploadProductDescImage(
           updateProductDescImgsInput,
@@ -405,7 +365,6 @@ const updateProductDescriptionFunctionalities = () => {
         );
       });
 
-      // Delete Uploaded Product Image
       updateProductUploadedDescImgsBox.addEventListener("click", (e) => {
         const clickedElement = e.target;
 
@@ -418,11 +377,9 @@ const updateProductDescriptionFunctionalities = () => {
         }
       });
 
-      // Update Product Description Request
       const updateBtn = updateFormModals[index].querySelector(".save");
       const productDescriptionID = updateProductBtn.dataset.productDescId;
 
-      // Update Product Description Request
       const updateProductDescription = () => {
         const image = updateProductDescImgsInput.files[0] || null;
         let imageDescName = null;
@@ -450,8 +407,6 @@ const updateProductDescriptionFunctionalities = () => {
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {
             const response = JSON.parse(request.response);
-
-            console.log(response);
 
             if (response.isUpdated) {
               showNotification(
@@ -482,11 +437,9 @@ const updateProductDescriptionFunctionalities = () => {
         request.send(formData);
       };
 
-      // Update Product Description
       updateBtn.addEventListener("click", (e) => {
         e.preventDefault();
 
-        // Update Product Description Title Validation
         if (isEmpty(updateProductTitleDescInput)) {
           showError(
             updateProductTitleDescArr,
@@ -497,7 +450,6 @@ const updateProductDescriptionFunctionalities = () => {
           hideError(updateProductTitleDescArr, updateProductTitleDescErrMsg);
         }
 
-        // Update Product Description Body Validation
         if (isEmpty(updateProductBodyDescInput)) {
           showError(
             updateProductBodyDescArr,
@@ -508,7 +460,6 @@ const updateProductDescriptionFunctionalities = () => {
           hideError(updateProductBodyDescArr, updateProductBodyDescErrMsg);
         }
 
-        // Update Product Description Image Validation
         if (updateProductUploadedDescImgsBox.children.length === 0) {
           updateProductDescImgsLabels.forEach((imgsLabel) => {
             addCssClass(imgsLabel, "error");
@@ -534,15 +485,12 @@ const updateProductDescriptionFunctionalities = () => {
     });
   });
 };
-updateProductDescriptionFunctionalities();
+updateProductDescFunctionalities();
 
-// DELETE PRODUCT DESCRIPTION
-// Table Delete Btns
-const deleteProductBtns = document.querySelectorAll(
+const deleteProductDescBtns = document.querySelectorAll(
   ".productDescriptionDeleteBtn"
 );
 
-// Deletion Confirmation Modal
 let modalConfirmation = null;
 let confirmBtn = null;
 let rejectBtn = null;
@@ -555,13 +503,11 @@ if (document.querySelector(".modal.delete")) {
   closeModal = modalConfirmation.querySelector(".modal__close");
 }
 
-const deleteProductFunctionalities = () => {
-  deleteProductBtns.forEach((deleteProductBtn) => {
-    deleteProductBtn.addEventListener("click", () => {
-      // Show Modal Deletion Confirmation
+const deleteProductDescFunctionalities = () => {
+  deleteProductDescBtns.forEach((deleteProductDescBtn) => {
+    deleteProductDescBtn.addEventListener("click", () => {
       addCssClass(modalConfirmation, "active");
 
-      // Remove Any Active Action Dropdown
       actionDropdowns.forEach((actionDropdown) => {
         if (actionDropdown.classList.contains("active")) {
           removeCssClass(actionDropdown, "active");
@@ -570,7 +516,6 @@ const deleteProductFunctionalities = () => {
         }
       });
 
-      // Hide Modal Deletion Confirmation
       if (modalConfirmation !== null) {
         closeModal.addEventListener("click", () => {
           removeCssClass(modalConfirmation, "active");
@@ -581,9 +526,8 @@ const deleteProductFunctionalities = () => {
         });
       }
 
-      // Product Deletion
       confirmBtn.addEventListener("click", () => {
-        const productDescId = deleteProductBtn.dataset.productDescId;
+        const productDescId = deleteProductDescBtn.dataset.productDescId;
 
         const request = serverRequest();
 
@@ -602,7 +546,7 @@ const deleteProductFunctionalities = () => {
             if (response.isDeleted) {
               showNotification(
                 "Descrierea produsului a fost stearsa cu succes!",
-                "products.php",
+                `productDescriptions.php?productID=${productId}`,
                 1500,
                 null
               );
@@ -616,4 +560,4 @@ const deleteProductFunctionalities = () => {
     });
   });
 };
-deleteProductFunctionalities();
+deleteProductDescFunctionalities();

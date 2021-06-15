@@ -1,6 +1,6 @@
 .modal {
   width: 100%;
-  min-height: calc(100vh - 3rem);
+  min-height: 100%;
   position: fixed;
   top: -100%;
   left: 0;
@@ -58,6 +58,25 @@
     width: 100%;
     height: 100%;
     margin: 2rem 0;
+
+    & .form {
+      width: 85%;
+      margin: 0 auto;
+
+      @include mq(medium) {
+        width: 50%;
+      }
+
+      @include mq(large) {
+        width: 35%;
+      }
+
+      & .form__field__helper {
+        width: 75%;
+        padding: 0.5rem;
+        bottom: 0;
+      }
+    }
 
     & > img {
       width: 50%;

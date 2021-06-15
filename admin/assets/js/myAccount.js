@@ -1,131 +1,22 @@
+import { delayShowingMainContainer } from "./global.js";
+
+const accountInfoContainer = document.querySelector(".accountInfo");
+delayShowingMainContainer(accountInfoContainer);
+
 import {
   addCssClass,
   removeCssClass,
   serverRequest,
   showNotification,
-  toggleCssClass,
 } from "./global.js";
 
 import {
   isEmpty,
-  notNumeric,
   hasSpecifiedLength,
   matchSpecifiedRegExp,
   showError,
   hideError,
 } from "./validations.js";
-
-const accountInfo = document.querySelector("#accountInfo");
-toggleCssClass(accountInfo, "active");
-
-const userPanelActions = document.querySelector(".userPanel__user__actions");
-const userActions = Array.from(userPanelActions.children);
-
-userActions.forEach((userAction) => {
-  if (userAction.classList.contains("accInfo")) {
-    const spanText = userAction.querySelector("span");
-    const icon = userAction.querySelector("i");
-    addCssClass(userAction, "active");
-    addCssClass(spanText, "active");
-    addCssClass(icon, "active");
-  }
-});
-
-let addNewAddressBtn = null;
-
-let insertAddressModal = null;
-let modalCloseIcon = null;
-let modalCloseBtn = null;
-let modalInsertAddressBtn = null;
-
-let addressField = null;
-let addressLabel = null;
-let addressInput = null;
-let addressErrorMsg = null;
-let addressArr = null;
-
-let phoneNumberField = null;
-let phoneNumberLabel = null;
-let phoneNumberInput = null;
-let phoneNumberErrorMsg = null;
-let phoneNumberArr = null;
-
-if (document.querySelector(".newAddress > .addAddress")) {
-  addNewAddressBtn = document.querySelector(".newAddress > .addAddress");
-
-  insertAddressModal = document.querySelector(".insertAddress");
-  modalCloseIcon = insertAddressModal.querySelector(".modal__close");
-  modalCloseBtn = insertAddressModal.querySelector(".modal__footer > .close");
-  modalInsertAddressBtn = insertAddressModal.querySelector(
-    ".modal__footer > .save"
-  );
-
-  addressField = insertAddressModal.querySelector(".address");
-  addressLabel = addressField.querySelector("label");
-  addressInput = addressField.querySelector("input");
-  addressErrorMsg = addressField.querySelector("p.error");
-  addressArr = [addressField, addressLabel, addressInput];
-
-  phoneNumberField = insertAddressModal.querySelector(".phoneNumber");
-  phoneNumberLabel = phoneNumberField.querySelector("label");
-  phoneNumberInput = phoneNumberField.querySelector("input");
-  phoneNumberErrorMsg = phoneNumberField.querySelector("p.error");
-  phoneNumberArr = [phoneNumberField, phoneNumberLabel, phoneNumberInput];
-}
-
-let updateAddressBtn = null;
-
-let updateAddressModal = null;
-let updateModalCloseIcon = null;
-let updateModalCloseBtn = null;
-let modalUpdateAddressBtn = null;
-
-let updateAddressField = null;
-let updateAddressLabel = null;
-let updateAddressInput = null;
-let updateAddressErrorMsg = null;
-let updateAddressArr = null;
-
-let updatePhoneNumberField = null;
-let updatePhoneNumberLabel = null;
-let updatePhoneNumberInput = null;
-let updatePhoneNumberErrorMsg = null;
-let updatePhoneNumberArr = null;
-
-if (document.querySelector(".accountInfo__card.address > .updateAddress")) {
-  updateAddressBtn = document.querySelector(
-    ".accountInfo__card.address > .updateAddress"
-  );
-
-  updateAddressModal = document.querySelector(".updateAddress");
-  updateModalCloseIcon = updateAddressModal.querySelector(".modal__close");
-  updateModalCloseBtn = updateAddressModal.querySelector(
-    ".modal__footer > .close"
-  );
-  modalUpdateAddressBtn = updateAddressModal.querySelector(
-    ".modal__footer > .save"
-  );
-
-  updateAddressField = updateAddressModal.querySelector(".address");
-  updateAddressLabel = updateAddressField.querySelector("label");
-  updateAddressInput = updateAddressField.querySelector("input");
-  updateAddressErrorMsg = updateAddressField.querySelector("p.error");
-  updateAddressArr = [
-    updateAddressField,
-    updateAddressLabel,
-    updateAddressInput,
-  ];
-
-  updatePhoneNumberField = updateAddressModal.querySelector(".phoneNumber");
-  updatePhoneNumberLabel = updatePhoneNumberField.querySelector("label");
-  updatePhoneNumberInput = updatePhoneNumberField.querySelector("input");
-  updatePhoneNumberErrorMsg = updatePhoneNumberField.querySelector("p.error");
-  updatePhoneNumberArr = [
-    updatePhoneNumberField,
-    updatePhoneNumberLabel,
-    updatePhoneNumberInput,
-  ];
-}
 
 const oldPasswordField = document.querySelector(".oldPassword");
 const oldPasswordLabel = oldPasswordField.querySelector("label");
@@ -214,82 +105,7 @@ const passwordModalUpdateBtn = updatePasswordModal.querySelector(
   ".modal__footer .save"
 );
 
-const userId = document.querySelector("#userId").dataset.user;
-
-const addressInputValidation = (Input, ArrayItems, ErrorMessage) => {
-  if (isEmpty(Input)) {
-    showError(ArrayItems, ErrorMessage, "Campul este obligatoriu!");
-  } else {
-    hideError(ArrayItems, ErrorMessage);
-  }
-};
-
-const phoneNumberValidation = (Input, ArrayItems, ErrorMessage) => {
-  if (isEmpty(Input)) {
-    showError(ArrayItems, ErrorMessage, "Campul este obligatoriu!");
-  } else if (!notNumeric(Input)) {
-    showError(ArrayItems, ErrorMessage, "Numar de telefon invalid!");
-  } else {
-    hideError(ArrayItems, ErrorMessage);
-  }
-};
-
-const insertAddress = () => {
-  const request = serverRequest();
-
-  const formData = new FormData();
-  formData.append("address", addressInput.value);
-  formData.append("phoneNumber", phoneNumberInput.value);
-  formData.append("userId", userId);
-  formData.append("action", "insert");
-
-  request.onreadystatechange = () => {
-    if (request.readyState === 4 && request.status === 200) {
-      const response = JSON.parse(request.response);
-
-      if (response.isInserted) {
-        showNotification(
-          "Adresa a fost adaugata cu succes!",
-          "accountInfo.php",
-          1500,
-          null
-        );
-      }
-    }
-  };
-
-  request.open("POST", "classes/userAddress.class.php");
-  request.send(formData);
-};
-
-const updateAddress = () => {
-  const request = serverRequest();
-
-  const formData = new FormData();
-  formData.append("updateAddress", updateAddressInput.value);
-  formData.append("updatePhoneNumber", updatePhoneNumberInput.value);
-  formData.append("userId", userId);
-  formData.append("action", "update");
-
-  request.onreadystatechange = () => {
-    if (request.readyState === 4 && request.status === 200) {
-      const response = JSON.parse(request.response);
-      console.log(response);
-
-      if (response.isUpdated) {
-        showNotification(
-          "Adresa a fost modificata cu succes!",
-          "accountInfo.php",
-          1500,
-          null
-        );
-      }
-    }
-  };
-
-  request.open("POST", "classes/userAddress.class.php");
-  request.send(formData);
-};
+const adminId = document.querySelector("#adminId").dataset.admin;
 
 const oldPasswordValidation = () => {
   const capitalLetters = /[A-Z]+/g;
@@ -398,17 +214,16 @@ const updatePassword = () => {
   const updatePasswordForm = document.querySelector(".updatePasswordForm");
 
   const formData = new FormData(updatePasswordForm);
-  formData.append("userId", userId);
+  formData.append("adminId", adminId);
 
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const response = JSON.parse(request.response);
-      console.log(response);
 
       if (response.isUpdated === true) {
         showNotification(
           "Parola a fost modificata cu succes!",
-          "accountInfo.php",
+          "myAccount.php",
           1500,
           null
         );
@@ -420,102 +235,11 @@ const updatePassword = () => {
     }
   };
 
-  request.open("POST", "classes/userAccount.class.php");
+  request.open("POST", "classes/myAccount.class.php");
   request.send(formData);
 };
 
-const userInfoFunctionalities = () => {
-  if (addNewAddressBtn != null) {
-    addNewAddressBtn.addEventListener("click", () => {
-      addCssClass(insertAddressModal, "active");
-    });
-
-    modalCloseIcon.addEventListener("click", () => {
-      removeCssClass(insertAddressModal, "active");
-    });
-
-    modalCloseBtn.addEventListener("click", () => {
-      removeCssClass(insertAddressModal, "active");
-    });
-
-    addressInput.addEventListener("keyup", () => {
-      addressInputValidation(addressInput, addressArr, addressErrorMsg);
-    });
-    phoneNumberInput.addEventListener("keyup", () => {
-      phoneNumberValidation(
-        phoneNumberInput,
-        phoneNumberArr,
-        phoneNumberErrorMsg
-      );
-    });
-
-    modalInsertAddressBtn.addEventListener("click", () => {
-      addressInputValidation(addressInput, addressArr, addressErrorMsg);
-      phoneNumberValidation(
-        phoneNumberInput,
-        phoneNumberArr,
-        phoneNumberErrorMsg
-      );
-
-      if (
-        addressErrorMsg.innerHTML == "" &&
-        phoneNumberErrorMsg.innerHTML == ""
-      ) {
-        insertAddress();
-      }
-    });
-  }
-
-  if (updateAddressBtn != null) {
-    updateAddressBtn.addEventListener("click", () => {
-      addCssClass(updateAddressModal, "active");
-    });
-
-    updateModalCloseIcon.addEventListener("click", () => {
-      removeCssClass(updateAddressModal, "active");
-    });
-
-    updateModalCloseBtn.addEventListener("click", () => {
-      removeCssClass(updateAddressModal, "active");
-    });
-
-    updateAddressInput.addEventListener("keyup", () => {
-      addressInputValidation(
-        updateAddressInput,
-        updateAddressArr,
-        updateAddressErrorMsg
-      );
-    });
-
-    updatePhoneNumberInput.addEventListener("keyup", () => {
-      phoneNumberValidation(
-        updatePhoneNumberInput,
-        updatePhoneNumberArr,
-        updatePhoneNumberErrorMsg
-      );
-    });
-
-    modalUpdateAddressBtn.addEventListener("click", () => {
-      addressInputValidation(
-        updateAddressInput,
-        updateAddressArr,
-        updateAddressErrorMsg
-      );
-      phoneNumberValidation(
-        updatePhoneNumberInput,
-        updatePhoneNumberArr,
-        updatePhoneNumberErrorMsg
-      );
-
-      if (
-        updateAddressErrorMsg.innerHTML == "" &&
-        updatePhoneNumberErrorMsg.innerHTML == ""
-      ) {
-        updateAddress();
-      }
-    });
-  }
-
+const adminInfoFunctionalities = () => {
   updatePasswordBtn.addEventListener("click", () => {
     addCssClass(updatePasswordModal, "active");
   });
@@ -616,4 +340,4 @@ const userInfoFunctionalities = () => {
     }
   });
 };
-userInfoFunctionalities();
+adminInfoFunctionalities();

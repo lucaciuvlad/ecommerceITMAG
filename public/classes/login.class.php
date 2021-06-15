@@ -5,7 +5,7 @@ require_once("./validations.class.php");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require("../../vendor/autoload.php");
+require_once("../../vendor/autoload.php");
 ?>
 
 <?php
@@ -22,6 +22,29 @@ class Login extends Database
     public function setPassword($Password)
     {
         $this->password = $Password;
+    }
+
+    public function login()
+    {
+        $sql = "SELECT users.id AS userID, user_last_name, user_first_name FROM users WHERE user_email = ?";
+        $stmt = $this->connect()->prepare($sql);
+
+        $stmt->bind_param("s", $this->email);
+
+        if ($stmt->execute()) {
+            $user = $stmt->get_result()->fetch_assoc();
+
+            $_SESSION["userFullName"] =
+                $user["user_last_name"] . " " .  $user["user_first_name"];
+            $_SESSION["userID"] = $user["userID"];
+
+            return true;
+        } else {
+            return false;
+        }
+
+        $stmt->close();
+        $this->close();
     }
 
     public function resetUserPassword()
@@ -56,20 +79,13 @@ class Login extends Database
             <!DOCTYPE html>
             <html>
                 <head>
-                    <style type='text/css'>
-                        .emailContent {
-                            width: 80%;
-                            margin: 0 auto;
-                            border: 1px solid black;
-                        }
-                    </style>
                 </head>
                 <body>
-                    <main class='emailContent'>
-                        <header class='emailContent__header'>
+                    <main>
+                        <header>
                             <img src='cid:itmag-logo' alt='ITMAG Logo' width='100' height='50'>
                         </header>
-                        <div class='emailContent__header__message'>
+                        <div>
                             <p> Buna $this->email, </p>
                             <p> Acceseaza pagina de mai jos pentru a-ti reseta parola! </p>
 
@@ -113,34 +129,10 @@ class Login extends Database
         $updatePasswordStmt->close();
         $this->connect()->close();
     }
-
-    public function login()
-    {
-        $sql = "SELECT users.id AS userID, user_last_name, user_first_name FROM users WHERE user_email = ?";
-        $stmt = $this->connect()->prepare($sql);
-
-        $stmt->bind_param("s", $this->email);
-
-        if ($stmt->execute()) {
-            $user = $stmt->get_result()->fetch_assoc();
-
-            $_SESSION["userFullName"] =
-                $user["user_last_name"] . " " .  $user["user_first_name"];
-            $_SESSION["userID"] = $user["userID"];
-
-            return true;
-        } else {
-            return false;
-        }
-
-        $stmt->close();
-        $this->close();
-    }
 }
 ?>
 
 <?php
-// Login
 if (isset($_POST["email"]) && isset($_POST["password"])) {
     $email = htmlentities($_POST["email"]);
     $password = htmlentities($_POST["password"]);

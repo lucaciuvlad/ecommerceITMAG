@@ -1,23 +1,8 @@
-import {
-  addCssClass,
-  removeCssClass,
-  toggleCssClass,
-  debounce,
-  serverRequest,
-  showNotification,
-} from "./global.js";
-
-import {
-  renderLocalProducts,
-  favItemsCounter,
-  cartItemsCounter,
-  userID,
-} from "./navigationBar.js";
+import { addCssClass, removeCssClass, toggleCssClass } from "./global.js";
 
 const homepage = document.querySelector("#homepage");
 toggleCssClass(homepage, "active");
 
-// Product Carousel
 const sliders = document.querySelectorAll(".productSection__carousel__slider");
 
 sliders.forEach((slider) => {
@@ -25,7 +10,6 @@ sliders.forEach((slider) => {
   const prevBtn = slider.parentElement.querySelector(".leftBtn");
   const slides = Array.from(slider.children);
 
-  // Slider Initial Styles | Values
   const oneSlideWidth = slides[0].clientWidth;
   const oneSlideMargin = parseFloat(
     window
@@ -39,7 +23,6 @@ sliders.forEach((slider) => {
   }px`;
   addCssClass(prevBtn, "hidden");
 
-  // Slider Functionalities
   let initialTouch = null;
   let currentTouch = null;
   let differenceTouch = null;
@@ -156,7 +139,6 @@ sliders.forEach((slider) => {
     });
   };
 
-  // For Each Slider Functionality Triggers
   slider.addEventListener("mousedown", (e) => {
     startGesture(e);
   });
@@ -177,7 +159,6 @@ sliders.forEach((slider) => {
 
   prevBtn.addEventListener("click", prevSlides);
 
-  // Product Price Formatting
   const productOldFullPrices = slider.querySelectorAll(
     "p.oldPrice > .oldFullPrice"
   );
@@ -214,12 +195,10 @@ sliders.forEach((slider) => {
   formatProductPrice(productNewFullPrices, productNewPriceDecimals);
 });
 
-// Local Favorite + Cart Products
 const productSlides = document.querySelectorAll(
   ".productSection__carousel__slider__slide"
 );
 
-// Local Products Persistent State
 productSlides.forEach((productSlide) => {
   const productFavBtn = productSlide.querySelector(".addToFav > i");
   const productFavBtnTooltipMessage = productSlide.querySelector(

@@ -174,13 +174,13 @@ class OrderDetails extends Database
                             <p> Iti multumim pentru comanda realizata! </p>
                             <p> Mai jos puteti vedea sumarul comenzii dumneavoastra: </p>
 
-                            <table border='1' style='border-collapse: collapse; width: 100%;'>
-                                <tr>
-                                    <th align='center'> Imagine </th>
-                                    <th align='center'> Nume </th>
-                                    <th align='center'> Pret </th>
-                                    <th align='center'> Cant. </th>
-                                    <th align='center'> Total </th>
+                            <table style='border: 1px solid #000; border-collapse: collapse; width: 100%;'>
+                                <tr style='border-bottom: 1px solid black;'>
+                                    <th style='padding: 15px 5px; text-align: center; border-right: 1px solid black;'> Imagine </th>
+                                    <th style='padding: 15px 5px; text-align: center; border-right: 1px solid black;'> Nume </th>
+                                    <th style='padding: 15px 5px; text-align: center; border-right: 1px solid black;'> Pret </th>
+                                    <th style='padding: 15px 5px; text-align: center; border-right: 1px solid black;'> Cant. </th>
+                                    <th style='padding: 15px 5px; text-align: center; border-left: 1px solid black;'> Total </th>
                                 </tr>
             ";
 
@@ -188,20 +188,20 @@ class OrderDetails extends Database
             for ($i = 0; $i < sizeof($productNames); $i++) {
                 $outputHTML .= "
                                 <tr>
-                                    <td style='text-align: center;'> 
+                                    <td style='text-align: center; border-right: 1px solid black;'> 
                                         <img src='cid: $productImages[$i]' width='50' height='50' style='padding: 5px;'>
                                     </td>
-                                    <td> 
-                                        <p style='text-align: center;'> $productNames[$i] </p>
+                                    <td style='text-align: center; padding: 15px; border-right: 1px solid black;'> 
+                                        <p'> $productNames[$i] </p>
                                     </td>
-                                    <td> 
-                                        <p style='text-align: center;'> $productPrices[$i] Lei </p>
+                                    <td style='text-align: center; padding: 15px; border-right: 1px solid black;'> 
+                                        <p'> $productPrices[$i] Lei </p>
                                     </td>
-                                    <td> 
-                                        <p style='text-align: center;'> $productQuantities[$i] buc </p>
+                                    <td style='text-align: center; padding: 15px; border-right: 1px solid black;'> 
+                                        <p'> $productQuantities[$i] buc </p>
                                     </td>
-                                    <td> 
-                                        <p style='text-align: center;'> $productTotalPrices[$i] Lei </p>
+                                    <td style='text-align: center; padding: 15px; border-left: 1px solid black;'> 
+                                        <p'> $productTotalPrices[$i] Lei </p>
                                     </td>
                                 </tr>
                 ";
@@ -213,7 +213,7 @@ class OrderDetails extends Database
 
                                 <p> Adresa de livrare a produselor este: </p>
 
-                                <div style='padding-left: 15px;'>
+                                <div style='width: 50%; padding-left: 15px; border: 1px solid #000;'>
                                     <p> Adresa: $orderDetails[userAddress] </p>
                                     <p> Numar de telefon: $orderDetails[userPhoneNumber] </p>
                                     <p> Total de plata: $finalPrice Lei </p>

@@ -1,26 +1,14 @@
 <?php
 session_start();
-require_once("./classes/category.class.php");
 ?>
 
 <?php
-if (isset($_GET["categoryID"])) {
-    $categoryID = htmlentities($_GET["categoryID"]);
+if (isset($_GET["queryString"])) {
+    $queryString = htmlentities($_GET["queryString"]);
+    require_once("./classes/searchEngine.class.php");
 
-    $categoryHandler = new Category();
-    $categoryHandler->setCategoryId($categoryID);
-    $categoryProducts = $categoryHandler->getCategoryProducts();
-    $categoryName = $categoryHandler->getCategoryName($categoryID)->fetch_assoc()["category_name"];
-}
-
-if (isset($_GET["categoryID"]) && isset($_GET["brandID"])) {
-    $categoryID = htmlentities($_GET["categoryID"]);
-    $brandID = htmlentities($_GET["brandID"]);
-
-    $categoryHandler = new Category();
-    $categoryHandler->setCategoryId($categoryID);
-    $categoryHandler->setBrandId($brandID);
-    $categoryProducts = $categoryHandler->getCategoryBrandProducts();
+    $searchEngineHandler = new SearchEngine($queryString);
+    $searchResults = $searchEngineHandler->fetchSearchSuggestions();
 }
 ?>
 
@@ -50,15 +38,14 @@ if (isset($_GET["categoryID"]) && isset($_GET["brandID"])) {
     }
     ?>
 
-    <ul class="breadcrumbs">
-        <li>
-            <a href="category.php?categoryID=<?php echo $categoryID; ?>"> <?php echo $categoryName; ?> </a>
-        </li>
-
-    </ul>
-
     <main class="categories">
-        <h1> Laptopuri <span> <?php echo $categoryProducts->num_rows ?> produse </span> </h1>
+        <h1> Rezultate gasite
+            <span>
+                <?php echo $searchResults->num_rows ?> produse
+            </span>
+        </h1>
+
+        <?php if ($searchResults->num_rows != 0) : ?>
 
         <div class="categories__filters">
             <button type="button" class="commonFilters">
@@ -74,25 +61,26 @@ if (isset($_GET["categoryID"]) && isset($_GET["brandID"])) {
             </ul>
         </div>
 
+        <?php endif; ?>
         <div class="categories__products">
 
             <?php
-            foreach ($categoryProducts as $categoryProduct) :
+            foreach ($searchResults as $searchResult) :
 
-                if ($categoryProduct["product_old_price"] != 0) {
-                    $promoPercent = number_format($categoryProduct["product_price"] / $categoryProduct["product_old_price"] * 100, 0);
+                if ($searchResult["product_old_price"] != 0) {
+                    $promoPercent = number_format($searchResult["product_price"] / $searchResult["product_old_price"] * 100, 0);
                 }
             ?>
 
             <a class="categories__products__product"
-                href="product.php?productID=<?php echo $categoryProduct["productID"] ?>">
+                href="product.php?productID=<?php echo $searchResult["productID"] ?>">
 
-                <div class="promoIndicator <?php if ($categoryProduct["product_old_price"] == 0) echo "hidden"; ?>">
+                <div class="promoIndicator <?php if ($searchResult["product_old_price"] == 0) echo "hidden"; ?>">
                     <span> <?php echo $promoPercent;
                                 ?>% </span>
                 </div>
 
-                <button type="button" class="addToFav" data-product-id="<?php echo $categoryProduct["productID"]; ?>">
+                <button type="button" class="addToFav" data-product-id="<?php echo $searchResult["productID"]; ?>">
                     <i class="fa fa-heart-o" aria-hidden="true"></i>
                     <div class="tooltip">
                         <i class="fa fa-caret-right" aria-hidden="true"></i>
@@ -101,11 +89,11 @@ if (isset($_GET["categoryID"]) && isset($_GET["brandID"])) {
                 </button>
 
                 <div class="productImage">
-                    <img src="../admin/assets/imgs/<?php echo $categoryProduct["product_image"]; ?>" />
+                    <img src="../admin/assets/imgs/<?php echo $searchResult["product_image"]; ?>" />
                 </div>
 
                 <div class="productName">
-                    <p> <?php echo $categoryProduct["product_name"]; ?> </p>
+                    <p> <?php echo $searchResult["product_name"]; ?> </p>
                 </div>
 
                 <div class="productRating">
@@ -118,12 +106,12 @@ if (isset($_GET["categoryID"]) && isset($_GET["brandID"])) {
 
                 <div class="productPrice">
                     <?php
-                        if ($categoryProduct["product_old_price"] != "") :
+                        if ($searchResult["product_old_price"] != "") :
                         ?>
                     <p class="oldPrice">
                         <span class="oldFullPrice">
                             <?php
-                                    echo $categoryProduct["product_old_price"];
+                                    echo $searchResult["product_old_price"];
                                     ?>
                         </span>
                         <sup class="oldFullPriceDecimal"> </sup>
@@ -132,13 +120,13 @@ if (isset($_GET["categoryID"]) && isset($_GET["brandID"])) {
                     <?php endif; ?>
 
                     <p class="newPrice">
-                        <span class="newFullPrice"> <?php echo $categoryProduct["product_price"]; ?> </span>
+                        <span class="newFullPrice"> <?php echo $searchResult["product_price"]; ?> </span>
                         <sup class="newFullPriceDecimal"> </sup>
                         <span> Lei </span>
                     </p>
                 </div>
 
-                <button type="button" class="addToCart" data-product-id="<?php echo $categoryProduct["productID"]; ?>">
+                <button type="button" class="addToCart" data-product-id="<?php echo $searchResult["productID"]; ?>">
                     <span> Adauga in cos </span>
                 </button>
             </a>
