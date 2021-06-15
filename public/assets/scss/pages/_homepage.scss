@@ -1,5 +1,6 @@
 .productSection {
   width: 95%;
+  padding-bottom: 1rem;
   margin: 0.5rem auto;
 
   @include mq(medium) {
@@ -8,7 +9,7 @@
   }
 
   @include mq(desktop) {
-    padding: 0 5rem;
+    padding: 0 5rem 1rem 5rem;
   }
 
   & > h1 {

@@ -1,12 +1,13 @@
 #homepage,
 #product,
+#categories,
 #cart,
 #favProducts,
 #myAccount,
 #accountInfo {
   position: relative;
   width: 100%;
-  min-height: calc(100vh - 9.1rem);
+  min-height: calc(100vh - 3rem);
   transform: scale(0.8);
   opacity: 0;
   transition: getMap($transitions, transform), getMap($transitions, opacity);
@@ -14,5 +15,12 @@
   &.active {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+#cart {
+  &.activeModal {
+    height: 100vh;
+    overflow: hidden;
   }
 }

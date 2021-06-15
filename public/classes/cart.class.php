@@ -143,7 +143,7 @@ if (isset($_POST["userID"]) && isset($_POST["cartProducts"])) {
 <?php
 // Insert Product Into Cart
 if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["action"])) {
-    if ($_POST["action"] == "insertProduct") {
+    if ($_POST["action"] == "insertCartProduct") {
         $userId = htmlentities($_POST["userID"]);
         $productId = htmlentities($_POST["productID"]);
 
@@ -171,7 +171,7 @@ if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["actio
 <?php
 // Remove Product From Cart
 if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["action"])) {
-    if ($_POST["action"] == "deleteProduct") {
+    if ($_POST["action"] == "deleteCartProduct") {
         $userId = htmlentities($_POST["userID"]);
         $productId = htmlentities($_POST["productID"]);
 

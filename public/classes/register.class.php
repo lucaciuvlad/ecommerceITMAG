@@ -93,20 +93,13 @@ class Register extends Database
             <!DOCTYPE html>
             <html>
                 <head>
-                    <style type='text/css'>
-                        .emailContent {
-                            width: 80%;
-                            margin: 0 auto;
-                            border: 1px solid black;
-                        }
-                    </style>
                 </head>
                 <body>
                     <main class='emailContent'>
-                        <header class='emailContent__header'>
+                        <header>
                             <img src='cid:itmag-logo' alt='ITMAG Logo' width='100' height='50'>
                         </header>
-                        <div class='emailContent__header__message'>
+                        <div>
                             <p> Buna $this->lastName $this->firstName, </p>
                             <p> Activeaza contul si fi la curent cu cele mai noi reduceri! </p>
 

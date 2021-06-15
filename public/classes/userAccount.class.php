@@ -15,18 +15,33 @@ class UserAccount extends Database
 
     public function getFavoriteProducts()
     {
-        $selectFavorites = "SELECT COUNT(wishlists.id) AS favProducts FROM wishlists WHERE user_id = $this->userId";
-        $favProducts = $this->connect()->query($selectFavorites)->fetch_assoc()["favProducts"];
+        $selectFavorites = "SELECT id FROM wishlists WHERE user_id = $this->userId";
+        $favListId = $this->connect()->query($selectFavorites)->fetch_assoc()["id"];
 
-        return $favProducts;
+        $selectFavProducts = "SELECT COUNT(product_id) AS favProductsCount FROM wishlist_details WHERE wishlist_id = $favListId";
+        $favProductCount = $this->connect()->query($selectFavProducts)->fetch_assoc()["favProductsCount"];
+
+        return $favProductCount;
     }
 
     public function getCartProducts()
     {
-        $selectCartProducts = "SELECT COUNT(carts.id) AS cartProducts FROM carts WHERE user_id = $this->userId";
-        $cartProducts = $this->connect()->query($selectCartProducts)->fetch_assoc()["cartProducts"];
+        $selectCartProducts = "SELECT id FROM carts WHERE user_id = $this->userId";
+        $cartId = $this->connect()->query($selectCartProducts)->fetch_assoc()["id"];
 
-        return $cartProducts;
+        $selectCartProducts = "SELECT COUNT(product_id) AS cartProductsCount FROM cart_details WHERE cart_id = $cartId";
+        $cartProductCount = $this->connect()->query($selectCartProducts)->fetch_assoc()["cartProductsCount"];
+
+
+        return $cartProductCount;
+    }
+
+    public function getOrders()
+    {
+        $selectOrders = "SELECT COUNT(id) AS ordersCount FROM orders WHERE user_id = $this->userId";
+        $ordersCount = $this->connect()->query($selectOrders)->fetch_assoc()["ordersCount"];
+
+        return $ordersCount;
     }
 
     public function getUserDetails()

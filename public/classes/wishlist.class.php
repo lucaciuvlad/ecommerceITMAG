@@ -121,10 +121,10 @@ if (isset($_POST["userID"]) && isset($_POST["favProducts"])) {
 
 <?php
 // Insert Product Into Wishlists
-if (isset($_POST["userId"]) && isset($_POST["productId"]) && isset($_POST["action"])) {
-    if ($_POST["action"] == "insertProduct") {
-        $userId = htmlentities($_POST["userId"]);
-        $productId = htmlentities($_POST["productId"]);
+if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["action"])) {
+    if ($_POST["action"] == "insertFavProduct") {
+        $userId = htmlentities($_POST["userID"]);
+        $productId = htmlentities($_POST["productID"]);
 
         $wishlistHandler = new Wishlist($userId);
         $userWishlist = $wishlistHandler->getUserWishlists();
@@ -150,10 +150,10 @@ if (isset($_POST["userId"]) && isset($_POST["productId"]) && isset($_POST["actio
 
 <?php
 // Remove Product From Wishlists
-if (isset($_POST["userId"]) && isset($_POST["productId"]) && isset($_POST["action"])) {
-    if ($_POST["action"] == "deleteProduct") {
-        $userId = htmlentities($_POST["userId"]);
-        $productId = htmlentities($_POST["productId"]);
+if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["action"])) {
+    if ($_POST["action"] == "deleteFavProduct") {
+        $userId = htmlentities($_POST["userID"]);
+        $productId = htmlentities($_POST["productID"]);
 
         $wishlistHandler = new Wishlist($userId);
         $userWishlistId = $wishlistHandler->getUserWishlists()->fetch_assoc()["id"];

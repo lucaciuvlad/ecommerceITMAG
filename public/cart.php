@@ -24,7 +24,7 @@ session_start();
     require_once("./includes/notification.inc.php");
 
     if (isset($_SESSION["userID"])) {
-        echo "<div id='userId' style='display: none;'data-user='$_SESSION[userID]'></div>";
+        echo "<div id='userId' style='display: none; position: absolute; top: 0; left: 0;'data-user='$_SESSION[userID]'></div>";
     }
     ?>
 
@@ -72,8 +72,8 @@ session_start();
                 <div class="total">
                     <span> Total: </span>
                     <p class="newPrice">
-                        <span class="newFullPrice"> 2500 </span>
-                        <sup class="newFullPriceDecimal"> 99 </sup>
+                        <span class="newFullPrice"> </span>
+                        <sup class="newFullPriceDecimal"> </sup>
                         <span> Lei </span>
                     </p>
                 </div>

@@ -24,7 +24,7 @@ session_start();
     require_once("./includes/userSideMenu.inc.php");
 
     if (isset($_SESSION["userID"])) {
-        echo "<div id='userId' style='display: none;'data-user='$_SESSION[userID]'></div>";
+        echo "<div id='userId' style='display: none; position: absolute; top: 0; left: 0;'data-user='$_SESSION[userID]'></div>";
     }
     ?>
 

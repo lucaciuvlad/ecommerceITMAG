@@ -3,6 +3,11 @@
   margin-top: 2rem;
   transition: getMap($transitions, transform), getMap($transitions, opacity);
 
+  @include mq(medium) {
+    margin-left: 18rem;
+    width: calc(100% - 18rem);
+  }
+
   @include mq(large) {
     margin-left: 25rem;
     width: calc(100% - 25rem);
@@ -21,7 +26,7 @@
     place-items: center;
 
     @include mq(medium) {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
 
     @include mq(desktop) {
@@ -31,7 +36,7 @@
     &__card {
       width: 12rem;
       height: 7rem;
-      margin: 0 1rem;
+      margin: 0.5rem 1rem;
       display: flex;
       align-items: center;
       background: getMap($colors, primary-color);

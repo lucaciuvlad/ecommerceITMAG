@@ -45,6 +45,7 @@ require_once("classes/userAccount.class.php");
         $userAccountHandler = new UserAccount($userID);
         $favProducts = $userAccountHandler->getFavoriteProducts();
         $cartProducts = $userAccountHandler->getCartProducts();
+        $ordersCount = $userAccountHandler->getOrders();
         ?>
 
         <div class="dashboard__cards">
@@ -69,7 +70,7 @@ require_once("classes/userAccount.class.php");
             <div class="dashboard__cards__card">
                 <div class="info">
                     <p> Comenzi plasate </p>
-                    <span> 0 </span>
+                    <span> <?php echo $ordersCount; ?> </span>
                 </div>
                 <div class="icon">
                     <i class="fa fa-credit-card" aria-hidden="true"></i>

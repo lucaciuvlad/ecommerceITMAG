@@ -1,11 +1,12 @@
 .modal {
   width: 100%;
-  height: calc(100vh - 3rem);
+  min-height: 100%;
   position: fixed;
   top: -100%;
   left: 0;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   z-index: 5;
   background-color: rgba(getMap($colors, text-color), 0.3);
   visibility: hidden;
@@ -31,6 +32,9 @@
     width: 100%;
     height: 2rem;
     display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
     justify-content: flex-end;
 
     & > i {
@@ -42,6 +46,7 @@
       visibility: visible;
       opacity: 1;
       cursor: pointer;
+      color: #fff;
 
       &:hover {
         color: getMap($colors, danger-color);
@@ -54,8 +59,16 @@
     margin: 2rem 0;
 
     & .form {
-      width: 35%;
+      width: 85%;
       margin: 0 auto;
+
+      @include mq(medium) {
+        width: 50%;
+      }
+
+      @include mq(large) {
+        width: 35%;
+      }
     }
   }
 

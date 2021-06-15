@@ -1,0 +1,361 @@
+.breadcrumbs {
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  background-color: rgba(getMap($colors, text-color-light), 0.3);
+  list-style-type: none;
+
+  @include mq(medium) {
+    margin: 1rem 0;
+    padding: 0 2rem;
+    background-color: transparent;
+  }
+
+  @include mq(desktop) {
+    padding: 0 5rem;
+  }
+
+  & > li {
+    position: relative;
+    padding: 0 0.5rem;
+
+    &::after {
+      content: "\f105";
+      font-family: FontAwesome;
+      font-size: 2rem;
+      position: absolute;
+      top: 50%;
+      right: -0.5rem;
+      transform: translateY(-50%);
+      color: getMap($colors, text-color);
+    }
+
+    @include mq(medium) {
+      &::after {
+        content: "/";
+        right: -0.3rem;
+      }
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+
+    & > a:hover {
+      color: getMap($colors, primary-color);
+    }
+  }
+}
+
+.categories {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0 0.5rem;
+
+  & > h1 {
+    @include mq(medium) {
+      margin: 1rem 0;
+      padding: 0 2rem;
+      background-color: transparent;
+    }
+
+    @include mq(desktop) {
+      padding: 0 5rem;
+    }
+
+    & > span {
+      margin: 0 0.3rem;
+    }
+  }
+
+  &__filters {
+    width: max-content;
+    margin: 0.5rem 0;
+    display: flex;
+    position: relative;
+
+    @include mq(medium) {
+      margin: 1rem 0;
+      padding: 0 2rem;
+      background-color: transparent;
+    }
+
+    @include mq(desktop) {
+      padding: 0 5rem;
+    }
+
+    & > button {
+      width: max-content;
+      padding: 0.3rem 2rem;
+      margin: 0 0.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      border: 1px solid getMap($colors, text-color);
+      border-radius: $border-radius;
+      transition: getMap($transitions, box-shadow);
+      background-color: transparent;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 0 0 0.5rem rgba(getMap($colors, text-color), 0.5);
+      }
+
+      & > i {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.3rem;
+        color: getMap($colors, danger-color);
+      }
+
+      & > span {
+        margin: 0.1rem 0;
+
+        &:first-child {
+          font-weight: bolder;
+        }
+      }
+    }
+
+    & > .filters {
+      position: absolute;
+      left: 80%;
+      bottom: 0;
+      border: 1px solid getMap($colors, text-color);
+      border-radius: $border-radius;
+      transform: translateX(-1rem);
+      opacity: 0;
+      visibility: hidden;
+      transition: getMap($transitions, box-shadow),
+        getMap($transitions, transform), getMap($transitions, opacity),
+        getMap($transitions, visibility);
+
+      &:hover {
+        box-shadow: 0 0 0.5rem rgba(getMap($colors, text-color), 0.5);
+      }
+
+      &.active {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+      }
+
+      & > li {
+        width: max-content;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: getMap($transitions, color);
+
+        &::before {
+          content: "\f0d9";
+          font-family: "FontAwesome";
+          position: absolute;
+          left: -0.35rem;
+          bottom: 1rem;
+          color: getMap($colors, text-color);
+        }
+
+        &:hover {
+          color: getMap($colors, primary-color);
+        }
+
+        &.active {
+          color: getMap($colors, primary-color);
+        }
+      }
+    }
+  }
+
+  &__products {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    @include mq(medium) {
+      margin: 1rem 0;
+      padding: 0 2rem;
+      background-color: transparent;
+    }
+
+    @include mq(desktop) {
+      padding: 0 5rem;
+    }
+
+    &__product {
+      width: 13rem;
+      height: 20rem;
+      margin: 0.5rem;
+      padding: 0;
+      position: relative;
+      border: 1px solid getMap($colors, primary-color);
+      border-radius: $border-radius;
+      transition: getMap($transitions, box-shadow);
+
+      &:hover {
+        box-shadow: 0 0 1rem rgba(getMap($colors, text-color), 0.8);
+      }
+
+      & > .promoIndicator {
+        position: absolute;
+        padding: 0.5rem;
+        background-color: getMap($colors, danger-color);
+        border-top-left-radius: $border-radius;
+
+        &.hidden {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        & > span {
+          color: #fff;
+          font-size: 0.8rem;
+        }
+      }
+
+      & > .addToFav {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: transparent;
+        cursor: pointer;
+
+        &:hover > .tooltip {
+          visibility: visible;
+          opacity: 1;
+        }
+
+        & > i {
+          font-size: 1.4rem;
+          font-weight: 1000;
+          color: getMap($colors, danger-color);
+        }
+
+        & > .tooltip {
+          width: 9rem;
+          top: 50%;
+          transform: translateY(-50%);
+          right: calc(100% + 1rem);
+
+          & > i {
+            right: -0.3rem;
+            color: rgba(getMap($colors, text-color), 0.9);
+          }
+        }
+      }
+
+      & > .productImage {
+        width: 100%;
+        height: 45%;
+
+        & > img {
+          width: 100%;
+          height: 100%;
+          padding: 0.5rem;
+          object-fit: contain;
+        }
+      }
+
+      & > .productName {
+        width: 100%;
+        height: 20%;
+        padding: 0 0.3rem;
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+        & > p {
+          font-weight: 1000;
+        }
+      }
+
+      & > .productRating {
+        width: 100%;
+        height: 10%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+
+        & > i {
+          margin: 0 0.3rem;
+          color: getMap($colors, star-color);
+        }
+      }
+
+      & > .productPrice {
+        width: 100%;
+        height: 15%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & > p {
+          display: flex;
+          align-items: flex-start;
+          margin: 0 0.5rem;
+
+          &.oldPrice {
+            text-decoration: line-through;
+
+            &.hidden {
+              display: none;
+            }
+          }
+
+          &.newPrice {
+            color: getMap($colors, danger-color);
+
+            & > span {
+              font-size: 1.05rem;
+              font-weight: 1000;
+            }
+          }
+
+          & > span {
+            font-size: 0.9rem;
+          }
+
+          & > sup {
+            font-size: 0.65rem;
+          }
+        }
+      }
+
+      & > .addToCart {
+        width: 100%;
+        height: 10%;
+        position: relative;
+        background-color: rgba(getMap($colors, primary-color), 0.8);
+        border-radius: 0 0 $border-radius $border-radius;
+        cursor: pointer;
+        transition: getMap($transitions, bg-color);
+
+        &:hover {
+          background-color: getMap($colors, secondary-color);
+        }
+
+        &.active {
+          background-color: getMap($colors, secondary-color);
+        }
+
+        &::before {
+          content: "\f07a";
+          font-family: "FontAwesome";
+          font-size: 1.4rem;
+          position: absolute;
+          top: 50%;
+          left: 0.5rem;
+          transform: translateY(-50%);
+          color: #fff;
+        }
+
+        & > span {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

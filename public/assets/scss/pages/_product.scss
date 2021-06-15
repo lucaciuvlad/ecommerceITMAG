@@ -53,10 +53,6 @@
       background-color: transparent;
     }
 
-    @include mq(mq) {
-      margin: 1rem 0;
-    }
-
     & > li {
       position: relative;
       padding: 0 0.5rem;

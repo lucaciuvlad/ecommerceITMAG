@@ -196,6 +196,7 @@ const addToFav = debounce((addToFavBtns) => {
         1500,
         null
       );
+
       addToFavFromCart(addToFavBtns);
       renderCartProducts();
       renderLocalProducts(cartItemsCounter, "cartProducts");
@@ -560,11 +561,14 @@ const placeOrder = () => {
   );
 
   const loader = document.querySelector(".loader");
+  loader.style.minHeight = `${window.innerHeight}px`;
   addCssClass(loader, "active");
+  addCssClass(cart, "activeModal");
 
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       removeCssClass(loader, "active");
+      removeCssClass(cart, "activeModal");
       const response = JSON.parse(request.response);
 
       if (response.orderId) {

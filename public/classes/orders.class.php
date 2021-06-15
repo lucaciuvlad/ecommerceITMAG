@@ -75,14 +75,14 @@ class OrderDetails extends Database
         }
     }
 
-    private function getOrderDetails($userId)
+    private function getOrderDetails($userId, $orderId)
     {
         $orderDetails = array();
 
         $selectUserOrder =
             "   SELECT	quantity, product_name, product_price, product_image 
                 FROM	orders, order_details, products, product_images
-                WHERE	orders.user_id = $userId AND order_details.order_id = orders.id AND
+                WHERE	orders.user_id = $userId AND order_details.order_id = $orderId AND
                         order_details.product_id = products.id AND
                         product_images.product_id = products.id
                 GROUP BY products.id;
@@ -127,7 +127,7 @@ class OrderDetails extends Database
 
     public function sendOrderEmail($orderId, $userId)
     {
-        $orderDetails = $this->getOrderDetails($userId);
+        $orderDetails = $this->getOrderDetails($userId, $orderId);
         $orderDetails["orderId"] = $orderId;
 
         $productImages = $orderDetails["productImages"];
