@@ -35,7 +35,7 @@
                 <i class="fa fa-info-circle" aria-hidden="true"></i>
                 <span> Gestionare cont </span>
             </a>
-            <a href="myOrders.php">
+            <a href="myOrders.php" class="myOrders">
                 <i class="fa fa-credit-card" aria-hidden="true"></i>
                 <span> Comenzile mele </span>
             </a>

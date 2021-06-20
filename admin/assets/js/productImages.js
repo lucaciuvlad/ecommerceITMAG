@@ -23,20 +23,16 @@ import { visibleOperations, opItems } from "./navigationBar.js";
   delayShowingMainContainer(productImagesContainer);
 })();
 
-// PRODUCT IMAGES VIEW
-// Image Peek Modal
 const tableProductImages = document.querySelectorAll(".image > img");
 const peekImageModals = document.querySelectorAll(".modal.peek");
 const peekModalCloseIcons = document.querySelectorAll(
   ".modal.peek .modal__close"
 );
 
-// Table Data Options
 const optionsToggles = document.querySelectorAll(".dropdown__tab");
 const actionDropdowns = document.querySelectorAll(".dropdown__actions");
 
 const productImageFunctionalities = () => {
-  // Toggle Table Data Dropdowns
   optionsToggles.forEach((optionToggle, index) => {
     optionToggle.addEventListener("click", () => {
       if (!actionDropdowns[index].classList.contains("active")) {
@@ -47,13 +43,11 @@ const productImageFunctionalities = () => {
     });
   });
 
-  // Show Peek Product Image Modal
   tableProductImages.forEach((ProductImage, Index) => {
     ProductImage.addEventListener("click", () => {
       addCssClass(peekImageModals[Index], "active");
     });
 
-    // Hide Peek Product Image Modal
     peekModalCloseIcons[Index].addEventListener("click", () => {
       removeCssClass(peekImageModals[Index], "active");
     });
@@ -61,12 +55,9 @@ const productImageFunctionalities = () => {
 };
 productImageFunctionalities();
 
-// INSERT PRODUCT IMAGES
-// Add Image Btn
 const productImageAddBtn = document.querySelector(".addBtn");
 const productId = productImageAddBtn.dataset.productId;
 
-// Insert Images Form Modal
 const insertFormModal = document.querySelector(".modal.insert");
 const insertFormModalCloseIcon = insertFormModal.querySelector(
   ".modal__close .fa-times"
@@ -74,7 +65,6 @@ const insertFormModalCloseIcon = insertFormModal.querySelector(
 const insertFormSaveBtn = insertFormModal.querySelector(".save");
 const insertFormCloseBtn = insertFormModal.querySelector(".close");
 
-// Insert Images Field
 const productImgsField = insertFormModal.querySelector(".productImgFiles");
 const productImgsLabels = productImgsField.querySelectorAll("label");
 const productUploadedImgsBox = productImgsField.querySelector(
@@ -83,7 +73,6 @@ const productUploadedImgsBox = productImgsField.querySelector(
 const productImgsInput = productImgsField.querySelector("input#file");
 const productImgsErrMsg = productImgsField.querySelector("p.error");
 
-// Upload Product Images Request
 const uploadProductImages = () => {
   const images = productImgsInput.files;
   const imageInfos = [];
@@ -103,7 +92,6 @@ const uploadProductImages = () => {
       if (request.readyState === 4 && request.status === 200) {
         const response = JSON.parse(request.response);
 
-        // Create Uploaded Images Container
         const uploadedImageContainer = createElement(
           "div",
           "class",
@@ -111,14 +99,12 @@ const uploadProductImages = () => {
         );
         appendElement(uploadedImageContainer, productUploadedImgsBox);
 
-        // Create Delete Btn
         const imageDeleteBtn = createElement("button", "type", "button");
         imageDeleteBtn.setAttribute("data-purpose", "delete");
         appendElement(imageDeleteBtn, uploadedImageContainer);
         const imageDeleteIcon = createElement("i", "class", "fa fa-trash-o");
         appendElement(imageDeleteIcon, imageDeleteBtn);
 
-        // Create The Uploaded Image
         const uploadedImage = createElement(
           "img",
           "src",
@@ -126,7 +112,6 @@ const uploadProductImages = () => {
         );
         appendElement(uploadedImage, uploadedImageContainer);
 
-        // Create The Uploaded Image Name
         const uploadedimageName = createElement("span");
         uploadedimageName.innerHTML = `${response.productImage}`;
         appendElement(uploadedimageName, uploadedImageContainer);
@@ -138,7 +123,6 @@ const uploadProductImages = () => {
   });
 };
 
-// Insert Product Images Request
 const insertProductImages = () => {
   const images = productImgsInput.files;
   const imageInfos = [];

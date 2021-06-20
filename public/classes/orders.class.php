@@ -187,7 +187,7 @@ class OrderDetails extends Database
             $finalPrice = 0;
             for ($i = 0; $i < sizeof($productNames); $i++) {
                 $outputHTML .= "
-                                <tr>
+                                <tr style='border: 1px solid black;'>
                                     <td style='text-align: center; border-right: 1px solid black;'> 
                                         <img src='cid: $productImages[$i]' width='50' height='50' style='padding: 5px;'>
                                     </td>
@@ -206,6 +206,11 @@ class OrderDetails extends Database
                                 </tr>
                 ";
                 $finalPrice += floatval($productTotalPrices[$i]);
+                $shippingCost = ($finalPrice > 2500) ? 0 : 15.99;
+
+                if ($finalPrice < 2500) {
+                    $finalPrice += $shippingCost;
+                }
             }
 
             $outputHTML .= "
@@ -216,6 +221,7 @@ class OrderDetails extends Database
                                 <div style='width: 50%; padding-left: 15px; border: 1px solid #000;'>
                                     <p> Adresa: $orderDetails[userAddress] </p>
                                     <p> Numar de telefon: $orderDetails[userPhoneNumber] </p>
+                                    <p> Taxa livrare: $shippingCost Lei  </p>
                                     <p> Total de plata: $finalPrice Lei </p>
                                 </div>
 
@@ -239,7 +245,6 @@ class OrderDetails extends Database
 ?>
 
 <?php
-// Place Order
 if (isset($_POST["product"]) && isset($_POST["userId"])) {
     $productJsonObjects = $_POST["product"];
     $userId = htmlentities($_POST["userId"]);

@@ -1,6 +1,6 @@
 <?php
-require_once("./database.class.php");
-require_once("./cart.class.php");
+require_once("database.class.php");
+require_once("cart.class.php");
 
 class Wishlist extends Database
 {

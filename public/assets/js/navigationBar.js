@@ -236,7 +236,6 @@ const navigationBarFunctionalities = () => {
   userContainer.addEventListener("mouseenter", showUserPanel);
   userContainer.addEventListener("mouseleave", hideUserPanel);
 
-  // Logout Request
   let logoutBtn = null;
 
   if (document.querySelector(".logout")) {
@@ -249,7 +248,6 @@ const navigationBarFunctionalities = () => {
 };
 navigationBarFunctionalities();
 
-// Database | Localstoarge Work
 const favTab = document.querySelector(".navbar__right__favoriteProducts");
 const favPanel = document.querySelector(
   ".navbar__right__favoriteProducts__panel"
@@ -460,7 +458,7 @@ const pageName = document.URL.slice(lastURLForwardSlash + 1);
 
 if (pageName.startsWith("category.php") || pageName.startsWith("search.php")) {
   productSlides = document.querySelectorAll(".categories__products__product");
-} else if (pageName.startsWith("index.php")) {
+} else if (pageName.startsWith("index.php") || pageName == "") {
   productSlides = document.querySelectorAll(
     ".productSection__carousel__slider__slide"
   );

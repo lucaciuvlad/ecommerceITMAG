@@ -971,7 +971,6 @@
 
             &:hover > a {
               background-color: getMap($colors, secondary-color);
-              color: #fff;
             }
 
             &.active {
@@ -988,6 +987,7 @@
               align-items: center;
               justify-content: center;
               background-color: rgba(getMap($colors, secondary-color), 0.3);
+              color: #fff;
               border-radius: $border-radius;
               transition: getMap($transitions, bg-color);
             }

@@ -274,7 +274,6 @@ const registerFunctionalities = () => {
     passwordInput.setAttribute("type", "password");
   });
 
-  // Register User
   registerBtn.addEventListener("click", (e) => {
     e.preventDefault();
 

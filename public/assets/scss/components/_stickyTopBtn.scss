@@ -10,7 +10,6 @@
   z-index: 7;
   background-color: rgba(getMap($colors, primary-color), 0.6);
   border-top-left-radius: $border-radius;
-  border-bottom-left-radius: $border-radius;
   transition: getMap($transitions, bg-color);
   visibility: hidden;
   opacity: 0;

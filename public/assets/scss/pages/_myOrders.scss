@@ -1,0 +1,189 @@
+.dashboard {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+  margin: 1rem auto;
+
+  @include mq(medium) {
+    width: calc(100% - 18rem);
+    margin: 2rem 0 0 16rem;
+    padding: 0 2rem;
+  }
+
+  @include mq(large) {
+    width: calc(100% - 25rem);
+    padding: 0 5rem 1rem 5rem;
+    margin-left: 25rem;
+  }
+
+  & > p.error {
+    padding-left: 1rem;
+  }
+
+  &__orderCard {
+    width: 100%;
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    &__wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid getMap($colors, text-color-light);
+      border-radius: $border-radius;
+      transition: getMap($transitions, box-shadow);
+
+      &:hover {
+        box-shadow: 0 0 0.7rem rgba(getMap($colors, text-color-light), 0.7);
+      }
+
+      &.activeDetails {
+        transition: border-left-radius 0.15s ease-in,
+          border-right-radius 0.15s ease-in;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &__info {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      & > button {
+        height: 25%;
+        display: flex;
+        margin: 0 1rem;
+        align-items: center;
+        padding: 0.5rem;
+        border: 1px solid getMap($colors, primary-color);
+        border-radius: $border-radius;
+        cursor: pointer;
+        transition: getMap($transitions, bg-color), getMap($transitions, color);
+
+        &:hover {
+          background-color: getMap($colors, primary-color);
+          color: #fff;
+        }
+
+        &.active {
+          background-color: getMap($colors, primary-color);
+          color: #fff;
+        }
+      }
+    }
+
+    & p {
+      margin: 0.3rem 0;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+
+      &.newPrice {
+        width: 100%;
+        align-items: flex-start;
+        color: getMap($colors, danger-color);
+
+        & > span {
+          font-size: inherit;
+          font-weight: 1000;
+
+          &:first-child {
+            margin-right: 0.3rem;
+            color: getMap($colors, text-color);
+          }
+        }
+      }
+
+      & > span {
+        font-size: 0.75rem;
+      }
+
+      & > sup {
+        font-size: 0.6rem;
+      }
+    }
+
+    &__details {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      z-index: 999;
+      transform: translateY(-1rem);
+      opacity: 0;
+      visibility: hidden;
+      background-color: #fff;
+      border: 1px solid getMap($colors, text-color);
+      box-shadow: 0 0 0.7rem rgba(getMap($colors, text-color-light), 0.7);
+      border-top: none;
+      border-radius: 0 0 $border-radius $border-radius;
+      transition: getMap($transitions, transform),
+        getMap($transitions, visibility), getMap($transitions, opacity),
+        getMap($transitions, height);
+
+      &.active {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+        position: static;
+        height: 100%;
+      }
+
+      & h2 {
+        margin: 0 0.5rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(getMap($colors, text-color-light), 0.3);
+      }
+
+      & .product_details {
+        width: 95%;
+        height: 75%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid rgba(getMap($colors, text-color-light), 0.3);
+
+        & > img {
+          width: 15%;
+          height: 7rem;
+          padding: 1rem;
+          object-fit: contain;
+        }
+
+        & > p {
+          width: 35%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &:first-child {
+            width: 50%;
+          }
+
+          &.newPrice {
+            color: getMap($colors, text-color);
+            align-items: flex-start;
+          }
+        }
+      }
+
+      & .user_details {
+        width: 100%;
+        height: 25%;
+        margin-top: 1rem;
+      }
+    }
+  }
+}

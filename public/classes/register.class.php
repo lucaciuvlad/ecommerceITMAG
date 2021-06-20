@@ -2,6 +2,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 require("../../vendor/autoload.php");
 require_once("database.class.php");
@@ -95,13 +96,13 @@ class Register extends Database
                 <head>
                 </head>
                 <body>
-                    <main class='emailContent'>
+                    <main>
                         <header>
                             <img src='cid:itmag-logo' alt='ITMAG Logo' width='100' height='50'>
                         </header>
                         <div>
                             <p> Buna $this->lastName $this->firstName, </p>
-                            <p> Activeaza contul si fi la curent cu cele mai noi reduceri! </p>
+                            <p> Activeaza contul si fii la curent cu cele mai noi reduceri! </p>
 
                             <a href=\"http://localhost/itmag/public/activateAccount.php?userId=$userId\"> 
                                 Click pentru activarea contului 

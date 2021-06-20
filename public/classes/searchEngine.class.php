@@ -109,7 +109,8 @@ class SearchEngine extends Database
         $selectSql =
             "   SELECT	products.id as productID, product_name, product_price, product_old_price, product_image
                 FROM	products, product_images
-                WHERE 	product_metaphone LIKE concat('%', \"$metaphoneSearch\", '%') AND product_images.product_id = products.id AND
+                WHERE 	product_metaphone LIKE concat('%', \"$metaphoneSearch\", '%') AND 
+                        product_images.product_id = products.id AND
                         $columnName IS NOT NULL
                 GROUP BY products.id
             ";

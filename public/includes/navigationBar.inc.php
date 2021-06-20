@@ -127,6 +127,18 @@
                         </a>
                     </li>
                     <li>
+                        <a href="accountInfo.php">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            <span> Gestionare cont </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="myOrders.php">
+                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                            <span> Comenzile mele </span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="favoriteProducts.php">
                             <i class="fa fa-heart-o" aria-hidden="true"></i>
                             <span> Produse favorite </span>

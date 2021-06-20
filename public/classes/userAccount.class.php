@@ -60,6 +60,33 @@ class UserAccount extends Database
         return $userAddress;
     }
 
+    public function getUserOrders()
+    {
+        $selectOrders =
+            "   SELECT	orders.id AS orderId, created_at
+                FROM	orders
+                WHERE	orders.user_id = $this->userId
+            ";
+        $orders = $this->connect()->query($selectOrders);
+
+        return $orders;
+    }
+
+    public function getUserOrderDetails($orderId)
+    {
+        $selectOrderDetails =
+            "   SELECT	quantity, product_name, product_price, product_image 
+                FROM	orders, order_details, products, product_images
+                WHERE	orders.user_id = $this->userId AND order_details.order_id = orders.id AND
+                        orders.id = $orderId AND order_details.product_id = products.id AND
+                        product_images.product_id = products.id
+                GROUP BY order_details.product_id;
+            ";
+        $orderDetails = $this->connect()->query($selectOrderDetails);
+
+        return $orderDetails;
+    }
+
     public function updateUserPassword($oldPassword, $newPassword)
     {
         $selectOldPassword = "SELECT user_password FROM users WHERE id = $this->userId";

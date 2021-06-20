@@ -12,5 +12,22 @@ class Dashboard extends Database
 
         return $entriesNumber;
     }
+
+    public function getOrdersSum()
+    {
+        $selectSumDetails =
+            "   SELECT  product_price, quantity 
+                FROM    order_details, products
+                WHERE   order_details.product_id = products.id;
+            ";
+        $sumDetails = $this->connect()->query($selectSumDetails);
+
+        $finalSum = 0;
+        foreach ($sumDetails as $sumDetail) {
+            $finalSum += $sumDetail["quantity"] * $sumDetail["product_price"];
+        }
+
+        return $finalSum;
+    }
 }
 ?>

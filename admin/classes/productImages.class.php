@@ -96,7 +96,6 @@ class ProductImages extends Database
 ?>
 
 <?php
-// Upload Product Images
 if (isset($_FILES["productImageInfo"]) && isset($_POST["productImageUpload"])) {
     $productImageInfo = $_FILES["productImageInfo"];
     $productImageName = basename($productImageInfo["name"]);
@@ -112,7 +111,6 @@ if (isset($_FILES["productImageInfo"]) && isset($_POST["productImageUpload"])) {
 ?>
 
 <?php
-// Insert Product Images
 if (isset($_FILES["productImageInfo"]) && isset($_POST["productId"])) {
     $productId = htmlentities($_POST["productId"]);
 

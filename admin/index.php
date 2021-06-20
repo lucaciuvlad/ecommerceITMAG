@@ -43,6 +43,8 @@ require_once("./classes/dashboard.class.php");
         $usersNumber = $dashboardHandler->getEntriesNumber("users", "usersNumber");
         $categoriesNumber = $dashboardHandler->getEntriesNumber("categories", "categoriesNumber");
         $brandsNumber = $dashboardHandler->getEntriesNumber("brands", "brandsNumber");
+        $ordersNumber = $dashboardHandler->getEntriesNumber("orders", "ordersNumber");
+        $totalSum = $dashboardHandler->getOrdersSum();
         ?>
 
         <div class="dashboard__cards">
@@ -76,7 +78,7 @@ require_once("./classes/dashboard.class.php");
             <div class="dashboard__cards__card">
                 <div class="info">
                     <p> Vanzari </p>
-                    <span> 10 000 Lei </span>
+                    <span> <?php echo $totalSum; ?> Lei </span>
                 </div>
                 <div class="icon">
                     <i class="fa fa-credit-card" aria-hidden="true"></i>
@@ -85,7 +87,7 @@ require_once("./classes/dashboard.class.php");
             <div class="dashboard__cards__card">
                 <div class="info">
                     <p> Comenzi </p>
-                    <span> 100 </span>
+                    <span> <?php echo $ordersNumber; ?> </span>
                 </div>
                 <div class="icon">
                     <i class="fa fa-handshake-o" aria-hidden="true"></i>
