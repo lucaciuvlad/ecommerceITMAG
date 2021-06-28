@@ -203,9 +203,9 @@ const addToFav = debounce((addToFavBtns) => {
       );
 
       addToFavFromCart(addToFavBtns);
-      renderCartProducts();
       renderLocalProducts(cartItemsCounter, "cartProducts");
       renderLocalProducts(favItemsCounter, "favProducts");
+      renderCartProducts();
     });
   });
 }, 100);
@@ -221,7 +221,7 @@ export const renderCartProducts = () => {
   }
 
   localStorageProducts.forEach((product) => {
-    if (product.startsWith("cart")) {
+    if (product.startsWith("cartProductId")) {
       localStorageCartProducts.push(product);
     }
   });
@@ -275,7 +275,7 @@ export const renderCartProducts = () => {
     rangeNumber.innerHTML = localStorageCartProduct.productQuantity;
     appendElement(rangeNumber, rangeHeader);
 
-    const caretDown = createElement("i", "class", "fa fa-caret-down");
+    const caretDown = createElement("i", "class", "fa fa-caret-right");
     appendElement(caretDown, rangeHeader);
 
     const numberList = createElement("ul", "class", "numbers");
@@ -421,12 +421,18 @@ const updateProduct = (product, newQuantity) => {
   let oldDecimalPrice = 0;
   oldDecimalPrice = currentProductInfo.productOldFullPriceDecimal * newQuantity;
 
-  if (newDecimalPrice > 99 || oldDecimalPrice > 99) {
-    for (let i = 100; i < newDecimalPrice || i < oldDecimalPrice; i++) {
+  if (newDecimalPrice > 99) {
+    for (let i = 100; i <= newDecimalPrice; i++) {
       newDecimalPrice -= i;
-      oldDecimalPrice -= i;
 
       newWholePrice++;
+    }
+  }
+
+  if (oldDecimalPrice > 99) {
+    for (let i = 100; i <= oldDecimalPrice; i++) {
+      oldDecimalPrice -= i;
+
       oldWholePrice++;
     }
   }
@@ -438,13 +444,19 @@ const updateProduct = (product, newQuantity) => {
 
   const productNewFullPrice = product.querySelector(".newFullPrice");
   const productNewPriceDecimal = product.querySelector(".newFullPriceDecimal");
-  const productOldFullPrice = product.querySelector(".oldFullPrice");
-  const productOldPriceDecimal = product.querySelector(".oldFullPriceDecimal");
+  let productOldFullPrice = null;
+  let productOldPriceDecimal = null;
+
+  if (product.querySelector(".oldFullPrice")) {
+    productOldFullPrice = product.querySelector(".oldFullPrice");
+    productOldPriceDecimal = product.querySelector(".oldFullPriceDecimal");
+
+    productOldFullPrice.innerHTML = oldWholePrice;
+    productOldPriceDecimal.innerHTML = oldDecimalPrice;
+  }
 
   productNewFullPrice.innerHTML = newWholePrice;
   productNewPriceDecimal.innerHTML = newDecimalPrice;
-  productOldFullPrice.innerHTML = oldWholePrice;
-  productOldPriceDecimal.innerHTML = oldDecimalPrice;
 
   if (userID != null) {
     const request = serverRequest();
@@ -484,7 +496,7 @@ const cartFunctionalities = () => {
     if (
       rangeHeader.classList.contains("range-header") ||
       rangeHeader.classList.contains("number") ||
-      rangeHeader.classList.contains("fa-caret-down")
+      rangeHeader.classList.contains("fa-caret-right")
     ) {
       const rangeNumberList =
         rangeHeader.parentElement.querySelector(".range > ul") ||
@@ -492,7 +504,7 @@ const cartFunctionalities = () => {
 
       if (
         rangeHeader.classList.contains("number") ||
-        rangeHeader.classList.contains("fa-caret-down")
+        rangeHeader.classList.contains("fa-caret-right")
       ) {
         toggleCssClass(rangeHeader.parentElement, "activeNumbers");
       } else {

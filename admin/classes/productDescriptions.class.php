@@ -147,7 +147,6 @@ class ProductDescriptions extends Database
 ?>
 
 <?php
-// Upload Product Description Image
 if (isset($_FILES["productDescImageInfo"]) && isset($_POST["productDescImageUpload"])) {
     $productDescImageInfo = $_FILES["productDescImageInfo"];
     $productDescImageName = basename($productDescImageInfo["name"]);
@@ -163,7 +162,6 @@ if (isset($_FILES["productDescImageInfo"]) && isset($_POST["productDescImageUplo
 ?>
 
 <?php
-// Insert Product Description
 if (
     isset($_POST["productDescTitle"]) &&
     isset($_POST["productDescBody"]) &&
@@ -196,7 +194,6 @@ if (
 ?>
 
 <?php
-// Update Product Description
 if (
     isset($_POST["updateProductDescTitle"]) &&
     isset($_POST["updateProductDescBody"]) &&
@@ -221,19 +218,13 @@ if (
         $productDescImagesHandle->setProductDescriptionImage($updateProductDescImageName);
     }
 
-    $productDescImageValidation = $productDescImagesHandle->validateProductDescImageName();
 
-    if ($productDescImageValidation != null) {
-        echo json_encode($productDescImageValidation);
-    } else {
-        $updateResponse = $productDescImagesHandle->updateProductDescription();
-        echo json_encode(array("isUpdated" => $updateResponse));
-    }
+    $updateResponse = $productDescImagesHandle->updateProductDescription();
+    echo json_encode(array("isUpdated" => $updateResponse));
 }
 ?>
 
 <?php
-// Delete Product Images
 if (isset($_POST["deleteProductDescId"])) {
     $deleteProductDescId = htmlentities($_POST["deleteProductDescId"]);
 

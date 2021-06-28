@@ -11,7 +11,6 @@ import {
 
 import { visibleOperations, opItems } from "./navigationBar.js";
 
-// Self-Active Current Side Menu Link - Not A Visible Link
 (function () {
   visibleOperations();
 
@@ -45,10 +44,14 @@ const productImageFunctionalities = () => {
 
   tableProductImages.forEach((ProductImage, Index) => {
     ProductImage.addEventListener("click", () => {
+      document.body.style.overflow = "hidden";
+      window.scrollTo({ top: 1, behavior: "smooth" });
+      peekImageModals[Index].style.height = "100%";
       addCssClass(peekImageModals[Index], "active");
     });
 
     peekModalCloseIcons[Index].addEventListener("click", () => {
+      document.body.style.overflow = "visible";
       removeCssClass(peekImageModals[Index], "active");
     });
   });
@@ -173,12 +176,11 @@ const insertProductImages = () => {
 };
 
 const insertProductImageFunctionalities = () => {
-  // Show Add New Product Image Modal
   productImageAddBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 1, behavior: "smooth" });
     addCssClass(insertFormModal, "active");
   });
 
-  // Hide New Product Image Modal
   insertFormModalCloseIcon.addEventListener("click", () => {
     removeCssClass(insertFormModal, "active");
 
@@ -195,27 +197,25 @@ const insertProductImageFunctionalities = () => {
     removeCssClass(productImgsErrMsg, "active");
   });
 
-  // Upload Product Image
   productImgsInput.addEventListener("input", uploadProductImages);
 
-  // Delete Uploaded Product Image
   productUploadedImgsBox.addEventListener("click", (e) => {
     const clickedElement = e.target;
 
     if (clickedElement.dataset.purpose == "delete") {
       const deleteBtnParent = clickedElement.parentElement;
       productUploadedImgsBox.removeChild(deleteBtnParent);
+      productImgsInput.value = "";
     } else if (clickedElement.classList.contains("fa-trash-o")) {
       const deleteIconParent = clickedElement.parentElement.parentElement;
       productUploadedImgsBox.removeChild(deleteIconParent);
+      productImgsInput.value = "";
     }
   });
 
-  // Insert Images
   insertFormSaveBtn.addEventListener("click", (e) => {
     e.preventDefault();
 
-    // Product Images Validation
     if (isEmpty(productImgsInput)) {
       productImgsLabels.forEach((imgsLabel) => {
         addCssClass(imgsLabel, "error");
@@ -235,13 +235,10 @@ const insertProductImageFunctionalities = () => {
 };
 insertProductImageFunctionalities();
 
-// DELETE PRODUCT IMAGES
-// Table Delete Btns
 const deleteProductImageBtns = document.querySelectorAll(
   ".productImageDeleteBtn"
 );
 
-// Deletion Confirmation Modal
 let modalConfirmation = null;
 let confirmBtn = null;
 let rejectBtn = null;
@@ -256,11 +253,10 @@ if (document.querySelector(".modal.delete")) {
 
 const deleteProductImageFunctionalities = () => {
   deleteProductImageBtns.forEach((deleteProductImageBtn) => {
-    deleteProductImageBtn.addEventListener("click", () => {
-      // Show Modal Deletion Confirmation
+    deleteProductImageBtn.parentElement.addEventListener("click", () => {
+      document.body.style.overflow = "hidden";
       addCssClass(modalConfirmation, "active");
 
-      // Remove Any Active Action Dropdown
       actionDropdowns.forEach((ActionDropdown) => {
         if (ActionDropdown.classList.contains("active")) {
           removeCssClass(ActionDropdown, "active");
@@ -269,18 +265,18 @@ const deleteProductImageFunctionalities = () => {
         }
       });
 
-      // Hide Modal Deletion Confirmation
       if (modalConfirmation !== null) {
         closeModal.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
 
         rejectBtn.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
       }
 
-      // Product Image Deletion
       confirmBtn.addEventListener("click", () => {
         const productImageId = deleteProductImageBtn.dataset.productImageId;
 
@@ -298,14 +294,12 @@ const deleteProductImageFunctionalities = () => {
 
             const response = JSON.parse(request.response);
 
-            console.log(productId);
-
             if (response.isDeleted) {
               showNotification(
                 "Imaginea produsului a fost stearsa cu succes!",
                 `productImages.php?productID=${productId}`,
                 1500,
-                null
+                "error"
               );
             }
           }

@@ -51,15 +51,26 @@ class Category extends Database
         return $categoryBrandProducts;
     }
 
-    public function getFilteredProducts($filter)
+    public function getFilteredProducts($filter, $flag)
     {
-        $selectSql =
-            "   SELECT	products.id as productID, product_name, product_price, product_old_price, product_image
-                FROM	products, product_images
-                WHERE 	products.category_id = $this->categoryId AND product_images.product_id = products.id
-                GROUP BY products.id
-                ORDER BY product_price $filter;
+        if ($flag == "no brand") {
+            $selectSql =
+                "   SELECT	products.id as productID, product_name, product_price, product_old_price, product_image
+                    FROM	products, product_images
+                    WHERE 	products.category_id = $this->categoryId AND product_images.product_id = products.id
+                    GROUP BY products.id
+                    ORDER BY product_price $filter;
             ";
+        } else {
+            $selectSql =
+                "   SELECT	products.id as productID, product_name, product_price, product_old_price, product_image
+                    FROM	products, product_images
+                    WHERE 	products.category_id = $this->categoryId AND products.brand_id = $this->brandId AND
+                            product_images.product_id = products.id
+                    GROUP BY products.id
+                    ORDER BY product_price $filter;
+            ";
+        }
 
         $filteredProducts = $this->connect()->query($selectSql);
 
@@ -88,15 +99,26 @@ class Category extends Database
         return $filteredResults;
     }
 
-    public function getColumnFilteredProducts($columnName)
+    public function getColumnFilteredProducts($columnName, $flag)
     {
-        $selectSql =
-            "   SELECT	products.id as productID, product_name, product_price, product_old_price, product_image
-                FROM	products, product_images
-                WHERE 	products.category_id = $this->categoryId AND product_images.product_id = products.id AND
-                        $columnName IS NOT NULL
-                GROUP BY products.id
-        ";
+        if ($flag == "no brand") {
+            $selectSql =
+                "   SELECT	products.id as productID, product_name, product_price, product_old_price, product_image
+                    FROM	products, product_images
+                    WHERE 	products.category_id = $this->categoryId AND product_images.product_id = products.id AND
+                            $columnName IS NOT NULL
+                    GROUP BY products.id
+            ";
+        } else {
+            $selectSql =
+                "   SELECT	products.id as productID, product_name, product_price, product_old_price, product_image
+                    FROM	products, product_images
+                    WHERE 	products.category_id = $this->categoryId AND products.brand_id = $this->brandId AND
+                            product_images.product_id = products.id AND
+                            $columnName IS NOT NULL
+                    GROUP BY products.id
+            ";
+        }
 
         $filteredProducts = $this->connect()->query($selectSql);
 
@@ -128,7 +150,7 @@ class Category extends Database
 ?>
 
 <?php
-if (isset($_POST["filterName"]) && isset($_POST["categoryID"])) {
+if (isset($_POST["filterName"]) && (isset($_POST["categoryID"]))) {
     $filterName = htmlentities($_POST["filterName"]);
     $categoryID = htmlentities($_POST["categoryID"]);
 
@@ -142,9 +164,20 @@ if (isset($_POST["filterName"]) && isset($_POST["categoryID"])) {
     $categoryHandler->setCategoryId($categoryID);
 
     if ($filterName == "La reducere") {
-        $filterResults = $categoryHandler->getColumnFilteredProducts("product_old_price");
+        $filterResults = $categoryHandler->getColumnFilteredProducts("product_old_price", "no brand");
     } else {
-        $filterResults = $categoryHandler->getFilteredProducts($filterName);
+        $filterResults = $categoryHandler->getFilteredProducts($filterName, "no brand");
+    }
+
+    if (isset($_POST["brandID"])) {
+        $brandID = htmlentities($_POST["brandID"]);
+        $categoryHandler->setBrandId($brandID);
+
+        if ($filterName == "La reducere") {
+            $filterResults = $categoryHandler->getColumnFilteredProducts("product_old_price", "brand");
+        } else {
+            $filterResults = $categoryHandler->getFilteredProducts($filterName, "brand");
+        }
     }
 
     echo json_encode($filterResults);

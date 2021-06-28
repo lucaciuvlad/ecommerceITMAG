@@ -25,18 +25,21 @@ toggleCssClass(favProducts, "active");
 stickyTopButton.setAttribute("href", "#favProducts");
 window.addEventListener("scroll", toggleStickyTopBtn);
 
-const userPanelActions = document.querySelector(".userPanel__user__actions");
-const userActions = Array.from(userPanelActions.children);
+let userPanelActions = document.querySelector(".userPanel__user__actions");
+if (document.querySelector(".userPanel__user__actions")) {
+  userPanelActions = document.querySelector(".userPanel__user__actions");
+  const userActions = Array.from(userPanelActions.children);
 
-userActions.forEach((userAction) => {
-  if (userAction.classList.contains("favoriteProducts")) {
-    const spanText = userAction.querySelector("span");
-    const icon = userAction.querySelector("i");
-    addCssClass(userAction, "active");
-    addCssClass(spanText, "active");
-    addCssClass(icon, "active");
-  }
-});
+  userActions.forEach((userAction) => {
+    if (userAction.classList.contains("favoriteProducts")) {
+      const spanText = userAction.querySelector("span");
+      const icon = userAction.querySelector("i");
+      addCssClass(userAction, "active");
+      addCssClass(spanText, "active");
+      addCssClass(icon, "active");
+    }
+  });
+}
 
 const favProductsContainer = document.querySelector(".favProducts__products");
 const emptyFavProducts = document.querySelector(".favProducts__empty");
@@ -152,7 +155,7 @@ export const renderFavProducts = () => {
   }
 
   localStorageProducts.forEach((product) => {
-    if (product.startsWith("fav")) {
+    if (product.startsWith("favProductId")) {
       localStorageFavProducts.push(product);
     }
   });
@@ -190,7 +193,7 @@ export const renderFavProducts = () => {
     const favProductLink = createElement(
       "a",
       "href",
-      `${localStorageFavProduct.productID}`
+      `product.php?productID=${localStorageFavProduct.productID}`
     );
     favProductLink.innerHTML = localStorageFavProduct.productName;
     appendElement(favProductLink, favProductContainer);

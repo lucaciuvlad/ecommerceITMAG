@@ -9,9 +9,11 @@ import {
 
 import { insertProduct } from "./navigationBar.js";
 
+// Popping Out The Content
 const categories = document.querySelector("#categories");
 toggleCssClass(categories, "active");
 
+// DOM Elements
 const commonFiltersBtn = document.querySelector(".commonFilters");
 const filtersList = document.querySelector(".filters");
 const filters = Array.from(filtersList.children);
@@ -19,7 +21,22 @@ const filters = Array.from(filtersList.children);
 const actualFilter = document.querySelector(".actualFilter");
 const resetFilter = commonFiltersBtn.querySelector(".fa-times");
 
-// Product Price Formatting
+const mainCategories = document.querySelector(".categories");
+
+const productOldFullPrices = mainCategories.querySelectorAll(
+  "p.oldPrice > .oldFullPrice"
+);
+const productOldPriceDecimals = mainCategories.querySelectorAll(
+  "p.oldPrice > .oldFullPriceDecimal"
+);
+
+const productNewFullPrices = mainCategories.querySelectorAll(
+  "p.newPrice > .newFullPrice"
+);
+const productNewPriceDecimals = mainCategories.querySelectorAll(
+  "p.newPrice > .newFullPriceDecimal"
+);
+
 const formatProductPrice = (productPrices, productDecimals) => {
   productPrices.forEach((productPrice, index) => {
     const fullProductPrice = productPrice.innerHTML;
@@ -39,27 +56,21 @@ const formatProductPrice = (productPrices, productDecimals) => {
   });
 };
 
-const productOldFullPrices = document.querySelectorAll(
-  "p.oldPrice > .oldFullPrice"
-);
-const productOldPriceDecimals = document.querySelectorAll(
-  "p.oldPrice > .oldFullPriceDecimal"
-);
 formatProductPrice(productOldFullPrices, productOldPriceDecimals);
-
-const productNewFullPrices = document.querySelectorAll(
-  "p.newPrice > .newFullPrice"
-);
-const productNewPriceDecimals = document.querySelectorAll(
-  "p.newPrice > .newFullPriceDecimal"
-);
 formatProductPrice(productNewFullPrices, productNewPriceDecimals);
 
+// Back-end Filtering
 const filterRequest = (filterName) => {
   const request = serverRequest();
 
   const equalUrlMark = document.URL.indexOf("=");
-  const categoryId = document.URL.slice(equalUrlMark + 1);
+  const firstAmpSign = document.URL.indexOf("&");
+  let categoryId = null;
+  if (firstAmpSign != -1) {
+    categoryId = document.URL.slice(equalUrlMark + 1, firstAmpSign);
+  } else {
+    categoryId = document.URL.slice(equalUrlMark + 1);
+  }
 
   const formData = new FormData();
   formData.append("filterName", filterName);
@@ -67,6 +78,7 @@ const filterRequest = (filterName) => {
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const response = JSON.parse(request.response);
+
       const productIds = response.productId;
 
       const productContainer = document.querySelector(".categories__products");
@@ -232,18 +244,18 @@ const filterRequest = (filterName) => {
         ".categories__products__product"
       );
 
-      // Add Current Product To Favorite LocalStorage And wishlists MySQL
       addToFavBtns.forEach((addToFavBtn, index) => {
         addToFavBtn.addEventListener("click", (e) => {
           e.preventDefault();
+
           insertProduct(addToFavBtn, index, "favProducts", productSlides);
         });
       });
 
-      // Add Current Product To Cart LocalStorage And MySQL
       addToCartBtns.forEach((addToCartBtn, index) => {
         addToCartBtn.addEventListener("click", (e) => {
           e.preventDefault();
+
           insertProduct(addToCartBtn, index, "cartProducts", productSlides);
         });
       });
@@ -253,8 +265,16 @@ const filterRequest = (filterName) => {
   const lastURLForwardSlash = document.URL.lastIndexOf("/");
   const pageName = document.URL.slice(lastURLForwardSlash + 1);
 
+  // Format The Query String Parameter
   if (pageName.startsWith("category.php")) {
     formData.append("categoryID", categoryId);
+
+    if (pageName.indexOf("brandID") != -1) {
+      const lastIndexOfEqual = document.URL.lastIndexOf("=");
+      const brandId = document.URL.slice(lastIndexOfEqual + 1);
+
+      formData.append("brandID", brandId);
+    }
 
     request.open("POST", "classes/category.class.php");
   } else if (pageName.startsWith("search.php")) {
@@ -263,13 +283,14 @@ const filterRequest = (filterName) => {
 
     formData.append("queryString", queryString);
 
-    request.open("POST", "classes/searchEngine.class.php");
+    request.open("POST", "classes/category.class.php");
   }
 
   request.send(formData);
 };
 
 const categoriesFunctionalities = () => {
+  // Filtering Events
   commonFiltersBtn.addEventListener("click", () => {
     toggleCssClass(filtersList, "active");
   });
@@ -292,3 +313,48 @@ const categoriesFunctionalities = () => {
   });
 };
 categoriesFunctionalities();
+
+// Persistent Visual Inserted Products
+const productSlides = document.querySelectorAll(
+  ".categories__products__product"
+);
+
+productSlides.forEach((productSlide) => {
+  const productFavBtn = productSlide.querySelector(".addToFav > i");
+  const productFavBtnTooltipMessage = productSlide.querySelector(
+    ".addToFav > .tooltip > p"
+  );
+  const productAddToCartBtn = productSlide.querySelector(".addToCart");
+  const productName = productSlide
+    .querySelector(".productName > p")
+    .innerHTML.trim();
+
+  const localStorageLength = localStorage.length;
+
+  for (let i = 0; i <= localStorageLength - 1; i++) {
+    const actualProduct = localStorage.key(i);
+
+    if (actualProduct.startsWith("favProductId")) {
+      const localStorageObject = JSON.parse(
+        localStorage.getItem(actualProduct)
+      );
+      const localProductName = localStorageObject.productName.trim();
+
+      if (productName === localProductName) {
+        productFavBtn.setAttribute("class", "fa fa-heart");
+        productFavBtnTooltipMessage.innerHTML = "Adaugat la favorite";
+      }
+    } else if (actualProduct.startsWith("cartProductId")) {
+      const localStorageObject = JSON.parse(
+        localStorage.getItem(actualProduct)
+      );
+      const localProductName = localStorageObject.productName;
+
+      if (productName === localProductName) {
+        addCssClass(productAddToCartBtn, "active");
+        const addToCartMsg = productAddToCartBtn.querySelector("span");
+        addToCartMsg.innerHTML = "Adaugat in cos";
+      }
+    }
+  }
+});

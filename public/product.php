@@ -33,10 +33,17 @@ $productSpecifications = $productHandler->getProductSpecifications();
     require_once("./includes/loader.inc.php");
     require_once("./includes/notification.inc.php");
     require_once("./includes/stickyTopBtn.inc.php");
+
+    if (isset($_SESSION["userID"])) {
+        echo "<div id='userId' style='display: none;'data-user='$_SESSION[userID]'></div>";
+    }
     ?>
 
     <main class="product">
         <ul class="product__breadcrumbs">
+            <li>
+                <a href="index.php"> Acasa </a>
+            </li>
             <li>
                 <a href="category.php?categoryID=<?php echo $productInfo["categoryID"]; ?>">
                     <?php
@@ -212,6 +219,10 @@ $productSpecifications = $productHandler->getProductSpecifications();
             </li>
         </ul>
     </div>
+
+    <?php
+    require_once("./includes/footer.inc.php");
+    ?>
 
     <script src="./assets/js/navigationBar.js" type="module"></script>
     <script src="./assets/js/product.js" type="module"></script>

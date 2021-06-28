@@ -11,14 +11,12 @@ import {
 
 import { isEmpty } from "./validations.js";
 
-// Hamburger & Side Menu
 const hamburger = document.querySelector(".navigationBar .hamburger");
 const sideMenu = document.querySelector(".sideMenu");
 const opTrigger = document.querySelector(".sideMenu__operations__trigger");
 const opList = opTrigger.nextElementSibling;
 export const opItems = Array.from(opList.children);
 
-// Search
 const searchContainer = document.querySelector(".navigationBar__search__field");
 const searchIcon = searchContainer.children[0];
 const searchInput = searchContainer.children[1];
@@ -33,7 +31,6 @@ const searchLink = searchSuggestions.querySelector(
   ".navigationBar__search__suggestions__header > a"
 );
 
-// Admin
 const adminTab = document.querySelector(".navigationBar__user__tab");
 const adminIcon = adminTab.children[0];
 const adminName = adminTab.children[1];
@@ -41,7 +38,6 @@ const adminPanel = document.querySelector(".navigationBar__user__panel");
 const adminLogout = adminPanel.querySelector(".logout");
 let logout = false;
 
-// Search Request
 const searchEngine = () => {
   const request = serverRequest();
 
@@ -107,13 +103,11 @@ const searchEngine = () => {
   request.send(formData);
 };
 
-// Toggle SideMenu For Mobile
 const toggleLeftMenu = () => {
   toggleCssClass(hamburger, "active");
   toggleCssClass(sideMenu, "active");
 };
 
-// Toggle Side Menu Operations
 const toggleOperations = () => {
   toggleCssClass(opTrigger, "active");
   toggleCssClass(opList, "active");
@@ -124,7 +118,6 @@ const toggleOperations = () => {
   });
 };
 
-// Show Current Visible Operation Link
 export const visibleOperations = () => {
   addCssClass(opTrigger, "active");
   addCssClass(opList, "active");
@@ -135,7 +128,6 @@ export const visibleOperations = () => {
   });
 };
 
-// Search Engine Functionalities
 const searchResults = searchResultsList.children;
 
 const visibleSearchSuggestions = () => {
@@ -171,7 +163,6 @@ const toggleAdminPanel = () => {
 };
 
 const navigationFunctionalities = () => {
-  // Hamburger + Side Menu
   hamburger.addEventListener("click", toggleLeftMenu);
 
   opTrigger.addEventListener("click", toggleOperations);
@@ -180,7 +171,6 @@ const navigationFunctionalities = () => {
     addCssClass(searchIcon, "active");
   });
 
-  // Search
   searchInput.addEventListener("blur", () => {
     removeCssClass(searchIcon, "active");
   });
@@ -218,10 +208,8 @@ const navigationFunctionalities = () => {
     }
   });
 
-  // Admin
   adminTab.addEventListener("click", toggleAdminPanel);
 
-  // Logout Request
   adminLogout.addEventListener("click", (e) => {
     e.preventDefault();
 

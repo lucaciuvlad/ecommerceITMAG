@@ -56,8 +56,9 @@
       }
 
       & .tooltip {
+        width: max-content;
         top: 50%;
-        left: calc(50% + 5rem);
+        left: calc(50% + 6rem);
         transform: translate(-50%, -50%);
 
         & > i {
@@ -116,9 +117,9 @@
               display: flex;
               cursor: pointer;
 
-              &:hover > i,
-              &:hover > a,
-              &:hover > span {
+              &:hover i,
+              &:hover a,
+              &:hover span {
                 color: getMap($colors, text-color);
               }
 
@@ -131,7 +132,6 @@
                 color: #fff;
               }
 
-              & > a,
               & > span {
                 width: 80%;
                 height: 100%;
@@ -139,6 +139,30 @@
                 align-items: center;
                 padding: 0 0.7rem;
                 color: #fff;
+              }
+
+              & > a {
+                width: 100%;
+                height: 100%;
+                display: flex;
+
+                & > i {
+                  width: 20%;
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: #fff;
+                }
+
+                & > span {
+                  width: 80%;
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  padding: 0 0.7rem;
+                  color: #fff;
+                }
               }
             }
           }

@@ -240,6 +240,10 @@
           background-color: getMap($colors, secondary-color);
         }
 
+        &.active {
+          background-color: getMap($colors, secondary-color);
+        }
+
         &::before {
           font-family: FontAwesome;
           font-size: 1.3rem;
@@ -275,6 +279,10 @@
         }
 
         &:hover::after {
+          background-color: getMap($colors, primary-color);
+        }
+
+        &.active::after {
           background-color: getMap($colors, primary-color);
         }
 

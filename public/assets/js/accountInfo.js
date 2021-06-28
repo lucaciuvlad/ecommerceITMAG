@@ -274,7 +274,6 @@ const updateAddress = () => {
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const response = JSON.parse(request.response);
-      console.log(response);
 
       if (response.isUpdated) {
         showNotification(
@@ -403,7 +402,6 @@ const updatePassword = () => {
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const response = JSON.parse(request.response);
-      console.log(response);
 
       if (response.isUpdated === true) {
         showNotification(
@@ -441,6 +439,7 @@ const userInfoFunctionalities = () => {
     addressInput.addEventListener("keyup", () => {
       addressInputValidation(addressInput, addressArr, addressErrorMsg);
     });
+
     phoneNumberInput.addEventListener("keyup", () => {
       phoneNumberValidation(
         phoneNumberInput,
@@ -451,6 +450,7 @@ const userInfoFunctionalities = () => {
 
     modalInsertAddressBtn.addEventListener("click", () => {
       addressInputValidation(addressInput, addressArr, addressErrorMsg);
+
       phoneNumberValidation(
         phoneNumberInput,
         phoneNumberArr,

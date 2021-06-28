@@ -10,7 +10,6 @@ import {
 import { opItems, visibleOperations } from "./navigationBar.js";
 import { isEmpty, showError, hideError } from "./validations.js";
 
-// Self-Active Current Side Menu Link
 (function () {
   visibleOperations();
 
@@ -22,13 +21,10 @@ import { isEmpty, showError, hideError } from "./validations.js";
   delayShowingMainContainer(productsContainer);
 })();
 
-// PRODUCT VIEW
-// Table Data Options
 const optionsToggles = document.querySelectorAll(".dropdown__tab");
 const actionDropdowns = document.querySelectorAll(".dropdown__actions");
 
 const productFunctionalities = () => {
-  // Toggle Table Data Dropdowns
   optionsToggles.forEach((optionToggle, index) => {
     optionToggle.addEventListener("click", () => {
       if (!actionDropdowns[index].classList.contains("active")) {
@@ -41,22 +37,17 @@ const productFunctionalities = () => {
 };
 productFunctionalities();
 
-// INSERT PRODUCT
-// Add Product Btn
 const addProductBtn = document.querySelector(".addBtn");
 
-// Insert Product Form Modal
 const insertFormModal = document.querySelector(".modal.insert");
 const insertFormModalCloseIcon = insertFormModal.querySelector(
   ".modal__close .fa-times"
 );
 
-// Insert Modal Form Btns
 const insertForm = document.querySelector(".productInsert");
 const insertBtn = insertFormModal.querySelector(".save");
 const cancelInsertBtn = insertFormModal.querySelector(".close");
 
-// Product Name
 const productNameField = document.querySelector(".productName");
 const productNameLabel = productNameField.querySelector("label");
 const productNameInput = productNameField.querySelector("input");
@@ -64,7 +55,6 @@ const productNameErrMsg = productNameField.querySelector("p.error");
 
 const productNameArr = [productNameField, productNameLabel, productNameInput];
 
-// Product Price Tax
 const productPriceTaxField = document.querySelector(".productPriceTax");
 const productPriceTaxLabel = productPriceTaxField.querySelector("label");
 const productPriceTaxTab = productPriceTaxField.querySelector(
@@ -76,7 +66,6 @@ const productPriceTaxOptionsBox = productPriceTaxField.querySelector(
 );
 const productPriceTaxOptions = Array.from(productPriceTaxOptionsBox.children);
 
-// Product Full Price
 const productFullPriceField = document.querySelector(".fullPrice");
 const productFullPriceLabel = productFullPriceField.querySelector("label");
 const productFullPriceTool = productFullPriceField.querySelector(".tool");
@@ -92,11 +81,9 @@ const productFullPriceArr = [
   productFullPricePlus,
 ];
 
-// Product Net Price
 const productNetPriceField = document.querySelector(".netPrice");
 const productNetPriceValue = productNetPriceField.querySelector("p");
 
-// Product Old Price Field
 const productOldPriceField = document.querySelector(".productOldPrice");
 const productOldPriceLabel = productOldPriceField.querySelector("label");
 const productOldPriceErrMsg = productOldPriceField.querySelector("p.error");
@@ -110,18 +97,15 @@ const productOldPriceArr = [
   productOldPriceSpan,
 ];
 
-// Product Old Price Switch Btn
 const productOldPriceSwitch =
   productOldPriceField.querySelector(".form__switch");
 const productOldPriceSwitchBtn = productOldPriceSwitch.children[0];
 
-// Product Old Price Input
 const productOldPrice = productOldPriceField.querySelector(".oldPrice");
 const productOldPriceInput = productOldPrice.querySelector(
   ".oldPrice__wrapper input"
 );
 
-// Product Category
 const productCategoryField = document.querySelector(".productCategory");
 const productCategoryLabel = productCategoryField.querySelector("label");
 const productCategoryTab = productCategoryField.querySelector(
@@ -140,7 +124,6 @@ const productCategoryArr = [
   productCategoryOptionsBox,
 ];
 
-// Product Brand
 const productBrandField = document.querySelector(".productBrand");
 const productBrandLabel = productBrandField.querySelector("label");
 const productBrandTab = productBrandField.querySelector(
@@ -159,7 +142,6 @@ const productBrandArr = [
   productBrandOptionsBox,
 ];
 
-// Product Stock
 const productStockField = document.querySelector(".productStock");
 const productStockLabel = productStockField.querySelector("label");
 const productStockTool = productStockField.querySelector(".tool");
@@ -175,20 +157,16 @@ const productStockArr = [
   productStockPlus,
 ];
 
-// COMMON FUNCTIONALITIES
-// Toggle Tab Options
 const toggleTabOptions = (optionsBox, optionsTab) => {
   toggleCssClass(optionsBox, "active");
   toggleCssClass(optionsTab, "active");
 };
 
-// Hide Tab Options
 const hideTabOptions = (optionsBox, optionsTab) => {
   removeCssClass(optionsBox, "active");
   removeCssClass(optionsTab, "active");
 };
 
-// Choose A Dropdown Tab Option
 const chooseDropdownOption = (
   option,
   optionsList,
@@ -227,21 +205,18 @@ const chooseDropdownOption = (
   });
 };
 
-// Add Active State On Full Price Tool
 const addActiveToolInput = (toolBox, minus, plus) => {
   addCssClass(toolBox, "active");
   addCssClass(minus, "active");
   addCssClass(plus, "active");
 };
 
-// Remove Active State On Full Price Tool
 const removeActiveToolInput = (toolBox, minus, plus) => {
   removeCssClass(toolBox, "active");
   removeCssClass(minus, "active");
   removeCssClass(plus, "active");
 };
 
-// Add 1 Unit For Full Price & State
 const addOneUnit = (input) => {
   let actualValue = parseInt(input.value);
   actualValue++;
@@ -249,7 +224,6 @@ const addOneUnit = (input) => {
   input.value = actualValue;
 };
 
-// Substract 1 Unit For Full Price & State
 const substractOneUnit = (input) => {
   let actualValue = parseInt(input.value);
   actualValue--;
@@ -262,7 +236,6 @@ const substractOneUnit = (input) => {
   }
 };
 
-// Update The Net Price Based On Given Full Price
 const updateNetPrice = (input, taxSpan, netPriceValue) => {
   if (input.value.length != 0) {
     const tva = 0.19;
@@ -279,7 +252,6 @@ const updateNetPrice = (input, taxSpan, netPriceValue) => {
   }
 };
 
-// Insert Product Request
 const insertProduct = () => {
   const request = serverRequest();
 
@@ -309,7 +281,6 @@ const insertProduct = () => {
         );
       }
 
-      // Backend Validations
       if (response.productName != undefined) {
         showError(productNameArr, productNameErrMsg, response.productName);
       } else {
@@ -365,17 +336,15 @@ const insertProduct = () => {
 };
 
 const insertProductFunctionalities = () => {
-  // Show Insert Modal Form
   addProductBtn.addEventListener("click", () => {
+    insertFormModal.style.minHeight = "100%";
     addCssClass(insertFormModal, "active");
 
-    // Hide Table Action Dropdown
     actionDropdowns.forEach((actionDropdown) => {
       removeCssClass(actionDropdown, "active");
     });
   });
 
-  // Hide Insert Modal Form
   insertFormModalCloseIcon.addEventListener("click", () => {
     removeCssClass(insertFormModal, "active");
   });
@@ -384,7 +353,6 @@ const insertProductFunctionalities = () => {
     removeCssClass(insertFormModal, "active");
   });
 
-  // Product Price Tax
   productPriceTaxLabel.addEventListener("click", () => {
     toggleTabOptions(productPriceTaxOptionsBox, productPriceTaxTab);
   });
@@ -403,7 +371,6 @@ const insertProductFunctionalities = () => {
     );
   });
 
-  // Product Full Price
   productFullPriceLabel.addEventListener("click", () => {
     if (!productFullPriceTool.classList.contains("active")) {
       addActiveToolInput(
@@ -473,7 +440,6 @@ const insertProductFunctionalities = () => {
     );
   });
 
-  // Product Old Price
   productOldPriceLabel.addEventListener("click", () => {
     toggleCssClass(productOldPriceSwitchBtn, "active");
     toggleCssClass(productOldPrice, "active");
@@ -497,7 +463,6 @@ const insertProductFunctionalities = () => {
     }
   });
 
-  // Product Category
   productCategoryLabel.addEventListener("click", () => {
     toggleTabOptions(productCategoryOptionsBox, productCategoryTab);
   });
@@ -516,7 +481,6 @@ const insertProductFunctionalities = () => {
     );
   });
 
-  // Product Brand
   productBrandLabel.addEventListener("click", () => {
     toggleTabOptions(productBrandOptionsBox, productBrandTab);
   });
@@ -535,7 +499,6 @@ const insertProductFunctionalities = () => {
     );
   });
 
-  // Product Stock
   productStockLabel.addEventListener("click", () => {
     if (!productStockTool.classList.contains("active")) {
       addActiveToolInput(productStockTool, productStockMinus, productStockPlus);
@@ -581,16 +544,13 @@ const insertProductFunctionalities = () => {
     addOneUnit(productStockInput);
   });
 
-  // Product Insert Request
   insertBtn.addEventListener("click", () => {
-    // Product Name Validation
     if (isEmpty(productNameInput)) {
       showError(productNameArr, productNameErrMsg, "Campul este obligatoriu!");
     } else {
       hideError(productNameArr, productNameErrMsg);
     }
 
-    // Product Full Price Validation
     if (isEmpty(productFullPriceInput)) {
       showError(
         productFullPriceArr,
@@ -601,7 +561,6 @@ const insertProductFunctionalities = () => {
       hideError(productFullPriceArr, productFullPriceErrMsg);
     }
 
-    // Product Old Price Validation
     if (productOldPriceSwitchBtn.classList.contains("active")) {
       if (isEmpty(productOldPriceInput)) {
         showError(
@@ -623,7 +582,6 @@ const insertProductFunctionalities = () => {
       }
     }
 
-    // Product Category Validation
     if (productCategorySpan.innerHTML.trim() === "Selecteaza categoria") {
       showError(
         productCategoryArr,
@@ -634,7 +592,6 @@ const insertProductFunctionalities = () => {
       hideError(productCategoryArr, productCategoryErrMsg);
     }
 
-    // Product Brand Validation
     if (productBrandSpan.innerHTML.trim() === "Selecteaza producatorul") {
       showError(
         productBrandArr,
@@ -645,7 +602,6 @@ const insertProductFunctionalities = () => {
       hideError(productBrandArr, productBrandErrMsg);
     }
 
-    // Product Stock Validation
     if (isEmpty(productStockInput)) {
       showError(
         productStockArr,
@@ -660,7 +616,6 @@ const insertProductFunctionalities = () => {
       );
     }
 
-    // Insert Product
     if (
       productNameErrMsg.innerHTML == "" &&
       productFullPriceErrMsg.innerHTML == "" &&
@@ -675,11 +630,8 @@ const insertProductFunctionalities = () => {
 };
 insertProductFunctionalities();
 
-// UPDATE PRODUCT
-// Table Update Btns
 const updateProductBtns = document.querySelectorAll(".productUpdateBtn");
 
-// Update Modal Form
 let updateFormModals = null;
 let updateForms = null;
 
@@ -689,18 +641,15 @@ if (document.querySelectorAll(".productUpdate")) {
 }
 
 const updateProductFunctionalities = () => {
-  // Functionalities For Each Update Modal Form
   updateProductBtns.forEach((updateProductBtn, index) => {
-    updateProductBtn.addEventListener("click", () => {
-      // Show Update Modal Form
+    updateProductBtn.parentElement.addEventListener("click", () => {
+      updateFormModals[index].style.minHeight = "100%";
       addCssClass(updateFormModals[index], "active");
 
-      // Hide Table Action Dropdown
       actionDropdowns.forEach((actionDropdown) => {
         removeCssClass(actionDropdown, "active");
       });
 
-      // Hide Update Modal Form
       const updateFormCloseBtn =
         updateFormModals[index].querySelector(".modal__close");
       updateFormCloseBtn.addEventListener("click", () => {
@@ -713,7 +662,6 @@ const updateProductFunctionalities = () => {
         removeCssClass(updateFormModals[index], "active");
       });
 
-      // Update Product Name
       const updateProductNameField =
         updateFormModals[index].querySelector(".updateProductName");
       const updateProductNameLabel =
@@ -729,7 +677,6 @@ const updateProductFunctionalities = () => {
         updateProductNameInput,
       ];
 
-      // Update Product Price Tax
       const updateProductPriceTaxField = updateFormModals[index].querySelector(
         ".updateProductPriceTax"
       );
@@ -748,7 +695,6 @@ const updateProductFunctionalities = () => {
         updateProductPriceTaxOptionsBox.children
       );
 
-      // Update Product Full Price
       const updateProductFullPriceField =
         updateFormModals[index].querySelector(".updateFullPrice");
       const updateProductFullPriceLabel =
@@ -771,13 +717,11 @@ const updateProductFunctionalities = () => {
         updateProductFullPricePlus,
       ];
 
-      // Update Product Net Price
       const updateProductNetPriceField =
         updateFormModals[index].querySelector(".updateNetPrice");
       const updateProductNetPriceValue =
         updateProductNetPriceField.querySelector("p");
 
-      // Upate Product Old Price Field
       const updateProductOldPriceField = updateFormModals[index].querySelector(
         ".updateProductOldPrice"
       );
@@ -796,20 +740,17 @@ const updateProductFunctionalities = () => {
         updateProductOldPriceSpan,
       ];
 
-      // Update Product Old Price Switch Btn
       const updateProductOldPriceSwitch =
         updateProductOldPriceField.querySelector(".form__switch");
       const updateProductOldPriceSwitchBtn =
         updateProductOldPriceSwitch.children[0];
 
-      // Update Product Old Price Input
       const updateProductOldPrice =
         updateProductOldPriceField.querySelector(".oldPrice");
       const updateProductOldPriceInput = updateProductOldPrice.querySelector(
         ".oldPrice__wrapper input"
       );
 
-      // Update Product Category
       const updateProductCategoryField = updateFormModals[index].querySelector(
         ".updateProductCategory"
       );
@@ -836,7 +777,6 @@ const updateProductFunctionalities = () => {
         updateProductCategoryOptionsBox,
       ];
 
-      // Update Product Brand
       const updateProductBrandField = updateFormModals[index].querySelector(
         ".updateProductBrand"
       );
@@ -863,7 +803,6 @@ const updateProductFunctionalities = () => {
         updateProductBrandOptionsBox,
       ];
 
-      // Update Product Stock
       const updateProductStockField = updateFormModals[index].querySelector(
         ".updateProductStock"
       );
@@ -887,7 +826,6 @@ const updateProductFunctionalities = () => {
         updateProductStockPlus,
       ];
 
-      // Update Product Request
       const updateProduct = () => {
         const request = serverRequest();
 
@@ -927,7 +865,6 @@ const updateProductFunctionalities = () => {
               );
             }
 
-            // Backend Validations
             if (response.updateProductName != undefined) {
               showError(
                 updateProductNameArr,
@@ -997,7 +934,6 @@ const updateProductFunctionalities = () => {
         request.send(formData);
       };
 
-      // Get Visible Dropdown Option Id
       const getVisibleDropdownOption = (options, span) => {
         options.forEach((option) => {
           if (span.innerHTML.trim() === option.innerHTML.trim()) {
@@ -1015,7 +951,6 @@ const updateProductFunctionalities = () => {
         updateProductBrandSpan
       );
 
-      // Update Product Price Tax
       updateProductPriceTaxLabel.addEventListener("click", () => {
         toggleTabOptions(
           updateProductPriceTaxOptionsBox,
@@ -1040,7 +975,6 @@ const updateProductFunctionalities = () => {
         );
       });
 
-      // Update Product Full Price
       updateProductFullPriceLabel.addEventListener("click", () => {
         if (!updateProductFullPriceTool.classList.contains("active")) {
           addActiveToolInput(
@@ -1110,7 +1044,6 @@ const updateProductFunctionalities = () => {
         );
       });
 
-      // Update Product Old Price
       updateProductOldPriceLabel.addEventListener("click", () => {
         toggleCssClass(updateProductOldPriceSwitchBtn, "active");
         toggleCssClass(updateProductOldPrice, "active");
@@ -1134,7 +1067,6 @@ const updateProductFunctionalities = () => {
         }
       });
 
-      // Update Product Category
       updateProductCategoryLabel.addEventListener("click", () => {
         toggleTabOptions(
           updateProductCategoryOptionsBox,
@@ -1159,7 +1091,6 @@ const updateProductFunctionalities = () => {
         );
       });
 
-      // Update Product Brand
       updateProductBrandLabel.addEventListener("click", () => {
         toggleTabOptions(updateProductBrandOptionsBox, updateProductBrandTab);
       });
@@ -1178,7 +1109,6 @@ const updateProductFunctionalities = () => {
         );
       });
 
-      // Update Product Stock
       updateProductStockLabel.addEventListener("click", () => {
         if (!updateProductStockTool.classList.contains("active")) {
           addActiveToolInput(
@@ -1232,11 +1162,9 @@ const updateProductFunctionalities = () => {
         addOneUnit(updateProductStockInput);
       });
 
-      // Product Update Request
       const updateBtn = updateFormModals[index].querySelector(".save");
 
       updateBtn.addEventListener("click", () => {
-        // Product Name Validation
         if (isEmpty(updateProductNameInput)) {
           showError(
             updateProductNameArr,
@@ -1247,7 +1175,6 @@ const updateProductFunctionalities = () => {
           hideError(updateProductNameArr, updateProductNameErrMsg);
         }
 
-        // Product Price Validation
         if (isEmpty(updateProductFullPriceInput)) {
           showError(
             updateProductFullPriceArr,
@@ -1258,7 +1185,6 @@ const updateProductFunctionalities = () => {
           hideError(updateProductFullPriceArr, updateProductFullPriceErrMsg);
         }
 
-        // Product Old Price Validation
         if (updateProductOldPriceSwitchBtn.classList.contains("active")) {
           if (isEmpty(updateProductOldPriceInput)) {
             showError(
@@ -1280,7 +1206,6 @@ const updateProductFunctionalities = () => {
           }
         }
 
-        // Product Category Validation
         if (
           updateProductCategorySpan.innerHTML.trim() === "Selecteaza categoria"
         ) {
@@ -1293,7 +1218,6 @@ const updateProductFunctionalities = () => {
           hideError(updateProductCategoryArr, updateProductCategoryErrMsg);
         }
 
-        // Product Brand Validation
         if (
           updateProductBrandSpan.innerHTML.trim() === "Selecteaza producatorul"
         ) {
@@ -1306,7 +1230,6 @@ const updateProductFunctionalities = () => {
           hideError(updateProductBrandArr, updateProductBrandErrMsg);
         }
 
-        // Product Stock Validation
         if (isEmpty(updateProductStockInput)) {
           showError(
             updateProductStockArr,
@@ -1317,7 +1240,6 @@ const updateProductFunctionalities = () => {
           hideError(updateProductStockArr, updateProductStockErrMsg);
         }
 
-        // Update Product
         if (
           updateProductNameErrMsg.innerHTML == "" &&
           updateProductFullPriceErrMsg.innerHTML == "" &&
@@ -1334,11 +1256,8 @@ const updateProductFunctionalities = () => {
 };
 updateProductFunctionalities();
 
-// DELETE PRODUCT
-// Table Delete Btns
 const deleteProductBtns = document.querySelectorAll(".productDeleteBtn");
 
-// Deletion Confirmation Modal
 let modalConfirmation = null;
 let confirmBtn = null;
 let rejectBtn = null;
@@ -1353,11 +1272,10 @@ if (document.querySelector(".modal.delete")) {
 
 const deleteProductFunctionalities = () => {
   deleteProductBtns.forEach((deleteProductBtn) => {
-    deleteProductBtn.addEventListener("click", () => {
-      // Show Modal Deletion Confirmation
+    deleteProductBtn.parentElement.addEventListener("click", () => {
+      document.body.style.overflow = "hidden";
       addCssClass(modalConfirmation, "active");
 
-      // Remove Any Active Action Dropdown
       actionDropdowns.forEach((actionDropdown) => {
         if (actionDropdown.classList.contains("active")) {
           removeCssClass(actionDropdown, "active");
@@ -1366,18 +1284,18 @@ const deleteProductFunctionalities = () => {
         }
       });
 
-      // Hide Modal Deletion Confirmation
       if (modalConfirmation !== null) {
         closeModal.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
 
         rejectBtn.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
       }
 
-      // Product Deletion
       confirmBtn.addEventListener("click", () => {
         const productId = deleteProductBtn.dataset.productId;
 
@@ -1400,7 +1318,7 @@ const deleteProductFunctionalities = () => {
                 "Produsul a fost sters cu succes!",
                 "products.php",
                 1500,
-                null
+                "error"
               );
             }
           }

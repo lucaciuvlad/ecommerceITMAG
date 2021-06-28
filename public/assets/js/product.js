@@ -17,14 +17,24 @@ import {
   userID,
 } from "./navigationBar.js";
 
+// Popping Out The Content
 const product = document.querySelector("#product");
 toggleCssClass(product, "active");
 
-const productOldFullPrice = document.querySelector(
+// DOM Elements
+const mainProduct = document.querySelector(".product");
+const productOldFullPrice = mainProduct.querySelector(
   "p.oldPrice > .oldFullPrice"
 );
-const productOldPriceDecimal = document.querySelector(
+const productOldPriceDecimal = mainProduct.querySelector(
   "p.oldPrice > .oldFullPriceDecimal"
+);
+
+const productNewFullPrice = mainProduct.querySelector(
+  "p.newPrice > .newFullPrice"
+);
+const productNewPriceDecimal = mainProduct.querySelector(
+  "p.newPrice > .newFullPriceDecimal"
 );
 
 const formatProductPrice = (productPrice, productDecimal) => {
@@ -44,15 +54,9 @@ const formatProductPrice = (productPrice, productDecimal) => {
   productDecimal.innerHTML = decimalPart;
 };
 formatProductPrice(productOldFullPrice, productOldPriceDecimal);
-
-const productNewFullPrice = document.querySelector(
-  "p.newPrice > .newFullPrice"
-);
-const productNewPriceDecimal = document.querySelector(
-  "p.newPrice > .newFullPriceDecimal"
-);
 formatProductPrice(productNewFullPrice, productNewPriceDecimal);
 
+// Product Image Carousel
 const productCarousel = document.querySelector(".product .carousel");
 const productSlider = productCarousel.children[0];
 const productSliderImgs = Array.from(productSlider.children);
@@ -141,13 +145,41 @@ const productFunctionalities = () => {
 };
 productFunctionalities();
 
-const addToFavBtns = document.querySelectorAll(".addToFav");
-const addToCartBtns = document.querySelectorAll(".addToCart");
+// Add Product To Cart Or Favorite
+const addToFavBtn = document.querySelector(".addToFav");
+const addToCartBtn = document.querySelector(".addToCart");
 
-const insertProduct = debounce((btn, index, productList) => {
+// Persistent Visual Inserted Product
+const favProductId = addToFavBtn.dataset.productId;
+const favSpanMessage = addToFavBtn.querySelector("span");
+const localFavProduct = localStorage.getItem(`favProductId${favProductId}`);
+
+if (localFavProduct != null) {
+  addCssClass(addToFavBtn, "active");
+  favSpanMessage.innerHTML = "Adaugat la favorite";
+} else {
+  removeCssClass(addToFavBtn, "active");
+  favSpanMessage.innerHTML = "Adauga la favorite";
+}
+
+const cartProductId = addToCartBtn.dataset.productId;
+const cartSpanMessage = addToCartBtn.querySelector("span");
+const localCartProduct = localStorage.getItem(`cartProductId${cartProductId}`);
+
+if (localCartProduct != null) {
+  addCssClass(addToCartBtn, "active");
+  cartSpanMessage.innerHTML = "Adaugat in cos";
+} else {
+  removeCssClass(addToCartBtn, "active");
+  cartSpanMessage.innerHTML = "Adauga in cos";
+}
+
+const insertProduct = debounce((btn, productList) => {
   const productID = parseInt(btn.dataset.productId);
 
-  const productName = document.querySelector(".product__name > h1").innerHTML;
+  const productName = document
+    .querySelector(".product__name > h1")
+    .innerHTML.trim();
 
   const productImage = document
     .querySelectorAll(".carousel__slider__slide")[0]
@@ -203,6 +235,8 @@ const insertProduct = debounce((btn, index, productList) => {
     );
     const favBtnMessage = btn.querySelector("span");
 
+    console.log(userID);
+
     if (localStorageFavProductId == null) {
       if (userID !== null) {
         const request = serverRequest();
@@ -238,6 +272,7 @@ const insertProduct = debounce((btn, index, productList) => {
         null
       );
       renderLocalProducts(favItemsCounter, "favProducts");
+      addCssClass(btn, "active");
 
       favBtnMessage.innerHTML = "Adaugat la favorite";
     } else {
@@ -252,6 +287,7 @@ const insertProduct = debounce((btn, index, productList) => {
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {
             const response = JSON.parse(request.response);
+            console.log(response);
 
             if (!response.isDeleted) {
               console.error("EROARE SERVER");
@@ -271,6 +307,7 @@ const insertProduct = debounce((btn, index, productList) => {
         "error"
       );
       renderLocalProducts(favItemsCounter, "favProducts");
+      removeCssClass(btn, "active");
 
       favBtnMessage.innerHTML = "Adauga la favorite";
     }
@@ -347,16 +384,12 @@ const insertProduct = debounce((btn, index, productList) => {
   }
 });
 
-addToFavBtns.forEach((addToFavBtn, index) => {
-  addToFavBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    insertProduct(addToFavBtn, index, "favProducts");
-  });
+addToFavBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  insertProduct(addToFavBtn, "favProducts");
 });
 
-addToCartBtns.forEach((addToCartBtn, index) => {
-  addToCartBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    insertProduct(addToCartBtn, index, "cartProducts");
-  });
+addToCartBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  insertProduct(addToCartBtn, "cartProducts");
 });

@@ -13,4 +13,23 @@ footer {
     color: #fff;
     font-weight: 550;
   }
+
+  & > a {
+    position: absolute;
+    right: 1rem;
+    font-size: 0.7rem;
+    color: #fff;
+
+    @include mq(medium) {
+      right: 2rem;
+    }
+
+    @include mq(desktop) {
+      right: 5rem;
+    }
+
+    &:hover {
+      color: getMap($colors, secondary-color);
+    }
+  }
 }

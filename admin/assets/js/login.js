@@ -16,14 +16,12 @@ import {
 const login = document.querySelector("#login");
 delayShowingMainContainer(login);
 
-// Email
 const emailField = document.querySelector(".email");
 const emailLabel = emailField.querySelector("label");
 const emailInput = emailField.querySelector("input");
 const emailErrorMsg = emailField.querySelector("p.error");
 const emailArr = [emailField, emailLabel, emailInput];
 
-// Password
 const passwordField = document.querySelector(".password");
 const passwordLabel = passwordField.querySelector("label");
 const passwordInputWrapper = passwordField.querySelector(
@@ -35,7 +33,6 @@ const passwordVisibleIcon = passwordInputWrapper.querySelector("i.fa-eye");
 const passwordErrorMsg = passwordField.querySelector("p.error");
 const passwordArr = [passwordInputWrapper, passwordLabel, passwordInput];
 
-// Login Form
 const loginForm = document.querySelector(".form");
 const loginBtn = loginForm.querySelector(".save");
 
@@ -88,12 +85,10 @@ const passwordValidation = () => {
 };
 
 const loginFunctionalities = () => {
-  // Email
   emailInput.addEventListener("keyup", () => {
     emailValidation(emailInput, emailArr, emailErrorMsg);
   });
 
-  // Password
   passwordLabel.addEventListener("click", () => {
     addCssClass(passwordInputWrapper, "active");
   });
@@ -124,7 +119,6 @@ const loginFunctionalities = () => {
     passwordInput.setAttribute("type", "password");
   });
 
-  // Login Admin
   loginBtn.addEventListener("click", (e) => {
     e.preventDefault();
 

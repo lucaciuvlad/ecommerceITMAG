@@ -140,15 +140,15 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     $validation = new Validation();
     $validation->setField($email);
     $validation->setFlag("email");
-    $validation->isEmpty();
+    echo $validation->isEmpty();
     $validation->emailValidation();
 
     $validation->setField($password);
     $validation->setFlag("password");
-    $validation->isEmpty();
 
     $validation->setEmail($email);
     $validation->setPassword($password);
+    $validation->isEmpty();
     $validation->loginValidation();
 
     $validationErrors = $validation->getErrorMessges();

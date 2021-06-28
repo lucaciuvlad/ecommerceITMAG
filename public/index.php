@@ -206,6 +206,93 @@ session_start();
         </div>
     </section>
 
+    <section class="productSection">
+        <h1> Laptopuri Dell </h1>
+
+        <div class="productSection__carousel">
+            <div class="productSection__carousel__slider">
+                <?php
+                $homepageHandler = new Homepage();
+                $products = $homepageHandler->fetchCarouselProducts(5, 4);
+
+
+                foreach ($products as $product) :
+                    if ($product["product_old_price"] != 0) {
+                        $promoPercent = number_format($product["product_price"] / $product["product_old_price"] * 100, 0);
+                    }
+                ?>
+
+                <a class="productSection__carousel__slider__slide"
+                    href="product.php?productID=<?php echo $product["productID"] ?>">
+
+                    <div class="promoIndicator <?php if ($product["product_old_price"] == 0) echo "hidden"; ?>">
+                        <span> <?php echo $promoPercent; ?>% </span>
+                    </div>
+
+                    <button type="button" class="addToFav" data-product-id="<?php echo $product["productID"]; ?>">
+                        <i class=" fa fa-heart-o" aria-hidden="true"></i>
+                        <div class="tooltip">
+                            <i class="fa fa-caret-right" aria-hidden="true"></i>
+                            <p> Adauga la favorite </p>
+                        </div>
+                    </button>
+
+                    <div class="productImage">
+                        <img src="../admin/assets/imgs/<?php echo $product["product_image"]; ?>" />
+                    </div>
+
+                    <div class="productName">
+                        <p> <?php echo $product["product_name"]; ?> </p>
+                    </div>
+
+                    <div class="productRating">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="productPrice">
+                        <p class="oldPrice">
+                            <span class="oldFullPrice">
+                                <?php
+                                    if ($product["product_old_price"] == "") {
+                                        echo "";
+                                    } else {
+                                        echo $product["product_old_price"];
+                                    }
+                                    ?>
+                            </span>
+                            <sup class="oldFullPriceDecimal"> </sup>
+                            <span> Lei </span>
+                        </p>
+                        <p class="newPrice">
+                            <span class="newFullPrice"> <?php echo $product["product_price"]; ?> </span>
+                            <sup class="newFullPriceDecimal"> </sup>
+                            <span> Lei </span>
+                        </p>
+                    </div>
+
+                    <button type="button" class="addToCart" data-product-id="<?php echo $product["productID"]; ?>">
+                        <span> Adauga in cos </span>
+                    </button>
+                </a>
+
+                <?php endforeach; ?>
+
+            </div>
+
+            <button type="button" class="leftBtn">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </button>
+
+            <button type="button" class="rightBtn">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </button>
+        </div>
+    </section>
+
     <?php
     require_once("./includes/footer.inc.php");
     ?>

@@ -7,10 +7,10 @@
 .categories,
 .brands {
   width: 100%;
-  height: calc(100vh - 3rem);
-  min-height: 100%;
+  min-height: calc(100vh - 3rem);
   position: relative;
   margin-top: 3rem;
+  padding-bottom: 2rem;
   transform: scale(0.8);
   opacity: 0;
   transition: getMap($transitions, transform), getMap($transitions, opacity);
@@ -198,7 +198,6 @@
       width: 95%;
       margin: 0 auto;
 
-      // Dropdown Form Wrapper (Used For Product Price)
       &__wrapper {
         width: 95%;
         margin: 0 auto;

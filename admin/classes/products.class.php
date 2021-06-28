@@ -165,7 +165,6 @@ class Products extends Database
 ?>
 
 <?php
-// Insert Product
 if (
     isset($_POST["productName"]) && isset($_POST["productPrice"]) &&
     isset($_POST["productCategoryId"]) && isset($_POST["productBrandId"])
@@ -233,7 +232,6 @@ if (
 ?>
 
 <?php
-// Update Product
 if (
     isset($_POST["updateProductName"]) && isset($_POST["updateProductPrice"]) &&
     isset($_POST["updateProductCategoryId"]) && isset($_POST["updateProductBrandId"])
@@ -302,7 +300,6 @@ if (
 ?>
 
 <?php
-// Delete Product
 if (isset($_POST["deleteProductId"])) {
     $productId = htmlentities($_POST["deleteProductId"]);
 

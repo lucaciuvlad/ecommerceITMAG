@@ -91,46 +91,6 @@ class LoginSystem
             print "Logat cu succes!";
         }
     }
-
-    public function persistentLoginUser()
-    {
-
-        $selectUserPw = "SELECT client_password FROM client WHERE client_email = \"$this->email\"";
-        $returnedUserPw = $this->db->query($selectUserPw);
-
-        $userPw = "";
-        if ($returnedUserPw->num_rows > 0) {
-            while ($pass = $returnedUserPw->fetch_assoc()) {
-                $userPw = $pass["client_password"];
-            }
-        }
-
-        $rememberUserData = "INSERT INTO remember(remember_email, remember_pw) VALUES(\"$this->email\", \"$userPw\")";
-        $this->db->query($rememberUserData);
-    }
-
-    public function getPersistentLoginData()
-    {
-        $selectPersistentData = "SELECT remember_email, remember_pw FROM remember WHERE remember_email = \"$this->email\"";
-        $returnedPersistentData = $this->db->query($selectPersistentData);
-
-        $usrEmail = "";
-        $usrPw = "";
-
-        if ($returnedPersistentData->num_rows > 0) {
-            while ($persistentData = $returnedPersistentData->fetch_assoc()) {
-                $usrEmail = $persistentData["remember_email"];
-                $usrPw = $persistentData["remember_pw"];
-            }
-
-
-            $persistentOutput = array(
-                "usrEmail" => $usrEmail,
-                "usrPw" => $usrPw
-            );
-            print json_encode($persistentOutput);
-        }
-    }
 }
 
 function emailValidation($emailField)
@@ -149,7 +109,6 @@ function emailValidation($emailField)
     print $checkRegisterEmailErr;
 }
 
-// Validate Register Email Field
 if (isset($_POST["checkRegisterEmail"])) {
     $checkRegisterEmail = htmlentities($_POST["checkRegisterEmail"]);
     emailValidation($checkRegisterEmail);
@@ -159,8 +118,6 @@ if (isset($_POST["checkRegisterEmail"])) {
     $checkingRegisterEmail->setEmail($checkRegisterEmail);
     $checkingRegisterEmail->checkEmail();
 } else if (isset($_POST["checkLoginEmail"])) {
-    // Validate Login Email Field 
-
     $checkLoginEmail = htmlentities($_POST["checkLoginEmail"]);
     emailValidation($checkLoginEmail);
 
@@ -171,7 +128,6 @@ if (isset($_POST["checkRegisterEmail"])) {
     $checkingLoginEmail->checkEmail();
 }
 
-// Validate Register Password Field 
 if (isset($_POST["checkingRegisterPw"])) {
     $checkingRegisterPw = htmlentities($_POST["checkingRegisterPw"]);
 
@@ -200,8 +156,6 @@ if (isset($_POST["checkingRegisterPw"])) {
 
     print $registerPwErr;
 } else if (isset($_POST["registerPw"]) && isset($_POST["checkingRegisterRepeatPw"])) {
-    // Validate Repeat Password Field
-
     $registerPassword = htmlentities($_POST["registerPw"]);
     $checkingRegisterRepeatPw = htmlentities($_POST["checkingRegisterRepeatPw"]);
 
@@ -220,7 +174,6 @@ if (isset($_POST["checkingRegisterPw"])) {
     print $registerRepeatPwErr;
 }
 
-// Validate Login Password Field
 if (isset($_POST["checkingLoginEmail"]) && isset($_POST["checkingLoginPw"])) {
     $checkingLoginEmail = htmlentities($_POST["checkingLoginEmail"]);
     $checkingLoginPw = htmlentities($_POST["checkingLoginPw"]);
@@ -245,7 +198,6 @@ if (isset($_POST["checkingLoginEmail"]) && isset($_POST["checkingLoginPw"])) {
     $checkingLoginPsw->checkLoginCredentials();
 }
 
-// Register User
 if (isset($_POST["registerEmail"]) && isset($_POST["registerPw"])) {
     $registerEmail = htmlentities($_POST["registerEmail"]);
     $registerPw = htmlentities($_POST["registerPw"]);
@@ -258,7 +210,6 @@ if (isset($_POST["registerEmail"]) && isset($_POST["registerPw"])) {
     $register->registerUser();
 }
 
-// Login User
 if (isset($_POST["loginEmail"]) && isset($_POST["loginPw"]) && isset($_POST["remember"])) {
     $loginEmail = htmlentities($_POST["loginEmail"]);
     $loginPw = htmlentities($_POST["loginPw"]);
@@ -269,19 +220,6 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPw"]) && isset($_POST["rem
     $login->setPw($loginPw);
 
     $login->loginUser();
-
-    if ($_POST["remember"] == "true") {
-        $login->persistentLoginUser();
-    }
-}
-
-// Persistent Login User Data
-if (isset($_POST["userEmail"])) {
-    $userEmail = htmlentities($_POST["userEmail"]);
-
-    $persistentLogin  = new LoginSystem($dbConn);
-    $persistentLogin->setEmail($userEmail);
-    $persistentLogin->getPersistentLoginData();
 }
 
 $dbConn->close();

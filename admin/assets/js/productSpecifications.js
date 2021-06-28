@@ -9,6 +9,10 @@ import {
 
 import { visibleOperations, opItems } from "./navigationBar.js";
 
+const productSpecificationsContainer = document.querySelector(
+  ".productSpecifications"
+);
+
 (function () {
   visibleOperations();
 
@@ -16,9 +20,6 @@ import { visibleOperations, opItems } from "./navigationBar.js";
     if (item.classList.contains("pr")) addCssClass(item, "standOut");
   });
 
-  const productSpecificationsContainer = document.querySelector(
-    ".productSpecifications"
-  );
   delayShowingMainContainer(productSpecificationsContainer);
 })();
 
@@ -89,7 +90,6 @@ const insertProductSpecification = () => {
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const response = JSON.parse(request.response);
-      console.log(response);
 
       if (response.isInserted) {
         showNotification(
@@ -108,14 +108,18 @@ const insertProductSpecification = () => {
 
 const insertProductSpecificationFunctionalities = () => {
   productSpecificationAddBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    document.body.style.overflow = "hidden";
     addCssClass(insertFormModal, "active");
   });
 
   insertFormModalCloseIcon.addEventListener("click", () => {
+    document.body.style.overflow = "visible";
     removeCssClass(insertFormModal, "active");
   });
 
   insertFormCloseBtn.addEventListener("click", () => {
+    document.body.style.overflow = "visible";
     removeCssClass(insertFormModal, "active");
   });
 
@@ -166,7 +170,9 @@ if (document.querySelectorAll(".updateProductSpec")) {
 
 const updateProductSpecFunctionalities = () => {
   updateProductBtns.forEach((updateProductBtn, index) => {
-    updateProductBtn.addEventListener("click", () => {
+    updateProductBtn.parentElement.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      document.body.style.overflow = "hidden";
       addCssClass(updateFormModals[index], "active");
 
       actionDropdowns.forEach((actionDropdown) => {
@@ -176,12 +182,14 @@ const updateProductSpecFunctionalities = () => {
       const updateFormCloseBtn =
         updateFormModals[index].querySelector(".modal__close");
       updateFormCloseBtn.addEventListener("click", () => {
+        document.body.style.overflow = "visible";
         removeCssClass(updateFormModals[index], "active");
       });
 
       const updateModalFormCancelBtn =
         updateFormModals[index].querySelector(".close");
       updateModalFormCancelBtn.addEventListener("click", () => {
+        document.body.style.overflow = "visible";
         removeCssClass(updateFormModals[index], "active");
       });
 
@@ -229,7 +237,6 @@ const updateProductSpecFunctionalities = () => {
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {
             const response = JSON.parse(request.response);
-            console.log(response);
 
             if (response.isUpdated) {
               showNotification(
@@ -299,7 +306,8 @@ if (document.querySelector(".modal.delete")) {
 
 const deleteProductSpecFunctionalities = () => {
   deleteProductSpecBtns.forEach((deleteProductSpecBtn) => {
-    deleteProductSpecBtn.addEventListener("click", () => {
+    deleteProductSpecBtn.parentElement.addEventListener("click", () => {
+      document.body.style.overflow = "hidden";
       addCssClass(modalConfirmation, "active");
 
       actionDropdowns.forEach((actionDropdown) => {
@@ -312,10 +320,12 @@ const deleteProductSpecFunctionalities = () => {
 
       if (modalConfirmation !== null) {
         closeModal.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
 
         rejectBtn.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
       }
@@ -337,7 +347,7 @@ const deleteProductSpecFunctionalities = () => {
                 "Specificatia produsului a fost stearsa cu succes!",
                 `productSpecifications.php?productID=${productId}`,
                 1500,
-                null
+                "error"
               );
             }
           }

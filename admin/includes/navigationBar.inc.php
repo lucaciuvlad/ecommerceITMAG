@@ -16,7 +16,7 @@
     <div class="navigationBar__search">
         <div class="navigationBar__search__field">
             <i class="fa fa-search" aria-hidden="true"></i>
-            <input type="text" placeholder="Cauta produse, comenzi, clienti..." />
+            <input type="text" placeholder="Cauta produse..." />
             <i class="fa fa-close" aria-hidden="true"></i>
         </div>
 

@@ -133,7 +133,6 @@ if (isset($_FILES["productImageInfo"]) && isset($_POST["productId"])) {
 ?>
 
 <?php
-// Delete Product Images
 if (isset($_POST["deleteProductImageId"])) {
     $deleteProductImageId = htmlentities($_POST["deleteProductImageId"]);
 

@@ -150,6 +150,7 @@ class OrderDetails extends Database
 
             $email->setFrom("noreply.itmag@gmail.com", "ITMAG Admin");
             $email->addAddress($orderDetails["userEmail"]);
+            $email->addAddress("itmag.noreply@gmail.com");
             $email->addEmbeddedImage("../assets/imgs/itmag-logo.png", "itmag-logo", "itmag-logo.png");
 
             foreach ($productImages as $productImage) {

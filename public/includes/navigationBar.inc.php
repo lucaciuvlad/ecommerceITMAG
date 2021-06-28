@@ -172,7 +172,7 @@
                 </ul>
 
                 <button type="button" class="goToFav">
-                    <a href="fav.php"> Vezi toate produsele favorite </a>
+                    <a href="favoriteProducts.php"> Vezi toate produsele favorite </a>
                 </button>
             </div>
         </div>

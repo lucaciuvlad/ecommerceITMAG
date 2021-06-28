@@ -9,7 +9,6 @@ import {
 import { opItems, visibleOperations } from "./navigationBar.js";
 import { isEmpty, showError, hideError } from "./validations.js";
 
-// Self-Active Current Side Menu Link
 (function () {
   visibleOperations();
 
@@ -21,14 +20,10 @@ import { isEmpty, showError, hideError } from "./validations.js";
   delayShowingMainContainer(categoriesContainer);
 })();
 
-// CATEGORY VIEW
-// Table Data Options
 const optionsToggles = document.querySelectorAll(".dropdown__tab");
 const actionDropdowns = document.querySelectorAll(".dropdown__actions");
 
-// Category Functionality Triggers
 const categoryFunctionalities = () => {
-  // Toggle Table Data Dropdowns
   optionsToggles.forEach((optionToggle, index) => {
     optionToggle.addEventListener("click", () => {
       if (!actionDropdowns[index].classList.contains("active")) {
@@ -41,22 +36,17 @@ const categoryFunctionalities = () => {
 };
 categoryFunctionalities();
 
-// INSERT PRODUCT
-// Add Category Btn
 const addCategoryBtn = document.querySelector(".addBtn");
 
-// Insert Category Form Modal
 const insertFormModal = document.querySelector(".modal.insert");
 const insertFormModalCloseIcon = insertFormModal.querySelector(
   ".modal__close .fa-times"
 );
 
-// Insert Modal Form Btns
 const insertForm = document.querySelector(".categoryInsert");
 const insertBtn = insertFormModal.querySelector(".save");
 const cancelInsertBtn = insertFormModal.querySelector(".close");
 
-// Category Name
 const categoryNameField = document.querySelector(".categoryName");
 const categoryNameLabel = categoryNameField.querySelector("label");
 const categoryNameInput = categoryNameField.querySelector("input");
@@ -68,7 +58,6 @@ const categoryNameArr = [
   categoryNameInput,
 ];
 
-// Category Icon
 const categoryIconField = document.querySelector(".categoryIcon");
 const categoryIconLabel = categoryIconField.querySelector("label");
 const categoryIconInput = categoryIconField.querySelector("input");
@@ -80,7 +69,6 @@ const categoryIconArr = [
   categoryIconInput,
 ];
 
-// Insert Category
 const insertCategory = () => {
   const request = serverRequest();
 
@@ -104,7 +92,6 @@ const insertCategory = () => {
         );
       }
 
-      // Backend Validations
       if (response.categoryName != undefined) {
         showError(categoryNameArr, categoryNameErrMsg, response.categoryName);
       } else {
@@ -124,28 +111,26 @@ const insertCategory = () => {
 };
 
 const insertCategoryFunctionalities = () => {
-  // Show Insert Modal Form
   addCategoryBtn.addEventListener("click", () => {
+    document.body.style.overflow = "hidden";
     addCssClass(insertFormModal, "active");
 
-    // Hide Table Action Dropdown
     actionDropdowns.forEach((actionDropdown) => {
       removeCssClass(actionDropdown, "active");
     });
   });
 
-  // Hide Insert Modal Form
   insertFormModalCloseIcon.addEventListener("click", () => {
+    document.body.style.overflow = "visible";
     removeCssClass(insertFormModal, "active");
   });
 
   cancelInsertBtn.addEventListener("click", () => {
+    document.body.style.overflow = "visible";
     removeCssClass(insertFormModal, "active");
   });
 
-  // Category Insert Request
   insertBtn.addEventListener("click", () => {
-    // Category Name Validation
     if (isEmpty(categoryNameInput)) {
       showError(
         categoryNameArr,
@@ -156,7 +141,6 @@ const insertCategoryFunctionalities = () => {
       hideError(categoryNameArr, categoryNameErrMsg);
     }
 
-    // Category Icon Validation
     if (isEmpty(categoryIconInput)) {
       showError(
         categoryIconArr,
@@ -167,7 +151,6 @@ const insertCategoryFunctionalities = () => {
       hideError(categoryIconArr, categoryIconErrMsg);
     }
 
-    // Insert Category Into Database
     if (
       categoryNameErrMsg.innerHTML == "" &&
       categoryIconErrMsg.innerHTML == ""
@@ -178,11 +161,8 @@ const insertCategoryFunctionalities = () => {
 };
 insertCategoryFunctionalities();
 
-// UPDATE PRODUCT
-// Table Update Btns
 const updateCategoryBtns = document.querySelectorAll(".categoryUpdateBtn");
 
-// Update Modal Form
 let updateFormModals = null;
 let updateForms = null;
 
@@ -193,29 +173,29 @@ if (document.querySelectorAll(".categoryUpdate")) {
 
 const updateCategoryFunctionalities = () => {
   updateCategoryBtns.forEach((updateCategoryBtn, index) => {
-    updateCategoryBtn.addEventListener("click", () => {
-      // Show Update Modal Form
+    updateCategoryBtn.parentElement.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      document.body.style.overflow = "hidden";
       addCssClass(updateFormModals[index], "active");
 
-      // Hide Table Action Dropdown
       actionDropdowns.forEach((actionDropdown) => {
         removeCssClass(actionDropdown, "active");
       });
 
-      // Hide Update Modal Form
       const updateFormCloseBtn =
         updateFormModals[index].querySelector(".modal__close");
       updateFormCloseBtn.addEventListener("click", () => {
+        document.body.style.overflow = "visible";
         removeCssClass(updateFormModals[index], "active");
       });
 
       const updateModalFormCancelBtn =
         updateFormModals[index].querySelector(".close");
       updateModalFormCancelBtn.addEventListener("click", () => {
+        document.body.style.overflow = "visible";
         removeCssClass(updateFormModals[index], "active");
       });
 
-      // Update Category Name
       const updateCategoryNameField = updateFormModals[index].querySelector(
         ".updateCategoryName"
       );
@@ -232,7 +212,6 @@ const updateCategoryFunctionalities = () => {
         updateCategoryNameInput,
       ];
 
-      // Update Category Icon
       const updateCategoryIconField = updateFormModals[index].querySelector(
         ".updateCategoryIcon"
       );
@@ -249,7 +228,6 @@ const updateCategoryFunctionalities = () => {
         updateCategoryIconInput,
       ];
 
-      // Update Category Request
       const updateCategory = () => {
         const request = serverRequest();
 
@@ -277,7 +255,6 @@ const updateCategoryFunctionalities = () => {
               );
             }
 
-            // Backend Validations
             if (response.updateCategoryName != undefined) {
               showError(
                 updateCategoryNameArr,
@@ -304,11 +281,9 @@ const updateCategoryFunctionalities = () => {
         request.send(formData);
       };
 
-      // Category Update Request
       const updateBtn = updateFormModals[index].querySelector(".save");
 
       updateBtn.addEventListener("click", () => {
-        // Category Name Validation
         if (isEmpty(updateCategoryNameInput)) {
           showError(
             updateCategoryNameArr,
@@ -319,7 +294,6 @@ const updateCategoryFunctionalities = () => {
           hideError(updateCategoryNameArr, updateCategoryNameErrMsg);
         }
 
-        // Category Icon Validation
         if (isEmpty(updateCategoryIconInput)) {
           showError(
             updateCategoryIconArr,
@@ -330,7 +304,6 @@ const updateCategoryFunctionalities = () => {
           hideError(updateCategoryIconArr, updateCategoryIconErrMsg);
         }
 
-        // Update Category
         if (
           updateCategoryNameErrMsg.innerHTML == "" &&
           updateCategoryIconErrMsg.innerHTML == ""
@@ -343,11 +316,8 @@ const updateCategoryFunctionalities = () => {
 };
 updateCategoryFunctionalities();
 
-// DELETE CATEGORY
-// Table Delete Btns
 const deleteCategoryBtns = document.querySelectorAll(".categoryDeleteBtn");
 
-// Deletion Confirmation Modal
 let modalConfirmation = null;
 let confirmBtn = null;
 let rejectBtn = null;
@@ -362,22 +332,23 @@ if (document.querySelector(".modal.delete")) {
 
 const deleteCategoryFunctionalities = () => {
   deleteCategoryBtns.forEach((deleteCategoryButton) => {
-    deleteCategoryButton.addEventListener("click", () => {
-      // Show Modal Deletion Confirmation
+    deleteCategoryButton.parentElement.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      document.body.style.overflow = "hidden";
       addCssClass(modalConfirmation, "active");
 
-      // Remove Any Active Action Dropdown
       actionDropdowns.forEach((ActionDropdown) => {
         if (ActionDropdown.classList.contains("active")) {
+          document.body.style.overflow = "visible";
           removeCssClass(ActionDropdown, "active");
         } else {
           return;
         }
       });
 
-      // Hide Modal Deletion Confirmation
       if (modalConfirmation !== null) {
         closeModal.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
 
@@ -386,7 +357,6 @@ const deleteCategoryFunctionalities = () => {
         });
       }
 
-      // Category Deletion
       confirmBtn.addEventListener("click", () => {
         const categoryId = deleteCategoryButton.dataset.categoryId;
 

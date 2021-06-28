@@ -52,9 +52,12 @@ if (isset($_GET["categoryID"]) && isset($_GET["brandID"])) {
 
     <ul class="breadcrumbs">
         <li>
-            <a href="category.php?categoryID=<?php echo $categoryID; ?>"> <?php echo $categoryName; ?> </a>
+            <a href="index.php"> Acasa </a>
         </li>
 
+        <li>
+            <a href="category.php?categoryID=<?php echo $categoryID; ?>"> <?php echo $categoryName; ?> </a>
+        </li>
     </ul>
 
     <main class="categories">

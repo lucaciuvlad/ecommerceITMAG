@@ -18,28 +18,24 @@ import {
 const register = document.querySelector("#register");
 delayShowingMainContainer(register);
 
-// First Name
 const firstNameField = document.querySelector(".firstName");
 const firstNameLabel = firstNameField.querySelector("label");
 const firstNameInput = firstNameField.querySelector("input");
 const firstNameErrorMsg = firstNameField.querySelector("p.error");
 const firstNameArr = [firstNameField, firstNameLabel, firstNameInput];
 
-// Last Name
 const lastNameField = document.querySelector(".lastName");
 const lastNameLabel = lastNameField.querySelector("label");
 const lastNameInput = lastNameField.querySelector("input");
 const lastNameErrorMsg = lastNameField.querySelector("p.error");
 const lastNameArr = [lastNameField, lastNameLabel, lastNameInput];
 
-// Email
 const emailField = document.querySelector(".email");
 const emailLabel = emailField.querySelector("label");
 const emailInput = emailField.querySelector("input");
 const emailErrorMsg = emailField.querySelector("p.error");
 const emailArr = [emailField, emailLabel, emailInput];
 
-// Password
 const passwordField = document.querySelector(".password");
 const passwordLabel = passwordField.querySelector("label");
 const passwordInputWrapper = passwordField.querySelector(
@@ -51,7 +47,6 @@ const passwordVisibleIcon = passwordInputWrapper.querySelector("i.fa-eye");
 const passwordErrorMsg = passwordField.querySelector("p.error");
 const passwordArr = [passwordInputWrapper, passwordLabel, passwordInput];
 
-// Password Helper
 const passwordHelper = passwordField.querySelector(".form__field__helper");
 const smallLettersItem = passwordHelper.querySelectorAll("ul li")[0];
 const capitalLettersItem = passwordField.querySelectorAll("ul li")[1];
@@ -87,11 +82,9 @@ const passwordSpecialCharsArr = [
   specialCharsItem,
 ];
 
-// Register Form
 const form = document.querySelector(".form");
 const registerBtn = form.querySelector(".save");
 
-// Register Admin Request
 const registerAdmin = () => {
   const request = serverRequest();
 
@@ -145,7 +138,6 @@ const registerAdmin = () => {
   request.send(formData);
 };
 
-// Full Name Validation
 const nameValidation = (input, label, errorMessage) => {
   const numbers = /[0-9]/g;
   const nameArr = [input, label];
@@ -217,24 +209,19 @@ const passwordValidation = () => {
   }
 };
 
-// Register System Functionalities Trigger
 const registerFunctionalities = () => {
-  // First Name Validation
   firstNameInput.addEventListener("keyup", () => {
     nameValidation(firstNameInput, firstNameLabel, firstNameErrorMsg);
   });
 
-  // Last Name Validation
   lastNameInput.addEventListener("keyup", () => {
     nameValidation(lastNameInput, lastNameLabel, lastNameErrorMsg);
   });
 
-  // Email Validation
   emailInput.addEventListener("keyup", () => {
     emailValidation(emailInput, emailArr, emailErrorMsg);
   });
 
-  // Password
   passwordLabel.addEventListener("click", () => {
     addCssClass(passwordInputWrapper, "active");
   });
@@ -275,7 +262,6 @@ const registerFunctionalities = () => {
     passwordInput.setAttribute("type", "password");
   });
 
-  // Register Admin
   registerBtn.addEventListener("click", (e) => {
     e.preventDefault();
 

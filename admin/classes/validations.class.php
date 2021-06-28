@@ -43,7 +43,7 @@ class Validation extends Database
 
     public function isEmpty()
     {
-        if (strlen($this->field) == 0 || $this->field == 0 || $this->field == "undefined") {
+        if (strlen($this->field) == 0) {
             $this->setErrorMessage($this->flag, "Campul este obligatoriu!");
         }
     }

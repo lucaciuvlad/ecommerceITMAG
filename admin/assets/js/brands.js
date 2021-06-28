@@ -9,7 +9,6 @@ import {
 import { opItems, visibleOperations } from "./navigationBar.js";
 import { isEmpty, showError, hideError } from "./validations.js";
 
-// Self-Active Current Side Menu Link
 (function () {
   visibleOperations();
 
@@ -21,13 +20,10 @@ import { isEmpty, showError, hideError } from "./validations.js";
   delayShowingMainContainer(brandsContainer);
 })();
 
-// BRAND VIEW
-// Table Data Options
 const optionsToggles = document.querySelectorAll(".dropdown__tab");
 const actionDropdowns = document.querySelectorAll(".dropdown__actions");
 
 const brandFunctionalities = () => {
-  // Toggle Table Data Dropdowns
   optionsToggles.forEach((optionToggle, index) => {
     optionToggle.addEventListener("click", () => {
       if (!actionDropdowns[index].classList.contains("active")) {
@@ -40,22 +36,17 @@ const brandFunctionalities = () => {
 };
 brandFunctionalities();
 
-// INSERT BRAND
-// Add Brand Btn
 const addBrandBtn = document.querySelector(".addBtn");
 
-// Insert Brand Form Modal
 const insertFormModal = document.querySelector(".modal.insert");
 const insertFormModalCloseIcon = insertFormModal.querySelector(
   ".modal__close .fa-times"
 );
 
-// Insert Modal Form Btns
 const insertForm = document.querySelector(".brandInsert");
 const insertBtn = insertFormModal.querySelector(".save");
 const cancelInsertBtn = insertFormModal.querySelector(".close");
 
-// Brand Name
 const brandNameField = document.querySelector(".brandName");
 const brandNameLabel = brandNameField.querySelector("label");
 const brandNameInput = brandNameField.querySelector("input");
@@ -63,7 +54,6 @@ const brandNameErrMsg = brandNameField.querySelector("p.error");
 
 const brandNameArr = [brandNameField, brandNameLabel, brandNameInput];
 
-// Insert Brand
 const insertBrand = () => {
   const request = serverRequest();
 
@@ -87,7 +77,6 @@ const insertBrand = () => {
         );
       }
 
-      // Backend Validations
       if (response.brandName != null) {
         showError(brandNameArr, brandNameErrMsg, response.brandName);
       } else {
@@ -101,35 +90,33 @@ const insertBrand = () => {
 };
 
 const insertBrandFunctionalities = () => {
-  // Show Insert Modal Form
   addBrandBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    document.body.style.overflow = "hidden";
     addCssClass(insertFormModal, "active");
 
-    // Hide Table Action Dropdown
     actionDropdowns.forEach((actionDropdown) => {
       removeCssClass(actionDropdown, "active");
     });
   });
 
-  // Hide Insert Modal Form
   insertFormModalCloseIcon.addEventListener("click", () => {
+    document.body.style.overflow = "visible";
     removeCssClass(insertFormModal, "active");
   });
 
   cancelInsertBtn.addEventListener("click", () => {
+    document.body.style.overflow = "visible";
     removeCssClass(insertFormModal, "active");
   });
 
-  // Brand Insert Request
   insertBtn.addEventListener("click", () => {
-    // Brand Name Validation
     if (isEmpty(brandNameInput)) {
       showError(brandNameArr, brandNameErrMsg, "Campul este obligatoriu!");
     } else {
       hideError(brandNameArr, brandNameErrMsg);
     }
 
-    // Insert Brand Into Database
     if (brandNameErrMsg.innerHTML == "") {
       insertBrand();
     }
@@ -137,11 +124,8 @@ const insertBrandFunctionalities = () => {
 };
 insertBrandFunctionalities();
 
-// UPDATE CATEGORY
-// Table Update Btns
 const updateBrandBtns = document.querySelectorAll(".brandUpdateBtn");
 
-// Update Modal Form
 let updateFormModals = null;
 let updateForms = null;
 
@@ -150,31 +134,31 @@ if (document.querySelectorAll(".brandUpdate")) {
   updateForms = Array.from(document.querySelectorAll(".brandUpdate"));
 }
 
-const updateCategoryFunctionalities = () => {
+const updateBrandFunctionalities = () => {
   updateBrandBtns.forEach((updateBrandBtn, index) => {
-    updateBrandBtn.addEventListener("click", () => {
-      // Show Update Modal Form
+    updateBrandBtn.parentElement.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      document.body.style.overflow = "hidden";
       addCssClass(updateFormModals[index], "active");
 
-      // Hide Table Action Dropdown
       actionDropdowns.forEach((actionDropdown) => {
         removeCssClass(actionDropdown, "active");
       });
 
-      // Hide Update Modal Form
       const updateFormCloseBtn =
         updateFormModals[index].querySelector(".modal__close");
       updateFormCloseBtn.addEventListener("click", () => {
+        document.body.style.overflow = "visible";
         removeCssClass(updateFormModals[index], "active");
       });
 
       const updateModalFormCancelBtn =
         updateFormModals[index].querySelector(".close");
       updateModalFormCancelBtn.addEventListener("click", () => {
+        document.body.style.overflow = "visible";
         removeCssClass(updateFormModals[index], "active");
       });
 
-      // Update Brand Name
       const updateBrandNameField =
         updateFormModals[index].querySelector(".updateBrandName");
       const updateBrandNameLabel = updateBrandNameField.querySelector("label");
@@ -188,7 +172,6 @@ const updateCategoryFunctionalities = () => {
         updateBrandNameInput,
       ];
 
-      // Update Brand Request
       const updateBrand = () => {
         const request = serverRequest();
 
@@ -213,7 +196,6 @@ const updateCategoryFunctionalities = () => {
               );
             }
 
-            // Backend Validations
             if (response.updateBrandName != null) {
               showError(
                 updateBrandNameArr,
@@ -230,11 +212,9 @@ const updateCategoryFunctionalities = () => {
         request.send(formData);
       };
 
-      // Brand Update Request
       const updateBtn = updateFormModals[index].querySelector(".save");
 
       updateBtn.addEventListener("click", () => {
-        // Brand Name Validation
         if (isEmpty(updateBrandNameInput)) {
           showError(
             updateBrandNameArr,
@@ -245,7 +225,6 @@ const updateCategoryFunctionalities = () => {
           hideError(updateBrandNameArr, updateBrandNameErrMsg);
         }
 
-        // Update Brand
         if (updateBrandNameErrMsg.innerHTML == "") {
           updateBrand();
         }
@@ -253,13 +232,10 @@ const updateCategoryFunctionalities = () => {
     });
   });
 };
-updateCategoryFunctionalities();
+updateBrandFunctionalities();
 
-// DELETE BRAND
-// Table Delete Btns
 const deleteBrandBtns = document.querySelectorAll(".brandDeleteBtn");
 
-// Deletion Confirmation Modal
 let modalConfirmation = null;
 let confirmBtn = null;
 let rejectBtn = null;
@@ -274,11 +250,10 @@ if (document.querySelector(".modal.delete")) {
 
 const deleteBrandFunctionalities = () => {
   deleteBrandBtns.forEach((deleteBrandBtn) => {
-    deleteBrandBtn.addEventListener("click", () => {
-      // Show Modal Deletion Confirmation
+    deleteBrandBtn.parentElement.addEventListener("click", () => {
+      document.body.style.overflow = "hidden";
       addCssClass(modalConfirmation, "active");
 
-      // Remove Any Active Action Dropdown
       actionDropdowns.forEach((ActionDropdown) => {
         if (ActionDropdown.classList.contains("active")) {
           removeCssClass(ActionDropdown, "active");
@@ -287,18 +262,18 @@ const deleteBrandFunctionalities = () => {
         }
       });
 
-      // Hide Modal Deletion Confirmation
       if (modalConfirmation !== null) {
         closeModal.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
 
         rejectBtn.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
       }
 
-      // Brand Deletion
       confirmBtn.addEventListener("click", () => {
         const brandId = deleteBrandBtn.dataset.brandId;
 

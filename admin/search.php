@@ -19,7 +19,7 @@ if (isset($_GET["productID"])) {
 }
 
 if (isset($_GET["searchString"])) {
-    $searchString = htmlentities($_GET["searchString"]);
+    $searchString = $_GET["searchString"];
 
     $searchEngineHandler = new SearchEngine($searchString);
     $searchSuggestions = $searchEngineHandler->fetchSearchSuggestions();
@@ -58,13 +58,24 @@ if (isset($_GET["searchString"])) {
     <main class="products">
 
         <?php
+
         if ($searchSuggestions->num_rows == 0) :
         ?>
 
         <p class="error active"> Nu a fost gasit niciun rezultat. </p>
         <?php else : ?>
 
-        <h1> Au fost gasite <?php echo $searchSuggestions->num_rows; ?> produse </h1>
+        <h1>
+            <?php
+                if ($searchSuggestions->num_rows == 1) {
+                    echo "A fost gasit $searchSuggestions->num_rows produs";
+                } else {
+                    echo "Au fost gasite $searchSuggestions->num_rows produse";
+                }
+                ?>
+
+
+        </h1>
 
         <!-- Product View -->
         <table class="table">
@@ -123,23 +134,23 @@ if (isset($_GET["searchString"])) {
                                         data-product-id="<?php echo $searchSuggestion["productID"]; ?>"> Sterge </span>
                                 </li>
                                 <li>
-                                    <i class="fa fa-picture-o" aria-hidden="true"></i>
                                     <a href="productImages.php?productID=<?php echo $searchSuggestion["productID"]; ?>">
-                                        Imagini
+                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                        <span> Imagini </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     <a
                                         href="productDescriptions.php?productID=<?php echo $searchSuggestion["productID"]; ?>">
-                                        Descrieri
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                        <span> Descrieri </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <i class="fa fa-book" aria-hidden="true"></i>
                                     <a
                                         href="productSpecifications.php?productID=<?php echo $searchSuggestion["productID"]; ?>">
-                                        Specificatii
+                                        <i class="fa fa-book" aria-hidden="true"></i>
+                                        <span> Specificatii </span>
                                     </a>
                                 </li>
                             </ul>
@@ -227,7 +238,8 @@ if (isset($_GET["searchString"])) {
                             </label>
 
                             <div class="form__switch">
-                                <div class="active"></div>
+                                <div class="<?php if ($product["product_old_price"] != null) echo "active"; ?>">
+                                </div>
                             </div>
 
                             <div class="oldPrice active">

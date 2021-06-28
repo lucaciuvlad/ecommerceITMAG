@@ -18,7 +18,7 @@ class SearchEngine extends Database
         $selectSql = "  SELECT  products.id, product_name, product_price, product_image
                         FROM    products INNER JOIN product_images ON product_id = products.id
                         WHERE   product_metaphone LIKE CONCAT('%', ?, '%')
-                        GROUP BY product_name
+                        GROUP BY product_metaphone
                         LIMIT 7;
             ";
         $selectStmt = $this->connect()->prepare($selectSql);
@@ -58,12 +58,13 @@ class SearchEngine extends Database
     public function fetchSearchSuggestions()
     {
 
-        $selectSql = "  SELECT  products.id as productID, product_name, product_price, product_old_price, product_stock, category_name, brand_name
+        $selectSql = "  SELECT  products.id as productID, product_name, product_price, product_old_price, 
+                                product_stock, category_name, brand_name
                         FROM    products, categories, brands
                         WHERE   product_metaphone LIKE CONCAT('%', ?, '%') AND
                                 products.category_id = categories.id AND
                                 products.brand_id = brands.id
-                        GROUP BY product_name;
+                        GROUP BY product_metaphone;
             ";
         $selectStmt = $this->connect()->prepare($selectSql);
 

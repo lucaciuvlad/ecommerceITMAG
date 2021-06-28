@@ -87,7 +87,6 @@ class Categories extends Database
 ?>
 
 <?php
-// Insert Category
 if (isset($_POST["categoryName"]) && isset($_POST["categoryIcon"])) {
     $categoryName = htmlentities($_POST["categoryName"]);
     $categoryIcon = htmlentities($_POST["categoryIcon"]);
@@ -119,7 +118,6 @@ if (isset($_POST["categoryName"]) && isset($_POST["categoryIcon"])) {
 ?>
 
 <?php
-// Update Category
 if (isset($_POST["updateCategoryId"]) && isset($_POST["updateCategoryName"]) && isset($_POST["updateCategoryIcon"])) {
     $categoryId = htmlentities($_POST["updateCategoryId"]);
     $updateCategoryName = htmlentities($_POST["updateCategoryName"]);
@@ -154,7 +152,6 @@ if (isset($_POST["updateCategoryId"]) && isset($_POST["updateCategoryName"]) && 
 ?>
 
 <?php
-// Delete Category
 if (isset($_POST["deleteCategoryId"])) {
     $categoryId = htmlentities($_POST["deleteCategoryId"]);
 

@@ -195,6 +195,7 @@ sliders.forEach((slider) => {
   formatProductPrice(productNewFullPrices, productNewPriceDecimals);
 });
 
+// Persisten Visualise Inserted Product
 const productSlides = document.querySelectorAll(
   ".productSection__carousel__slider__slide"
 );
@@ -205,30 +206,32 @@ productSlides.forEach((productSlide) => {
     ".addToFav > .tooltip > p"
   );
   const productAddToCartBtn = productSlide.querySelector(".addToCart");
-  const productName = productSlide.querySelector(".productName > p").innerHTML;
+  const productName = productSlide
+    .querySelector(".productName > p")
+    .innerHTML.trim();
 
   const localStorageLength = localStorage.length;
 
   for (let i = 0; i <= localStorageLength - 1; i++) {
     const actualProduct = localStorage.key(i);
 
-    if (actualProduct.startsWith("favProduct")) {
+    if (actualProduct.startsWith("favProductId")) {
       const localStorageObject = JSON.parse(
         localStorage.getItem(actualProduct)
       );
-      const localProductName = localStorageObject.productName;
+      const localProductName = localStorageObject.productName.trim();
 
-      if (productName === localProductName) {
+      if (productName == localProductName) {
         productFavBtn.setAttribute("class", "fa fa-heart");
         productFavBtnTooltipMessage.innerHTML = "Adaugat la favorite";
       }
-    } else if (actualProduct.startsWith("cartProduct")) {
+    } else if (actualProduct.startsWith("cartProductId")) {
       const localStorageObject = JSON.parse(
         localStorage.getItem(actualProduct)
       );
       const localProductName = localStorageObject.productName;
 
-      if (productName === localProductName) {
+      if (productName == localProductName) {
         addCssClass(productAddToCartBtn, "active");
         const addToCartMsg = productAddToCartBtn.querySelector("span");
         addToCartMsg.innerHTML = "Adaugat in cos";

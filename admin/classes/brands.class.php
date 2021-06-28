@@ -81,7 +81,6 @@ class Brands extends Database
 ?>
 
 <?php
-// Insert Brand
 if (isset($_POST["brandName"])) {
     $brandName = htmlentities($_POST["brandName"]);
 
@@ -106,7 +105,6 @@ if (isset($_POST["brandName"])) {
 ?>
 
 <?php
-// Update Brand
 if (isset($_POST["updateBrandId"]) && isset($_POST["updateBrandName"])) {
     $brandId = htmlentities($_POST["updateBrandId"]);
     $updateBrandName = htmlentities($_POST["updateBrandName"]);
@@ -134,7 +132,6 @@ if (isset($_POST["updateBrandId"]) && isset($_POST["updateBrandName"])) {
 ?>
 
 <?php
-// Delete Brand
 if (isset($_POST["deleteBrandId"])) {
     $brandId = htmlentities($_POST["deleteBrandId"]);
 

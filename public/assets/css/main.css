@@ -789,7 +789,7 @@ a:hover {
 
 .stickyTopBtn {
   position: sticky;
-  top: 85%;
+  top: 77%;
   left: 100%;
   width: 3rem;
   height: 3rem;
@@ -1692,6 +1692,25 @@ footer > p {
   color: #fff;
   font-weight: 550;
 }
+footer > a {
+  position: absolute;
+  right: 1rem;
+  font-size: 0.7rem;
+  color: #fff;
+}
+@media only screen and (min-width: 768px) {
+  footer > a {
+    right: 2rem;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  footer > a {
+    right: 5rem;
+  }
+}
+footer > a:hover {
+  color: #6f1e51;
+}
 
 #login,
 #register,
@@ -2311,6 +2330,9 @@ footer > p {
 .product__actions__cartBtn > button:hover, .product__actions__favoriteBtn > button:hover {
   background-color: #6f1e51;
 }
+.product__actions__cartBtn > button.active, .product__actions__favoriteBtn > button.active {
+  background-color: #6f1e51;
+}
 .product__actions__cartBtn > button::before, .product__actions__favoriteBtn > button::before {
   font-family: FontAwesome;
   font-size: 1.3rem;
@@ -2342,6 +2364,9 @@ footer > p {
   border-bottom-left-radius: 0.3rem;
 }
 .product__actions__cartBtn > button:hover::after, .product__actions__favoriteBtn > button:hover::after {
+  background-color: #1289a7;
+}
+.product__actions__cartBtn > button.active::after, .product__actions__favoriteBtn > button.active::after {
   background-color: #1289a7;
 }
 .product__actions__cartBtn > button > span, .product__actions__favoriteBtn > button > span {

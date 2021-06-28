@@ -17,7 +17,6 @@ import {
 const resetAccountContainer = document.querySelector("#resetAccount");
 toggleCssClass(resetAccountContainer, "active");
 
-// Password
 const passwordField = document.querySelector(".password");
 const passwordLabel = passwordField.querySelector("label");
 const passwordInputWrapper = passwordField.querySelector(
@@ -29,7 +28,6 @@ const passwordVisibleIcon = passwordInputWrapper.querySelector("i.fa-eye");
 const passwordErrorMsg = passwordField.querySelector("p.error");
 const passwordArr = [passwordInputWrapper, passwordLabel, passwordInput];
 
-// Password Helper
 const passwordHelper = passwordField.querySelector(".form__field__helper");
 const smallLettersItem = passwordHelper.querySelectorAll("ul li")[0];
 const capitalLettersItem = passwordField.querySelectorAll("ul li")[1];

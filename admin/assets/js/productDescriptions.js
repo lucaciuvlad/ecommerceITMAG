@@ -46,10 +46,14 @@ const productDescriptionFunctionalities = () => {
 
   tableProductImages.forEach((ProductImage, Index) => {
     ProductImage.addEventListener("click", () => {
+      document.body.style.overflow = "hidden";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      peekImageModals[Index].style.height = "calc(100vh - 3rem)";
       addCssClass(peekImageModals[Index], "active");
     });
 
     peekModalCloseIcons[Index].addEventListener("click", () => {
+      document.body.style.overflow = "visible";
       removeCssClass(peekImageModals[Index], "active");
     });
   });
@@ -190,6 +194,7 @@ const insertProductDescription = () => {
 
 const insertProductDescFunctionalities = () => {
   productDescriptionAddBtn.addEventListener("click", () => {
+    insertFormModal.style.minHeight = "100%";
     addCssClass(insertFormModal, "active");
   });
 
@@ -225,9 +230,11 @@ const insertProductDescFunctionalities = () => {
     if (clickedElement.dataset.purpose == "delete") {
       const deleteBtnParent = clickedElement.parentElement;
       productUploadedImgsBox.removeChild(deleteBtnParent);
+      productDescImgsInput.value = "";
     } else if (clickedElement.classList.contains("fa-trash-o")) {
       const deleteIconParent = clickedElement.parentElement.parentElement;
       productUploadedDescImgsBox.removeChild(deleteIconParent);
+      productDescImgsInput.value = "";
     }
   });
 
@@ -295,7 +302,8 @@ if (document.querySelectorAll(".updateProductDescription")) {
 
 const updateProductDescFunctionalities = () => {
   updateProductBtns.forEach((updateProductBtn, index) => {
-    updateProductBtn.addEventListener("click", () => {
+    updateProductBtn.parentElement.addEventListener("click", () => {
+      updateFormModals[index].style.minHeight = "100%";
       addCssClass(updateFormModals[index], "active");
 
       actionDropdowns.forEach((actionDropdown) => {
@@ -399,11 +407,6 @@ const updateProductDescFunctionalities = () => {
           formData.append("updateProductDescImageInfo", image);
         }
 
-        const formDataEntries = formData.entries();
-        for (let formDataEntry of formDataEntries) {
-          console.log(formDataEntry);
-        }
-
         request.onreadystatechange = () => {
           if (request.readyState === 4 && request.status === 200) {
             const response = JSON.parse(request.response);
@@ -415,20 +418,6 @@ const updateProductDescFunctionalities = () => {
                 1500,
                 null
               );
-            }
-
-            if (response.imageDescError != null) {
-              productDescImgsLabels.forEach((imgsLabel) => {
-                addCssClass(imgsLabel, "error");
-              });
-              addCssClass(updateProductDescImgsErrMsg, "active");
-              updateProductDescImgsErrMsg.innerHTML = response.imageDescError;
-            } else {
-              productDescImgsLabels.forEach((imgsLabel) => {
-                removeCssClass(imgsLabel, "error");
-              });
-              removeCssClass(updateProductDescImgsErrMsg, "active");
-              updateProductDescImgsErrMsg.innerHTML = "";
             }
           }
         };
@@ -505,7 +494,8 @@ if (document.querySelector(".modal.delete")) {
 
 const deleteProductDescFunctionalities = () => {
   deleteProductDescBtns.forEach((deleteProductDescBtn) => {
-    deleteProductDescBtn.addEventListener("click", () => {
+    deleteProductDescBtn.parentElement.addEventListener("click", () => {
+      document.body.style.overflow = "hidden";
       addCssClass(modalConfirmation, "active");
 
       actionDropdowns.forEach((actionDropdown) => {
@@ -518,10 +508,12 @@ const deleteProductDescFunctionalities = () => {
 
       if (modalConfirmation !== null) {
         closeModal.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
 
         rejectBtn.addEventListener("click", () => {
+          document.body.style.overflow = "visible";
           removeCssClass(modalConfirmation, "active");
         });
       }
@@ -548,7 +540,7 @@ const deleteProductDescFunctionalities = () => {
                 "Descrierea produsului a fost stearsa cu succes!",
                 `productDescriptions.php?productID=${productId}`,
                 1500,
-                null
+                "error"
               );
             }
           }

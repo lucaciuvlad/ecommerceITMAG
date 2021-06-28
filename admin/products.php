@@ -117,21 +117,21 @@ require_once("classes/categories.class.php");
                                         data-product-id="<?php echo $product["productID"]; ?>"> Sterge </span>
                                 </li>
                                 <li>
-                                    <i class="fa fa-picture-o" aria-hidden="true"></i>
                                     <a href="productImages.php?productID=<?php echo $product["productID"]; ?>">
-                                        Imagini
+                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                        <span> Imagini </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     <a href="productDescriptions.php?productID=<?php echo $product["productID"]; ?>">
-                                        Descrieri
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                        <span> Descrieri </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <i class="fa fa-book" aria-hidden="true"></i>
                                     <a href="productSpecifications.php?productID=<?php echo $product["productID"]; ?>">
-                                        Specificatii
+                                        <i class="fa fa-book" aria-hidden="true"></i>
+                                        <span> Specificatii </span>
                                     </a>
                                 </li>
                             </ul>
@@ -219,7 +219,9 @@ require_once("classes/categories.class.php");
                             </label>
 
                             <div class="form__switch">
-                                <div class="active"></div>
+
+                                <div class="<?php if ($product["product_old_price"] != null) echo "active"; ?>">
+                                </div>
                             </div>
 
                             <div class="oldPrice active">

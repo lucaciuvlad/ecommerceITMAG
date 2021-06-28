@@ -407,8 +407,9 @@ a:hover {
   opacity: 1;
 }
 .table tr td .tooltip {
+  width: max-content;
   top: 50%;
-  left: calc(50% + 5rem);
+  left: calc(50% + 6rem);
   transform: translate(-50%, -50%);
 }
 .table tr td .tooltip > i {
@@ -460,7 +461,7 @@ a:hover {
   display: flex;
   cursor: pointer;
 }
-.table tr td.dropdown .dropdown__actions > ul > li:hover > i, .table tr td.dropdown .dropdown__actions > ul > li:hover > a, .table tr td.dropdown .dropdown__actions > ul > li:hover > span {
+.table tr td.dropdown .dropdown__actions > ul > li:hover i, .table tr td.dropdown .dropdown__actions > ul > li:hover a, .table tr td.dropdown .dropdown__actions > ul > li:hover span {
   color: #2d3436;
 }
 .table tr td.dropdown .dropdown__actions > ul > li > i {
@@ -471,7 +472,28 @@ a:hover {
   justify-content: center;
   color: #fff;
 }
-.table tr td.dropdown .dropdown__actions > ul > li > a, .table tr td.dropdown .dropdown__actions > ul > li > span {
+.table tr td.dropdown .dropdown__actions > ul > li > span {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 0.7rem;
+  color: #fff;
+}
+.table tr td.dropdown .dropdown__actions > ul > li > a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.table tr td.dropdown .dropdown__actions > ul > li > a > i {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.table tr td.dropdown .dropdown__actions > ul > li > a > span {
   width: 80%;
   height: 100%;
   display: flex;
@@ -509,7 +531,7 @@ a:hover {
 
 .notificationContainer {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -555,7 +577,7 @@ a:hover {
 
 .modal {
   width: 100%;
-  min-height: 100%;
+  min-height: calc(100vh - 3rem);
   position: fixed;
   top: -100%;
   left: 0;
@@ -564,7 +586,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  background-color: rgba(45, 52, 54, 0.6);
+  background-color: rgba(45, 52, 54, 0.35);
   visibility: hidden;
   opacity: 0;
   transform: scale(0.9);
@@ -575,7 +597,7 @@ a:hover {
   transform: scale(1);
   visibility: visible;
   opacity: 1;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
 }
 .modal.delete {
   min-height: 100vh;
@@ -607,6 +629,7 @@ a:hover {
   width: 100%;
   height: 100%;
   margin: 2rem 0;
+  padding-bottom: 3rem;
 }
 .modal__content .form {
   width: 85%;
@@ -629,6 +652,8 @@ a:hover {
 }
 .modal__content > img {
   width: 50%;
+  padding: 1rem;
+  height: 95%;
   margin: 0 auto;
   object-fit: contain;
 }
@@ -664,7 +689,7 @@ a:hover {
   cursor: pointer;
   transition: background-color 0.15s ease-in, color 0.15s ease-in;
 }
-.modal__confirmation__actions > button#confirm:hover {
+.modal__confirmation__actions > button#confirm:hover, .modal__confirmation__actions > button#confirm:active {
   background-color: #1abc9c;
   color: #fff;
 }
@@ -1069,7 +1094,7 @@ a:hover {
   position: absolute;
   top: 100%;
   left: -9.3rem;
-  width: 100vw;
+  width: 98vw;
   z-index: 9;
   background: #fff;
   box-shadow: -2px 3px 2px rgba(80, 92, 96, 0.5), 2px 3px 2px rgba(80, 92, 96, 0.5);
@@ -1080,7 +1105,7 @@ a:hover {
 }
 @media only screen and (min-width: 992px) {
   .navigationBar__search__suggestions {
-    width: calc(100% + 7rem);
+    width: calc(100vw - 13.5rem);
     left: -7rem;
   }
 }
@@ -1391,10 +1416,10 @@ a:hover {
 .categories,
 .brands {
   width: 100%;
-  height: calc(100vh - 3rem);
-  min-height: 100%;
+  min-height: calc(100vh - 3rem);
   position: relative;
   margin-top: 3rem;
+  padding-bottom: 2rem;
   transform: scale(0.8);
   opacity: 0;
   transition: transform 0.15s ease-in, opacity 0.15s ease-in;
@@ -1924,7 +1949,7 @@ a:hover {
   border-radius: 0.3rem;
   cursor: pointer;
   transition: background-color 0.15s ease-in;
-  color: #fff;
+  color: #ffffff;
 }
 .accountInfo__card.email > button:hover {
   background-color: #6f1e51;

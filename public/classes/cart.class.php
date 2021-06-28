@@ -111,7 +111,6 @@ class CartDetails extends Database
 ?>
 
 <?php
-// Insert Local Cart Products
 if (isset($_POST["userID"]) && isset($_POST["cartProducts"])) {
     $userID = htmlentities($_POST["userID"]);
     $cartProducts = explode(",", htmlentities($_POST["cartProducts"]));
@@ -141,7 +140,6 @@ if (isset($_POST["userID"]) && isset($_POST["cartProducts"])) {
 ?>
 
 <?php
-// Insert Product Into Cart
 if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["action"])) {
     if ($_POST["action"] == "insertCartProduct") {
         $userId = htmlentities($_POST["userID"]);
@@ -169,7 +167,6 @@ if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["actio
 ?>
 
 <?php
-// Remove Product From Cart
 if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["action"])) {
     if ($_POST["action"] == "deleteCartProduct") {
         $userId = htmlentities($_POST["userID"]);
@@ -186,7 +183,6 @@ if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["actio
 ?>
 
 <?php
-// From Cart To Wishlist
 if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["action"])) {
     if ($_POST["action"] == "toWishlist") {
         $productID = htmlentities($_POST["productID"]);
@@ -226,7 +222,6 @@ if (isset($_POST["userID"]) && isset($_POST["productID"]) && isset($_POST["actio
 ?>
 
 <?php
-// Update Cart Quantity
 if (isset($_POST["newQuantity"]) && isset($_POST["productId"]) && isset($_POST["userId"])) {
     $newQuantity = htmlentities($_POST["newQuantity"]);
     $productId = htmlentities($_POST["productId"]);
